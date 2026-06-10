@@ -1,0 +1,437 @@
+import { useEffect, useRef, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import {
+  MessageCircle,
+  X,
+  Send,
+  Loader2,
+  Calendar,
+  Star,
+  CheckCircle2,
+  Scale,
+} from "lucide-react";
+import { toast } from "sonner";
+import { chatTurn } from "@/lib/chat.functions";
+import { submitLead, submitFeedback } from "@/lib/leads.functions";
+import { practiceAreas } from "@/lib/practice-areas";
+
+type Tab = "chat" | "consult" | "feedback";
+type ChatMessage = { role: "user" | "assistant"; content: string };
+
+const newSessionId = () =>
+  typeof crypto !== "undefined" && "randomUUID" in crypto
+    ? crypto.randomUUID()
+    : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+
+export function AssistantWidget() {
+  const [open, setOpen] = useState(false);
+  const [tab, setTab] = useState<Tab>("chat");
+
+  return (
+    <>
+      {!open && (
+        <button
+          onClick={() => setOpen(true)}
+          aria-label="Open NKM assistant"
+          className="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-navy text-white pl-4 pr-5 py-3 shadow-2xl hover:bg-navy-deep transition-all border border-gold/40 group"
+        >
+          <span className="w-9 h-9 rounded-full bg-gold text-navy-deep flex items-center justify-center shrink-0">
+            <Scale className="w-5 h-5" />
+          </span>
+          <span className="text-sm font-semibold tracking-wide">Ask NKM Advocates</span>
+        </button>
+      )}
+
+      {open && (
+        <div className="fixed bottom-6 right-6 z-50 w-[min(420px,calc(100vw-2rem))] h-[min(640px,calc(100vh-2rem))] bg-background border border-border shadow-2xl flex flex-col overflow-hidden">
+          {/* Header */}
+          <div className="bg-navy text-white px-5 py-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <span className="w-9 h-9 rounded-full bg-gold text-navy-deep flex items-center justify-center">
+                <Scale className="w-5 h-5" />
+              </span>
+              <div>
+                <div className="font-display text-base">NKM Advocates</div>
+                <div className="text-[11px] text-white/60 uppercase tracking-wider">Online · We reply in 1 business day</div>
+              </div>
+            </div>
+            <button onClick={() => setOpen(false)} aria-label="Close" className="text-white/80 hover:text-white">
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Tabs */}
+          <div className="grid grid-cols-3 border-b border-border bg-secondary text-xs">
+            <TabButton active={tab === "chat"} onClick={() => setTab("chat")}>
+              <MessageCircle className="w-3.5 h-3.5" /> Chat
+            </TabButton>
+            <TabButton active={tab === "consult"} onClick={() => setTab("consult")}>
+              <Calendar className="w-3.5 h-3.5" /> Book
+            </TabButton>
+            <TabButton active={tab === "feedback"} onClick={() => setTab("feedback")}>
+              <Star className="w-3.5 h-3.5" /> Feedback
+            </TabButton>
+          </div>
+
+          <div className="flex-1 overflow-hidden flex flex-col">
+            {tab === "chat" && <ChatPanel />}
+            {tab === "consult" && <ConsultPanel onDone={() => setTab("chat")} />}
+            {tab === "feedback" && <FeedbackPanel onDone={() => setTab("chat")} />}
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
+function TabButton({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={`flex items-center justify-center gap-1.5 py-3 font-semibold uppercase tracking-wider transition-colors ${
+        active
+          ? "bg-background text-navy border-b-2 border-gold -mb-px"
+          : "text-slate-ink hover:text-navy"
+      }`}
+    >
+      {children}
+    </button>
+  );
+}
+
+function ChatPanel() {
+  const sessionIdRef = useRef<string>(newSessionId());
+  const [messages, setMessages] = useState<ChatMessage[]>([
+    {
+      role: "assistant",
+      content:
+        "Hello, and welcome to NKM Advocates. I can answer questions about our practice areas, the firm, or how to schedule a confidential consultation. How can I help you today?",
+    },
+  ]);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const callChat = useServerFn(chatTurn);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
+  }, [messages, loading]);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
+  const send = async () => {
+    const trimmed = input.trim();
+    if (!trimmed || loading) return;
+    const next: ChatMessage[] = [...messages, { role: "user", content: trimmed }];
+    setMessages(next);
+    setInput("");
+    setLoading(true);
+    try {
+      const res = await callChat({
+        data: { sessionId: sessionIdRef.current, messages: next },
+      });
+      setMessages((prev) => [...prev, { role: "assistant", content: res.reply }]);
+    } catch (err) {
+      console.error(err);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content:
+            "I'm having trouble reaching our assistant. Please use the Book tab to send your enquiry directly to our team.",
+        },
+      ]);
+    } finally {
+      setLoading(false);
+      inputRef.current?.focus();
+    }
+  };
+
+  return (
+    <>
+      <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-5 space-y-4 bg-secondary/40">
+        {messages.map((m, i) => (
+          <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
+            <div
+              className={`max-w-[85%] px-4 py-2.5 text-sm leading-relaxed ${
+                m.role === "user"
+                  ? "bg-navy text-white"
+                  : "bg-background border border-border text-foreground"
+              }`}
+            >
+              {m.content}
+            </div>
+          </div>
+        ))}
+        {loading && (
+          <div className="flex justify-start">
+            <div className="bg-background border border-border px-4 py-2.5 text-sm text-slate-ink flex items-center gap-2">
+              <Loader2 className="w-3.5 h-3.5 animate-spin text-gold" />
+              Thinking…
+            </div>
+          </div>
+        )}
+      </div>
+      <div className="border-t border-border p-3 bg-background">
+        <div className="flex items-end gap-2">
+          <textarea
+            ref={inputRef}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                send();
+              }
+            }}
+            rows={1}
+            placeholder="Ask about a practice area or our process…"
+            className="flex-1 resize-none bg-background border border-border px-3 py-2 text-sm text-foreground focus:outline-none focus:border-gold transition-colors max-h-32"
+          />
+          <button
+            onClick={send}
+            disabled={loading || !input.trim()}
+            aria-label="Send message"
+            className="w-10 h-10 flex items-center justify-center bg-gold text-navy-deep hover:bg-gold-soft disabled:opacity-50 disabled:cursor-not-allowed transition-colors shrink-0"
+          >
+            <Send className="w-4 h-4" />
+          </button>
+        </div>
+        <p className="mt-2 text-[10px] text-muted-foreground text-center uppercase tracking-wider">
+          AI assistant · Not legal advice
+        </p>
+      </div>
+    </>
+  );
+}
+
+function ConsultPanel({ onDone }: { onDone: () => void }) {
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    service: "",
+    message: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [done, setDone] = useState(false);
+  const call = useServerFn(submitLead);
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.name.trim() || !form.email.trim()) {
+      toast.error("Name and email are required.");
+      return;
+    }
+    setLoading(true);
+    try {
+      await call({ data: { ...form, source: "widget" } });
+      setDone(true);
+      toast.success("Enquiry sent — we'll reply within one business day.");
+    } catch (err) {
+      console.error(err);
+      toast.error("Could not send your enquiry. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (done) {
+    return (
+      <div className="flex-1 flex flex-col items-center justify-center text-center px-8 py-10 bg-secondary/40">
+        <CheckCircle2 className="w-12 h-12 text-gold" />
+        <h3 className="mt-4 font-display text-2xl text-navy">Thank you, {form.name.split(" ")[0]}.</h3>
+        <p className="mt-2 text-sm text-slate-ink">
+          Your enquiry has been received. Our team will be in touch within one business day at <strong>{form.email}</strong>.
+        </p>
+        <button onClick={onDone} className="mt-6 text-sm text-gold font-semibold uppercase tracking-wider hover:underline">
+          Back to chat
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={submit} className="flex-1 overflow-y-auto p-5 space-y-3 bg-secondary/40">
+      <div>
+        <Label>Full name *</Label>
+        <Input value={form.name} onChange={(v) => setForm({ ...form, name: v })} placeholder="Jane Wanjiru" />
+      </div>
+      <div>
+        <Label>Email *</Label>
+        <Input type="email" value={form.email} onChange={(v) => setForm({ ...form, email: v })} placeholder="jane@example.com" />
+      </div>
+      <div>
+        <Label>Phone</Label>
+        <Input type="tel" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} placeholder="+254 700 000 000" />
+      </div>
+      <div>
+        <Label>Service needed</Label>
+        <select
+          value={form.service}
+          onChange={(e) => setForm({ ...form, service: e.target.value })}
+          className="w-full bg-background border border-border px-3 py-2 text-sm text-slate-ink focus:outline-none focus:border-gold"
+        >
+          <option value="">Select a practice area</option>
+          {practiceAreas.map((p) => (
+            <option key={p.slug} value={p.title}>{p.title}</option>
+          ))}
+        </select>
+      </div>
+      <div>
+        <Label>Brief description</Label>
+        <textarea
+          value={form.message}
+          onChange={(e) => setForm({ ...form, message: e.target.value })}
+          rows={3}
+          placeholder="A few sentences about your matter…"
+          className="w-full bg-background border border-border px-3 py-2 text-sm text-slate-ink focus:outline-none focus:border-gold resize-none"
+        />
+      </div>
+      <button
+        type="submit"
+        disabled={loading}
+        className="w-full bg-navy text-white py-3 text-sm font-semibold tracking-wide hover:bg-navy-deep transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+      >
+        {loading && <Loader2 className="w-4 h-4 animate-spin" />}
+        Request Consultation
+      </button>
+      <p className="text-[11px] text-muted-foreground text-center">
+        Your details are confidential and used only to respond to your enquiry.
+      </p>
+    </form>
+  );
+}
+
+function FeedbackPanel({ onDone }: { onDone: () => void }) {
+  const [rating, setRating] = useState(0);
+  const [hover, setHover] = useState(0);
+  const [comment, setComment] = useState("");
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [done, setDone] = useState(false);
+  const call = useServerFn(submitFeedback);
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!rating) {
+      toast.error("Please select a rating.");
+      return;
+    }
+    setLoading(true);
+    try {
+      await call({ data: { rating, comment, email } });
+      setDone(true);
+    } catch (err) {
+      console.error(err);
+      toast.error("Could not send your feedback. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (done) {
+    return (
+      <div className="flex-1 flex flex-col items-center justify-center text-center px-8 py-10 bg-secondary/40">
+        <CheckCircle2 className="w-12 h-12 text-gold" />
+        <h3 className="mt-4 font-display text-2xl text-navy">Thank you.</h3>
+        <p className="mt-2 text-sm text-slate-ink">
+          Your feedback helps us serve our clients better.
+        </p>
+        <button onClick={onDone} className="mt-6 text-sm text-gold font-semibold uppercase tracking-wider hover:underline">
+          Back to chat
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={submit} className="flex-1 overflow-y-auto p-5 space-y-4 bg-secondary/40">
+      <div>
+        <Label>How would you rate your experience?</Label>
+        <div className="flex gap-1.5 mt-1">
+          {[1, 2, 3, 4, 5].map((n) => (
+            <button
+              type="button"
+              key={n}
+              onClick={() => setRating(n)}
+              onMouseEnter={() => setHover(n)}
+              onMouseLeave={() => setHover(0)}
+              aria-label={`${n} star${n > 1 ? "s" : ""}`}
+              className="p-1"
+            >
+              <Star
+                className={`w-7 h-7 transition-colors ${
+                  n <= (hover || rating) ? "fill-gold text-gold" : "text-border"
+                }`}
+              />
+            </button>
+          ))}
+        </div>
+      </div>
+      <div>
+        <Label>Comments</Label>
+        <textarea
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+          rows={4}
+          placeholder="What did you like? What could we improve?"
+          className="w-full bg-background border border-border px-3 py-2 text-sm text-slate-ink focus:outline-none focus:border-gold resize-none"
+        />
+      </div>
+      <div>
+        <Label>Email (optional)</Label>
+        <Input type="email" value={email} onChange={setEmail} placeholder="So we can follow up" />
+      </div>
+      <button
+        type="submit"
+        disabled={loading}
+        className="w-full bg-navy text-white py-3 text-sm font-semibold tracking-wide hover:bg-navy-deep transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+      >
+        {loading && <Loader2 className="w-4 h-4 animate-spin" />}
+        Submit Feedback
+      </button>
+    </form>
+  );
+}
+
+function Label({ children }: { children: React.ReactNode }) {
+  return (
+    <label className="block text-[11px] font-semibold uppercase tracking-wider text-navy mb-1.5">
+      {children}
+    </label>
+  );
+}
+
+function Input({
+  value,
+  onChange,
+  type = "text",
+  placeholder,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  type?: string;
+  placeholder?: string;
+}) {
+  return (
+    <input
+      type={type}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      placeholder={placeholder}
+      className="w-full bg-background border border-border px-3 py-2 text-sm text-slate-ink focus:outline-none focus:border-gold"
+    />
+  );
+}
