@@ -9,7 +9,7 @@ import { SiteHeader, SiteFooter, socialLinks } from "@/components/SiteHeader";
 import { AssistantWidget } from "@/components/AssistantWidget";
 import { practiceAreas } from "@/lib/practice-areas";
 import { submitLead } from "@/lib/leads.functions";
-import leaderPhoto from "@/assets/leader-photo.jpg.asset.json";
+import leaderPhoto from "@/assets/leader-photo.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -167,7 +167,7 @@ function Index() {
           <div className="mt-16 max-w-5xl mx-auto bg-navy text-white overflow-hidden grid md:grid-cols-5 shadow-2xl">
             <div className="md:col-span-2 relative bg-navy-deep">
               <img
-                src={leaderPhoto.url}
+                src={leaderPhoto}
                 alt="NKM A., Managing Partner of NKM Advocates"
                 className="w-full h-full object-cover aspect-[4/5] md:aspect-auto"
                 loading="lazy"
