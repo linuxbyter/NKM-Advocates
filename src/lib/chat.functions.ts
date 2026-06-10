@@ -36,12 +36,15 @@ export const chatTurn = createServerFn({ method: "POST" })
   .validator((input: unknown) => ChatInputSchema.parse(input))
   .handler(async ({ data }) => {
     const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) throw new Error("Missing GEMINI_API_KEY — get a free key at https://aistudio.google.com/apikey");
+    if (!apiKey) {
+      console.error("[chatTurn] GEMINI_API_KEY is not set in environment variables");
+      return { reply: "Our AI assistant is not configured yet. Please use the Book Consultation tab to reach our team directly." };
+    }
 
     const userMessage = data.messages[data.messages.length - 1];
 
     // Persist user message (best-effort)
-    if (userMessage.role === "user") {
+    try {
       await supabaseAdmin
         .from("chat_messages")
         .insert({
@@ -49,6 +52,8 @@ export const chatTurn = createServerFn({ method: "POST" })
           role: "user",
           content: userMessage.content,
         });
+    } catch (e) {
+      console.error("[chatTurn] Failed to persist user message:", e);
     }
 
     // Build Gemini request
@@ -75,11 +80,11 @@ export const chatTurn = createServerFn({ method: "POST" })
 
     if (!response.ok) {
       const errText = await response.text();
-      console.error("Gemini API error", response.status, errText);
+      console.error("[chatTurn] Gemini API error", response.status, errText);
       if (response.status === 429) {
         return { reply: "Our assistant is briefly at capacity — please try again in a moment, or use the Book Consultation tab to reach our team directly." };
       }
-      throw new Error("AI request failed");
+      return { reply: "I'm having trouble processing your request right now. Please use the Book Consultation tab to reach our team directly." };
     }
 
     const json = (await response.json()) as {
@@ -87,13 +92,18 @@ export const chatTurn = createServerFn({ method: "POST" })
     };
     const reply = json.candidates?.[0]?.content?.parts?.[0]?.text?.trim() ?? "I'm here to help — could you rephrase that?";
 
-    await supabaseAdmin
-      .from("chat_messages")
-      .insert({
-        session_id: data.sessionId,
-        role: "assistant",
-        content: reply,
-      });
+    // Persist assistant reply (best-effort)
+    try {
+      await supabaseAdmin
+        .from("chat_messages")
+        .insert({
+          session_id: data.sessionId,
+          role: "assistant",
+          content: reply,
+        });
+    } catch (e) {
+      console.error("[chatTurn] Failed to persist assistant reply:", e);
+    }
 
     return { reply };
   });

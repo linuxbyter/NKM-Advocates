@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
+import { sendLeadNotification, sendFeedbackNotification } from "@/lib/email.functions";
 
 const LeadInput = z.object({
   name: z.string().min(1).max(120),
@@ -26,6 +27,12 @@ export const submitLead = createServerFn({ method: "POST" })
       console.error("submitLead error", error);
       throw new Error("Could not save your enquiry — please try again.");
     }
+
+    // Send email notification (best-effort, don't block the response)
+    sendLeadNotification(data).catch((err) => {
+      console.error("Failed to send lead notification email:", err);
+    });
+
     return { ok: true };
   });
 
@@ -47,5 +54,11 @@ export const submitFeedback = createServerFn({ method: "POST" })
       console.error("submitFeedback error", error);
       throw new Error("Could not save your feedback — please try again.");
     }
+
+    // Send email notification (best-effort, don't block the response)
+    sendFeedbackNotification(data).catch((err) => {
+      console.error("Failed to send feedback notification email:", err);
+    });
+
     return { ok: true };
   });
