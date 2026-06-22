@@ -76,25 +76,10 @@ function Index() {
 
   return (
     <div className="bg-stone text-ink-text font-sans antialiased">
-      {/* Topbar */}
-      <div className="bg-ink-2 font-mono text-[11px] text-paper-text-dim">
-        <div className="mx-auto flex max-w-[1180px] items-center justify-between px-7 py-[7px] tracking-wide">
-          <span>Mon – Sat, 9am – 5pm · Wilkem Edge, Matasia</span>
-          <span className="flex gap-3.5">
-            <a href="https://www.linkedin.com/in/nkm-a-9844b135" target="_blank" rel="noopener noreferrer" className="hover:text-brass-soft transition-colors">LinkedIn</a>
-            <a href="https://x.com/NkmAdvocates" target="_blank" rel="noopener noreferrer" className="hover:text-brass-soft transition-colors">X</a>
-            <a href="https://tiktok.com/@nkmadvocates" target="_blank" rel="noopener noreferrer" className="hover:text-brass-soft transition-colors">TikTok</a>
-            <a href="https://instagram.com/nkmadvocates" target="_blank" rel="noopener noreferrer" className="hover:text-brass-soft transition-colors">Instagram</a>
-            <a href="https://pinterest.com/nkmadvocates" target="_blank" rel="noopener noreferrer" className="hover:text-brass-soft transition-colors">Pinterest</a>
-            <a href="https://youtube.com/@nkmadvocates" target="_blank" rel="noopener noreferrer" className="hover:text-brass-soft transition-colors">YouTube</a>
-          </span>
-        </div>
-      </div>
-
       {/* Header */}
       <header
-        className={`sticky top-0 z-60 transition-all duration-300 ${
-          scrolled ? "bg-ink/97 backdrop-blur-md shadow-lg" : "bg-transparent"
+        className={`sticky top-0 z-60 transition-all duration-300 bg-ink-2 ${
+          scrolled ? "shadow-lg" : ""
         }`}
       >
         <div className="mx-auto flex max-w-[1180px] items-center justify-between px-7 py-[18px] transition-all duration-200">
@@ -140,7 +125,7 @@ function Index() {
       </header>
 
       {/* HERO — full viewport */}
-      <section className="relative min-h-screen flex items-center overflow-hidden -mt-[73px]">
+      <section className="relative min-h-screen flex items-center overflow-hidden -mt-[68px]">
         <div className="absolute inset-0 z-0">
           <svg viewBox="0 0 1400 800" preserveAspectRatio="xMidYMax slice" className="w-full h-full">
             <defs>
@@ -605,8 +590,11 @@ function Index() {
               </a>
             </div>
           </div>
-          <div className="border-t border-line-dark py-[22px] flex flex-wrap justify-between gap-2.5 text-[12px] text-paper-text-dim">
-            <span>&copy; 2026 NKM Advocates. All rights reserved.</span>
+          <div className="border-t border-line-dark py-[22px] flex flex-wrap justify-between gap-2.5 text-[11px] font-mono tracking-wide text-paper-text-dim/70">
+            <span className="flex flex-wrap gap-x-4 gap-y-1">
+              <span>&copy; 2026 NKM Advocates</span>
+              <span>Mon – Sat, 9am – 5pm · Wilkem Edge, Matasia</span>
+            </span>
             <span className="flex gap-3.5">
               <a href="https://www.linkedin.com/in/nkm-a-9844b135" target="_blank" rel="noopener noreferrer" className="hover:text-brass-soft transition-colors">LinkedIn</a>
               <a href="https://x.com/NkmAdvocates" target="_blank" rel="noopener noreferrer" className="hover:text-brass-soft transition-colors">X</a>
