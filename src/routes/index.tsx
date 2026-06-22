@@ -10,25 +10,6 @@ import leaderPhoto from "@/assets/leader-photo.jpg";
 
 export const Route = createFileRoute("/")({ component: Index });
 
-function useReveal() {
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("in-view");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
-    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
-}
-
 function Index() {
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
@@ -36,8 +17,6 @@ function Index() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  useReveal();
 
   const trackRef = useRef<HTMLDivElement>(null);
   const scrollCarousel = (dir: number) => {
@@ -78,7 +57,7 @@ function Index() {
     <div className="bg-stone text-ink-text font-sans antialiased">
       {/* Header */}
       <header
-        className={`sticky top-0 z-60 transition-all duration-300 bg-ink-2 ${
+        className={`sticky top-0 z-60 transition-all duration-300 bg-ink-2/90 backdrop-blur-md ${
           scrolled ? "shadow-lg" : ""
         }`}
       >
@@ -207,14 +186,14 @@ function Index() {
               <div className="mt-8 flex items-start gap-5">
                 <img src={leaderPhoto} alt="Agnes Nyawira — Managing Partner" className="w-24 h-24 rounded-full object-cover border-2 border-brass shrink-0" />
                 <div>
-                  <p className="text-base leading-relaxed text-ink-text/80">
+                  <p className="text-base leading-relaxed text-ink-text">
                     <strong className="text-ink-text">Agnes Nyawira</strong>, Managing Partner — Advocate of the High Court of Kenya, Certified Public Secretary, and accredited mediator.
                   </p>
                 </div>
               </div>
             </div>
             <div>
-              <p className="text-base leading-relaxed text-ink-text/80 mb-5">
+              <p className="text-base leading-relaxed text-ink-text mb-5">
                 Whether you're growing a business in Nairobi or protecting family land while based abroad, the risk is the same: things move faster than you can follow. We close that gap with specialist departments, advisory-first judgment, and direct, time-zone-aware communication.
               </p>
               <a href="#team" className="font-mono text-[12.5px] text-clay inline-flex items-center gap-1.5 group">
@@ -238,7 +217,7 @@ function Index() {
                 The same service, whether you visit or not.
               </h2>
             </div>
-            <p className="text-[13px] italic text-ink-text/80 max-w-[320px]">
+            <p className="text-[13px] italic text-ink-text max-w-[320px]">
               Every department can be engaged entirely online.
             </p>
           </div>
@@ -249,10 +228,10 @@ function Index() {
               ["03", "We Handle the Matter", "Your case goes to the right department, with updates as it progresses."],
               ["04", "Sign & Pay", "Print, sign, and scan documents back over WhatsApp, then settle fees by bank transfer or M-Pesa — wherever you are. <span class=\"inline-flex items-center gap-1 mt-1\"><svg viewBox=\"0 0 40 14\" width=\"40\" height=\"14\" aria-label=\"M-Pesa\"><rect width=\"40\" height=\"14\" rx=\"2\" fill=\"#4CAF50\"/><text x=\"20\" y=\"10\" text-anchor=\"middle\" font-family=\"Arial,sans-serif\" font-size=\"8\" font-weight=\"bold\" fill=\"white\">M-PESA</text></svg></span>"],
             ].map(([num, title, desc]) => (
-              <div key={num} className="pt-[18px] border-t-2 border-brass reveal">
+              <div key={num} className="pt-[18px] border-t-2 border-brass">
                 <span className="font-mono text-[13px] tracking-wide text-clay">{num}</span>
                 <h3 className="font-serif text-[17px] font-semibold tracking-tight mt-2.5 mb-2">{title}</h3>
-                <p className="text-[13.5px] leading-relaxed text-ink-text/85" dangerouslySetInnerHTML={{__html: desc}} />
+                <p className="text-[13.5px] leading-relaxed text-ink-text" dangerouslySetInnerHTML={{__html: desc}} />
               </div>
             ))}
           </div>
@@ -269,7 +248,7 @@ function Index() {
               </span>
               <h2 className="font-serif text-[clamp(26px,3.2vw,38px)] font-semibold tracking-tight mt-3">One firm, eight departments.</h2>
             </div>
-            <p className="text-[13px] italic text-ink-text/80 max-w-[320px]">Each matter is filed to the department built for it.</p>
+            <p className="text-[13px] italic text-ink-text max-w-[320px]">Each matter is filed to the department built for it.</p>
           </div>
           <div className="relative">
             <div ref={trackRef} onScroll={() => {
@@ -293,7 +272,7 @@ function Index() {
                 <div key={code} className="flex-[0_0_280px] scroll-snap-start bg-card border border-line border-l-[3px] border-l-brass p-[26px_22px] transition-all duration-200 hover:border-l-[9px] hover:pl-7">
                   <span className="font-mono text-[11px] tracking-wide text-clay">FILE NO. {code}</span>
                   <h3 className="font-serif text-[18px] font-semibold tracking-tight mt-2.5 mb-2 leading-tight" dangerouslySetInnerHTML={{__html: title}} />
-                  <p className="text-[13.5px] leading-relaxed text-ink-text/85 mb-3.5">{desc}</p>
+                  <p className="text-[13.5px] leading-relaxed text-ink-text mb-3.5">{desc}</p>
                   <span className="font-mono text-[12.5px] text-clay inline-flex items-center gap-1.5 group">
                     View Department
                     <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
@@ -302,7 +281,7 @@ function Index() {
               ))}
             </div>
             <div className="flex items-center justify-end gap-3.5 mt-5">
-              <span className="font-mono text-[12.5px] text-ink-text/80 min-w-[48px] text-center">{carouselIdx} / 8</span>
+              <span className="font-mono text-[12.5px] text-ink-text min-w-[48px] text-center">{carouselIdx} / 8</span>
               <button onClick={() => scrollCarousel(-1)} aria-label="Previous department"
                 className="w-[38px] h-[38px] rounded-full border border-ink-text bg-transparent flex items-center justify-center cursor-pointer text-ink-text text-[15px] transition-colors hover:bg-clay hover:border-clay hover:text-paper-text focus-visible:outline-2 focus-visible:outline-brass focus-visible:outline-offset-2">
                 ←
@@ -334,7 +313,7 @@ function Index() {
               ["The Diaspora", "UK · US · Gulf", "Land verification, succession, and power of attorney handled on the ground while you're abroad."],
               ["Investors", "Entering Kenya", "Registration, compliance, and contracts for businesses and investors entering the Kenyan market."],
             ].map(([eyebrow, title, desc]) => (
-              <div key={eyebrow} className="bg-ink text-paper-text relative min-h-[280px] p-[30px_26px] flex flex-col justify-end overflow-hidden reveal">
+              <div key={eyebrow} className="bg-ink text-paper-text relative min-h-[280px] p-[30px_26px] flex flex-col justify-end overflow-hidden">
                 <div className="relative z-10">
                   <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-brass-soft inline-flex items-center gap-2.5 mb-2.5 before:content-[''] before:w-[18px] before:h-px before:bg-brass-soft before:inline-block">
                     {eyebrow}
@@ -374,11 +353,11 @@ function Index() {
               ["Family Law · Diaspora", "Power of Attorney From Abroad: What Actually Works in Kenya", "Mar 2026"],
               ["Debt Recovery", "Chasing an Unpaid Invoice in Kenya: Demand Letter to Small Claims, Explained", "Feb 2026"],
             ].map(([tag, title, date]) => (
-              <div key={title} className="bg-card border border-line p-[22px] flex flex-col min-h-[210px] reveal">
+              <div key={title} className="bg-card border border-line p-[22px] flex flex-col min-h-[210px]">
                 <span className="font-mono text-[10.5px] tracking-wide uppercase text-clay">{tag}</span>
                 <h4 className="font-serif text-base font-semibold leading-tight mt-2.5 mb-2.5 flex-1">{title}</h4>
-                <span className="font-mono text-[11px] text-ink-text/80">{date}</span>
-                <span className="font-mono text-[9.5px] tracking-wide text-ink-text/80 border border-line rounded-full px-[7px] py-[2px] mt-2.5 w-fit">Sample — not yet published</span>
+                <span className="font-mono text-[11px] text-ink-text">{date}</span>
+                <span className="font-mono text-[9.5px] tracking-wide text-ink-text border border-line rounded-full px-[7px] py-[2px] mt-2.5 w-fit">Sample — not yet published</span>
               </div>
             ))}
           </div>
@@ -409,7 +388,7 @@ function Index() {
               ["EP. 02", "Five Mistakes SMEs Make Before Their First Contract"],
               ["EP. 03", "What Actually Counts as a Small Claim in Kenya"],
             ].map(([ep, title]) => (
-              <div key={ep} className="bg-white/[0.04] border border-line-dark border-l-[3px] border-l-brass-soft p-[22px] transition-colors hover:bg-white/[0.07] reveal">
+              <div key={ep} className="bg-white/[0.04] border border-line-dark border-l-[3px] border-l-brass-soft p-[22px] transition-colors hover:bg-white/[0.07]">
                 <span className="font-mono text-[11px] tracking-wide text-brass-soft">{ep}</span>
                 <h4 className="font-serif text-[15.5px] font-semibold leading-tight text-paper-text mt-2 mb-2.5">{title}</h4>
                 <span className="font-mono text-[9.5px] tracking-wide text-paper-text/50 border border-line-dark rounded-full px-[7px] py-[2px] mt-2.5 w-fit inline-block">Sample — not yet recorded</span>
@@ -441,7 +420,7 @@ function Index() {
               <h2 className="font-serif text-[clamp(26px,3.2vw,38px)] font-semibold tracking-tight mt-3.5">A team, not a single practitioner.</h2>
             </div>
             <div>
-              <p className="text-[15.5px] leading-relaxed text-ink-text/80 mb-5">
+              <p className="text-[15.5px] leading-relaxed text-ink-text mb-5">
                 NKM operates across partners, associate advocates, and consulting counsel — each attached to a named department, so your matter is never dependent on one person's availability. Full bios, practising certificate status, and department leads are on the Team page.
               </p>
               <a href="#" className="font-mono text-[12.5px] text-clay inline-flex items-center gap-1.5 group">
