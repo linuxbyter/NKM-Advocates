@@ -4,6 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 import { submitLead } from "@/lib/leads.functions";
 import { AssistantWidget } from "@/components/AssistantWidget";
+import { practiceAreas } from "@/lib/practice-areas";
 import { Loader2 } from "lucide-react";
 import leaderPhoto from "@/assets/leader-photo.jpg";
 import "../nkm-mockup.css";
