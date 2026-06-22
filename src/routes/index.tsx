@@ -7,7 +7,6 @@ import { AssistantWidget } from "@/components/AssistantWidget";
 import { practiceAreas } from "@/lib/practice-areas";
 import { Loader2 } from "lucide-react";
 import leaderPhoto from "@/assets/leader-photo.jpg";
-import "../nkm-mockup.css";
 
 export const Route = createFileRoute("/")({ component: Index });
 
@@ -53,6 +52,7 @@ function Index() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", service: "", message: "" });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [carouselIdx, setCarouselIdx] = useState(1);
   const call = useServerFn(submitLead);
 
   const submit = async (e: React.FormEvent) => {
@@ -133,7 +133,7 @@ function Index() {
               <li><a href="#book" className="inline-block px-3 py-2.5 text-sm font-medium text-paper-text-dim transition-colors hover:text-paper-text">Contact</a></li>
             </ul>
           </nav>
-          <a href="#book" className="font-mono text-[13px] tracking-wide bg-clay text-paper-text px-[18px] py-[11px] border border-clay transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_6px_18px_rgba(138,60,41,0.28)]">
+          <a href="#book" className="font-mono text-[13px] tracking-wide bg-clay text-paper-text px-[18px] py-[11px] border border-clay transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_6px_18px_rgba(138,60,41,0.28)] focus-visible:outline-2 focus-visible:outline-brass focus-visible:outline-offset-2">
             Book Consultation
           </a>
         </div>
@@ -262,7 +262,7 @@ function Index() {
               ["01", "Book a Consultation", "By phone, WhatsApp, or scheduled video call — no office visit required."],
               ["02", "Share Documents Directly", "Send identification, contracts, or title documents via WhatsApp or your dedicated case email — no portal login required."],
               ["03", "We Handle the Matter", "Your case goes to the right department, with updates as it progresses."],
-              ["04", "Sign &amp; Pay", "Print, sign, and scan documents back over WhatsApp, then settle fees by bank transfer or M-Pesa — wherever you are."],
+              ["04", "Sign & Pay", "Print, sign, and scan documents back over WhatsApp, then settle fees by bank transfer or M-Pesa — wherever you are. <span class=\"inline-flex items-center gap-1 mt-1\"><svg viewBox=\"0 0 40 14\" width=\"40\" height=\"14\" aria-label=\"M-Pesa\"><rect width=\"40\" height=\"14\" rx=\"2\" fill=\"#4CAF50\"/><text x=\"20\" y=\"10\" text-anchor=\"middle\" font-family=\"Arial,sans-serif\" font-size=\"8\" font-weight=\"bold\" fill=\"white\">M-PESA</text></svg></span>"],
             ].map(([num, title, desc]) => (
               <div key={num} className="pt-[18px] border-t-2 border-brass reveal">
                 <span className="font-mono text-[13px] tracking-wide text-brass">{num}</span>
@@ -287,7 +287,14 @@ function Index() {
             <p className="text-[13px] italic text-ink-text/60 max-w-[320px]">Each matter is filed to the department built for it.</p>
           </div>
           <div className="relative">
-            <div ref={trackRef} className="flex gap-[18px] overflow-x-auto scroll-snap-x snap-mandatory scrollbar-none pb-1.5">
+            <div ref={trackRef} onScroll={() => {
+              const el = trackRef.current;
+              if (!el) return;
+              const card = el.firstElementChild as HTMLElement;
+              if (!card) return;
+              const step = card.getBoundingClientRect().width + 18;
+              setCarouselIdx(Math.min(8, Math.max(1, Math.round(el.scrollLeft / step) + 1)));
+            }} className="flex gap-[18px] overflow-x-auto snap-x snap-mandatory scrollbar-none pb-1.5">
               {[
                 ["SME-01", "Business &amp; SME Advisory", "Formation, contracts, compliance and tax structuring for founders and growing businesses."],
                 ["RE-02", "Real Estate", "Title verification, leases, and protection against fraudulent land transactions."],
@@ -310,13 +317,13 @@ function Index() {
               ))}
             </div>
             <div className="flex items-center justify-end gap-3.5 mt-5">
-              <span className="font-mono text-[12.5px] text-ink-text/60 min-w-[48px] text-center">1 / 8</span>
+              <span className="font-mono text-[12.5px] text-ink-text/60 min-w-[48px] text-center">{carouselIdx} / 8</span>
               <button onClick={() => scrollCarousel(-1)} aria-label="Previous department"
-                className="w-[38px] h-[38px] rounded-full border border-ink-text bg-transparent flex items-center justify-center cursor-pointer text-ink-text text-[15px] transition-colors hover:bg-clay hover:border-clay hover:text-paper-text">
+                className="w-[38px] h-[38px] rounded-full border border-ink-text bg-transparent flex items-center justify-center cursor-pointer text-ink-text text-[15px] transition-colors hover:bg-clay hover:border-clay hover:text-paper-text focus-visible:outline-2 focus-visible:outline-brass focus-visible:outline-offset-2">
                 ←
               </button>
               <button onClick={() => scrollCarousel(1)} aria-label="Next department"
-                className="w-[38px] h-[38px] rounded-full border border-ink-text bg-transparent flex items-center justify-center cursor-pointer text-ink-text text-[15px] transition-colors hover:bg-clay hover:border-clay hover:text-paper-text">
+                className="w-[38px] h-[38px] rounded-full border border-ink-text bg-transparent flex items-center justify-center cursor-pointer text-ink-text text-[15px] transition-colors hover:bg-clay hover:border-clay hover:text-paper-text focus-visible:outline-2 focus-visible:outline-brass focus-visible:outline-offset-2">
                 →
               </button>
             </div>
@@ -487,8 +494,9 @@ function Index() {
             <div className="max-w-[520px] mx-auto">
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
                 {practiceAreas.map((area) => (
-                  <button key={area.slug} onClick={() => setForm({...form, service: area.title})}
-                    className={`p-3 text-center border text-sm font-mono tracking-wide uppercase transition-all duration-200 ${
+                  <button key={area.slug} type="button" onClick={() => setForm({...form, service: area.title})}
+                    aria-pressed={form.service === area.title}
+                    className={`p-3 text-center border text-sm font-mono tracking-wide uppercase transition-all duration-200 focus-visible:outline-2 focus-visible:outline-brass focus-visible:outline-offset-2 ${
                       form.service === area.title
                         ? "bg-brass text-ink border-brass"
                         : "bg-transparent text-paper-text-dim border-line-dark hover:border-brass-soft hover:text-brass-soft"
@@ -500,9 +508,9 @@ function Index() {
 
               <form onSubmit={submit} className="space-y-4 text-left">
                 <div>
-                  <label className="block font-mono text-[11px] font-medium uppercase tracking-wider text-brass-soft mb-1.5">Area of Interest</label>
-                  <select value={form.service} onChange={(e) => setForm({...form, service: e.target.value})}
-                    className="w-full bg-transparent border border-line-dark px-3 py-2.5 text-sm text-paper-text focus:outline-none focus:border-brass">
+                  <label htmlFor="book-service" className="block font-mono text-[11px] font-medium uppercase tracking-wider text-brass-soft mb-1.5">Area of Interest</label>
+                  <select id="book-service" value={form.service} onChange={(e) => setForm({...form, service: e.target.value})}
+                    className="w-full bg-transparent border border-line-dark px-3 py-2.5 text-sm text-paper-text focus-visible:outline-2 focus-visible:outline-brass focus-visible:outline-offset-2">
                     <option value="" className="bg-ink-2">Select a department</option>
                     {practiceAreas.map((p) => (
                       <option key={p.slug} value={p.title} className="bg-ink-2">{p.title}</option>
@@ -511,25 +519,25 @@ function Index() {
                 </div>
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block font-mono text-[11px] font-medium uppercase tracking-wider text-brass-soft mb-1.5">Full name *</label>
-                    <input value={form.name} onChange={(e) => setForm({...form, name: e.target.value})} placeholder="Jane Wanjiru"
-                      className="w-full bg-transparent border border-line-dark px-3 py-2.5 text-sm text-paper-text placeholder:text-paper-text-dim/50 focus:outline-none focus:border-brass" />
+                    <label htmlFor="book-name" className="block font-mono text-[11px] font-medium uppercase tracking-wider text-brass-soft mb-1.5">Full name *</label>
+                    <input id="book-name" value={form.name} onChange={(e) => setForm({...form, name: e.target.value})} placeholder="Jane Wanjiru"
+                      className="w-full bg-transparent border border-line-dark px-3 py-2.5 text-sm text-paper-text placeholder:text-paper-text-dim/50 focus-visible:outline-2 focus-visible:outline-brass focus-visible:outline-offset-2" />
                   </div>
                   <div>
-                    <label className="block font-mono text-[11px] font-medium uppercase tracking-wider text-brass-soft mb-1.5">Email *</label>
-                    <input type="email" value={form.email} onChange={(e) => setForm({...form, email: e.target.value})} placeholder="jane@example.com"
-                      className="w-full bg-transparent border border-line-dark px-3 py-2.5 text-sm text-paper-text placeholder:text-paper-text-dim/50 focus:outline-none focus:border-brass" />
+                    <label htmlFor="book-email" className="block font-mono text-[11px] font-medium uppercase tracking-wider text-brass-soft mb-1.5">Email *</label>
+                    <input id="book-email" type="email" value={form.email} onChange={(e) => setForm({...form, email: e.target.value})} placeholder="jane@example.com"
+                      className="w-full bg-transparent border border-line-dark px-3 py-2.5 text-sm text-paper-text placeholder:text-paper-text-dim/50 focus-visible:outline-2 focus-visible:outline-brass focus-visible:outline-offset-2" />
                   </div>
                 </div>
                 <div>
-                  <label className="block font-mono text-[11px] font-medium uppercase tracking-wider text-brass-soft mb-1.5">Phone</label>
-                  <input type="tel" value={form.phone} onChange={(e) => setForm({...form, phone: e.target.value})} placeholder="+254 700 000 000"
-                    className="w-full bg-transparent border border-line-dark px-3 py-2.5 text-sm text-paper-text placeholder:text-paper-text-dim/50 focus:outline-none focus:border-brass" />
+                  <label htmlFor="book-phone" className="block font-mono text-[11px] font-medium uppercase tracking-wider text-brass-soft mb-1.5">Phone</label>
+                  <input id="book-phone" type="tel" value={form.phone} onChange={(e) => setForm({...form, phone: e.target.value})} placeholder="+254 700 000 000"
+                    className="w-full bg-transparent border border-line-dark px-3 py-2.5 text-sm text-paper-text placeholder:text-paper-text-dim/50 focus-visible:outline-2 focus-visible:outline-brass focus-visible:outline-offset-2" />
                 </div>
                 <div>
-                  <label className="block font-mono text-[11px] font-medium uppercase tracking-wider text-brass-soft mb-1.5">Brief description</label>
-                  <textarea value={form.message} onChange={(e) => setForm({...form, message: e.target.value})} rows={3} placeholder="A few sentences about your matter…"
-                    className="w-full bg-transparent border border-line-dark px-3 py-2.5 text-sm text-paper-text placeholder:text-paper-text-dim/50 focus:outline-none focus:border-brass resize-none" />
+                  <label htmlFor="book-message" className="block font-mono text-[11px] font-medium uppercase tracking-wider text-brass-soft mb-1.5">Brief description</label>
+                  <textarea id="book-message" value={form.message} onChange={(e) => setForm({...form, message: e.target.value})} rows={3} placeholder="A few sentences about your matter…"
+                    className="w-full bg-transparent border border-line-dark px-3 py-2.5 text-sm text-paper-text placeholder:text-paper-text-dim/50 focus-visible:outline-2 focus-visible:outline-brass focus-visible:outline-offset-2 resize-none" />
                 </div>
                 <button type="submit" disabled={loading}
                   className="w-full font-mono text-[13px] tracking-wide bg-clay text-paper-text py-[14px] border border-clay transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_6px_18px_rgba(138,60,41,0.28)] disabled:opacity-50 flex items-center justify-center gap-2">
