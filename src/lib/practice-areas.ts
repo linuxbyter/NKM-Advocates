@@ -1,4 +1,4 @@
-import { Building2, Home, Briefcase, Handshake, Shield, HeartHandshake, type LucideIcon, type PracticeArea } from "lucide-react";
+import { Home, Handshake, Shield, HeartHandshake, type LucideIcon } from "lucide-react";
 
 export type PracticeArea = {
   slug: string;
@@ -13,71 +13,7 @@ export type PracticeArea = {
 };
 
 export const practiceAreas: PracticeArea[] = [
-  // Corporate Governance & Company Secretarial
-  {
-    slug: "corporate-governance",
-    icon: Building2,
-    title: "Corporate Governance & Company Secretarial",
-    short: "Strategic compliance, board advisory, and business formation for corporates and SMEs.",
-    tagline: "Boards that operate with clarity, accountability, and confidence.",
-    overview: "We help boards, founders, and senior management discharge their statutory and fiduciary duties under Kenyan law. From entity formation to annual compliance and board effectiveness, we design governance frameworks that reduce risk and unlock decisive action.",
-    scope: [
-      "Company incorporation, conversions, and restructuring",
-      "Company secretarial services and statutory filings",
-      "Board charters, policies, and committee terms of reference",
-      "Shareholder agreements and resolutions",
-      "Annual general meeting facilitation and minutes",
-      "Compliance audits under the Companies Act (Kenya)",
-    ],
-    whoWeServe: ["Listed and private companies", "SMEs and family businesses", "Non-profits and trusts"],
-    faqs: [
-      { q: "Do you act as company secretary?", a: "Yes — our Managing Partner is a Certified Public Secretary (CPS(K)) and we provide a full company secretarial retainer." },
-      { q: "How long does incorporation take?", a: "Most private limited companies are incorporated within 5–10 business days, subject to BRS turnaround." },
-    ],
-  },
-  // Property & Real Estate Law
-  {
-    slug: "property-real-estate",
-    icon: Home,
-    title: "Property & Real Estate Law",
-    short: "Conveyancing, leasing, property transfers, and due diligence.",
-    tagline: "Move with certainty on every property transaction.",
-    overview: "We manage the full life-cycle of real estate transactions — title verification, sale agreements, transfers, leases, and post-completion compliance — protecting buyers, sellers, landlords, and tenants at every step.",
-    scope: [
-      "Conveyancing and title transfers",
-      "Title due diligence and search reports",
-      "Commercial and residential leases",
-      "Joint venture and development agreements",
-      "Charge / mortgage documentation",
-      "Stamp duty and land control board representation",
-    ],
-    whoWeServe: ["Individual buyers and sellers", "Developers and landlords", "Lenders"],
-    faqs: [
-      { q: "Can you handle off-plan purchases?", a: "Yes. We review the project structure, sale agreement, and security arrangements before any deposit is released." },
-    ],
-  },
-  // Business & Startup Law
-  {
-    slug: "business-startup",
-    icon: Briefcase,
-    title: "Business & Startup Law",
-    short: "Commercial contracts, regulatory advice, and legal consulting for growing enterprises.",
-    tagline: "Legal foundations that scale with your business.",
-    overview: "From the first founder agreement to fundraising and commercial expansion, we partner with startups and growth-stage businesses on the legal infrastructure that lets them move quickly without compromising governance.",
-    scope: [
-      "Founders' agreements and cap table structuring",
-      "SAFE, convertible note, and equity round documentation",
-      "Commercial and supplier contracts",
-      "Employment contracts and ESOP design",
-      "Data protection compliance (Data Protection Act, 2019)",
-      "Sector-specific licensing and regulatory advice",
-    ],
-    whoWeServe: ["Founders and startups", "Investors and accelerators", "Scaling SMEs"],
-    faqs: [
-      { q: "Do you advise on the Data Protection Act?", a: "Yes — we help businesses register with the ODPC, build privacy notices and DPIAs, and respond to data subject requests." },
-    ],
-  },
-  // Business & SME Advisory (new)
+  // Business & SME Advisory
   {
     slug: "business-sme-advisory",
     icon: Handshake,

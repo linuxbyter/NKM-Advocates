@@ -26,7 +26,6 @@ const newSessionId = () =>
 export function AssistantWidget() {
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState<Tab>("chat");
-}
 
   return (
     <>
