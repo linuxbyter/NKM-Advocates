@@ -74,11 +74,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "NKM Advocates — Premier Legal Counsel in Kenya" },
-      { name: "description", content: "NKM Advocates delivers strategic corporate governance, premier legal counsel, and robust advisory services for corporates, SMEs, and individuals in Kenya." },
+      { title: "NKM Advocates — Multi-Disciplinary Law Firm" },
+      { name: "description", content: "A Kenyan multi-disciplinary law firm. Law, HR, and tax under one roof — for businesses and diaspora families." },
       { name: "author", content: "NKM Advocates" },
-      { property: "og:title", content: "NKM Advocates — Premier Legal Counsel" },
-      { property: "og:description", content: "Strategic corporate governance, advisory, and legal services aligning expertise with business strategy." },
+      { property: "og:title", content: "NKM Advocates — Multi-Disciplinary Law Firm" },
+      { property: "og:description", content: "Law, HR, and tax under one roof." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@AdvocatesNkm" },
@@ -97,7 +97,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap",
       },
     ],
   }),
@@ -126,7 +126,6 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
       <Toaster position="top-right" richColors />
     </QueryClientProvider>

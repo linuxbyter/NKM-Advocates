@@ -1,44 +1,26 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Menu, X } from "lucide-react";
+import { Menu, X, ArrowRight } from "lucide-react";
+
+const socialLinks = [
+  { label: "LinkedIn", href: "https://ke.linkedin.com/in/nkm-a-9844b135" },
+  { label: "X", href: "https://x.com/NkmAdvocates" },
+  { label: "TikTok", href: "#" },
+  { label: "Instagram", href: "#" },
+  { label: "Pinterest", href: "#" },
+  { label: "YouTube", href: "#" },
+];
 
 const navLinks = [
   { label: "Home", to: "/" as const, hash: undefined },
-  { label: "About", to: "/" as const, hash: "about" },
-  { label: "Practice Areas", to: "/" as const, hash: "practice" },
-  { label: "Leadership", to: "/" as const, hash: "leadership" },
-  { label: "Contact", to: "/" as const, hash: "contact" },
+  { label: "About", to: "/", hash: "about" as const },
+  { label: "Departments", to: "/", hash: "departments" as const },
+  { label: "Who We Serve", to: "/", hash: "serve" as const },
+  { label: "Insights", to: "/", hash: "insights" as const },
+  { label: "Podcast", to: "/", hash: "podcast" as const },
+  { label: "Team", to: "/", hash: "team" as const },
+  { label: "Contact", to: "/", hash: "contact" as const },
 ];
-
-const socialLinks = [
-  { label: "X", href: "https://x.com/NkmAdvocates", icon: XIcon },
-  { label: "LinkedIn", href: "https://ke.linkedin.com/in/nkm-a-9844b135", icon: LinkedinIcon },
-  { label: "WhatsApp", href: "https://wa.me/254707329013", icon: WhatsAppIcon },
-];
-
-function XIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-    </svg>
-  );
-}
-
-function LinkedinIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-    </svg>
-  );
-}
-
-function WhatsAppIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-    </svg>
-  );
-}
 
 export { socialLinks };
 
@@ -47,133 +29,160 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 80);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <header
-      className={`fixed top-0 inset-x-0 z-40 transition-all duration-300 ${
-        scrolled
-          ? "bg-navy/95 backdrop-blur-md shadow-lg"
-          : "bg-navy/70 backdrop-blur-sm"
-      }`}
-    >
-      <div className="mx-auto max-w-7xl px-6 lg:px-10 flex h-20 items-center justify-between">
-        <Link to="/" className="flex items-center gap-2">
-          <span className="font-display text-2xl tracking-wide text-white">
-            NKM <span className="text-gold">ADVOCATES</span>
+    <>
+      {/* Topbar */}
+      <div className="hidden md:block bg-[#0B1A1B] text-[#C9C2AE] text-[11px] font-mono tracking-wide">
+        <div className="max-w-[1180px] mx-auto px-7 py-[7px] flex justify-between items-center">
+          <span>Mon – Sat, 9am – 5pm · Wilkem Edge, Matasia</span>
+          <span className="flex gap-[14px]">
+            {socialLinks.slice(0, 6).map((s) => (
+              <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="hover:text-[#D9B97A] transition-colors">
+                {s.label}
+              </a>
+            ))}
           </span>
-        </Link>
-        <nav className="hidden lg:flex items-center gap-9">
-          {navLinks.map((l) => (
-            <Link
-              key={l.label}
-              to={l.to}
-              hash={l.hash}
-              className="text-sm font-medium tracking-wide text-white/80 transition-colors hover:text-gold"
-            >
-              {l.label}
-            </Link>
-          ))}
-        </nav>
-        <div className="hidden lg:block">
-          <Link
-            to="/"
-            hash="contact"
-            className="inline-flex items-center gap-2 bg-gold text-navy-deep px-5 py-2.5 text-sm font-semibold tracking-wide hover:bg-gold-soft transition-colors shadow-sm"
-          >
-            Book Consultation <ArrowRight className="w-4 h-4" />
-          </Link>
         </div>
-        <button
-          className="lg:hidden text-white"
-          onClick={() => setOpen(!open)}
-          aria-label="Toggle menu"
-        >
-          {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
       </div>
-      {open && (
-        <div className="lg:hidden bg-navy-deep border-t border-white/10">
-          <div className="px-6 py-4 flex flex-col gap-3">
+
+      {/* Header */}
+      <header
+        className={`sticky top-0 md:-mt-[33px] z-40 transition-all duration-300 ${
+          scrolled ? "bg-[#0B1A1B] shadow-lg" : "bg-gradient-to-b from-[#0B1A1B]/60 to-transparent"
+        }`}
+      >
+        <div className="max-w-[1180px] mx-auto px-7 flex items-center justify-between h-[70px] md:h-[60px]">
+          {/* Logo */}
+          <Link to="/" className="flex flex-col leading-none">
+            <span className="font-serif font-bold text-[19px] text-[#F2EEE1] tracking-wide">
+              NKM ADVOCATES
+            </span>
+            <span className="font-mono text-[10px] tracking-[0.18em] text-[#D9B97A] mt-[3px]">
+              ADVOCATES & CONSULTANTS
+            </span>
+          </Link>
+
+          {/* Desktop Nav */}
+          <nav className="hidden lg:flex items-center gap-1">
             {navLinks.map((l) => (
-              <Link key={l.label} to={l.to} hash={l.hash} onClick={() => setOpen(false)} className="text-white/80 py-2 font-medium hover:text-gold transition-colors">
+              <Link
+                key={l.label}
+                to={l.to}
+                hash={l.hash}
+                className="text-[14px] text-[#C9C2AE] font-medium px-3 py-2 hover:text-[#F2EEE1] transition-colors"
+              >
                 {l.label}
               </Link>
             ))}
-            <Link
-              to="/"
-              hash="contact"
-              onClick={() => setOpen(false)}
-              className="bg-gold text-navy-deep px-5 py-3 text-sm font-semibold text-center mt-2"
+          </nav>
+
+          {/* CTA + Mobile Toggle */}
+          <div className="flex items-center gap-3">
+            <a
+              href="tel:0707329013"
+              className="hidden md:inline-flex items-center gap-2 bg-[#8A3C29] text-[#F2EEE1] border border-[#8A3C29] px-[18px] py-2.5 text-[13px] font-mono tracking-wide hover:shadow-md transition-all hover:-translate-y-0.5"
             >
               Book Consultation
-            </Link>
+            </a>
+            <button
+              className="lg:hidden text-[#F2EEE1]"
+              onClick={() => setOpen(!open)}
+              aria-label="Toggle menu"
+            >
+              {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
           </div>
         </div>
-      )}
-    </header>
+
+        {/* Mobile Menu */}
+        {open && (
+          <div className="lg:hidden bg-[#0B1A1B] border-t border-[#23393B]">
+            <div className="px-7 py-4 flex flex-col gap-1">
+              {navLinks.map((l) => (
+                <Link
+                  key={l.label}
+                  to={l.to}
+                  hash={l.hash}
+                  onClick={() => setOpen(false)}
+                  className="text-[#C9C2AE] py-2 font-medium hover:text-[#F2EEE1] transition-colors"
+                >
+                  {l.label}
+                </Link>
+              ))}
+              <a
+                href="tel:0707329013"
+                className="bg-[#8A3C29] text-[#F2EEE1] px-5 py-3 text-[13px] font-mono text-center mt-2 inline-flex items-center justify-center gap-2"
+              >
+                Book Consultation <ArrowRight className="w-4 h-4" />
+              </a>
+            </div>
+          </div>
+        )}
+      </header>
+    </>
   );
 }
 
 export function SiteFooter() {
   return (
-    <footer className="bg-navy-deep text-white/70">
-      <div className="mx-auto max-w-7xl px-6 lg:px-10 py-16">
-        <div className="grid md:grid-cols-4 gap-10">
-          <div className="md:col-span-2">
-            <div className="font-display text-2xl tracking-wide text-white">
-              NKM <span className="text-gold">ADVOCATES</span>
-            </div>
-            <p className="mt-4 text-sm text-white/60 max-w-md leading-relaxed">
-              Premier legal counsel, corporate governance, and advisory services for corporates, SMEs, and individuals across Kenya.
-            </p>
-            <div className="mt-6 flex items-center gap-4">
-              {socialLinks.map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={s.label}
-                  className="w-10 h-10 flex items-center justify-center bg-white/10 text-white/70 hover:bg-gold hover:text-navy-deep transition-colors"
-                >
-                  <s.icon className="w-5 h-5" />
-                </a>
-              ))}
-            </div>
+    <footer className="bg-[#0B1A1B] text-[#C9C2AE] pt-[60px] border-t border-[#23393B] text-[13.5px]">
+      <div className="max-w-[1180px] mx-auto px-7">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-9 pb-[46px]">
+          <div className="lg:col-span-1">
+            <h4 className="font-mono text-[11px] tracking-[0.1em] text-[#D9B97A] uppercase mb-[14px]">NKM Advocates</h4>
+            <p className="text-[#9aa39d] max-w-[240px] mb-4">Wilkem Edge Business Center, 1st Floor, Matasia, Ngong.</p>
+            <p className="text-[#9aa39d] mb-0">contact@nkm-advocates.co.ke<br />0707 329 013</p>
           </div>
           <div>
-            <div className="text-white text-sm font-semibold uppercase tracking-wider mb-4">Navigate</div>
-            <ul className="space-y-2 text-sm">
-              {navLinks.map((l) => (
-                <li key={l.label}>
-                  <Link to={l.to} hash={l.hash} className="hover:text-gold transition-colors">{l.label}</Link>
-                </li>
-              ))}
+            <h4 className="font-mono text-[11px] tracking-[0.1em] text-[#D9B97A] uppercase mb-[14px]">Departments</h4>
+            <ul className="grid gap-[9px]">
+              <li><a href="#departments" className="hover:text-[#F2EEE1]">Business & SME Advisory</a></li>
+              <li><a href="#departments" className="hover:text-[#F2EEE1]">Real Estate</a></li>
+              <li><a href="#departments" className="hover:text-[#F2EEE1]">Debt Recovery</a></li>
+              <li><a href="#departments" className="hover:text-[#F2EEE1]">Mediation & ADR</a></li>
+              <li><a href="#departments" className="hover:text-[#F2EEE1]">Intellectual Property</a></li>
+              <li><a href="#departments" className="hover:text-[#F2EEE1]">NGO Registration</a></li>
+              <li><a href="#departments" className="hover:text-[#F2EEE1]">Family Law</a></li>
+              <li><a href="#departments" className="hover:text-[#F2EEE1]">Data Protection</a></li>
             </ul>
           </div>
           <div>
-            <div className="text-white text-sm font-semibold uppercase tracking-wider mb-4">Contact</div>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <a href="https://wa.me/254707329013" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors flex items-center gap-2">
-                  <WhatsAppIcon className="w-4 h-4" /> +254 707 329 013
-                </a>
-              </li>
-              <li>
-                <a href="mailto:nkionga@gmail.com" className="hover:text-gold transition-colors">nkionga@gmail.com</a>
-              </li>
-              <li>Nairobi, Kenya</li>
+            <h4 className="font-mono text-[11px] tracking-[0.1em] text-[#D9B97A] uppercase mb-[14px]">Firm</h4>
+            <ul className="grid gap-[9px]">
+              <li><a href="#serve" className="hover:text-[#F2EEE1]">Who We Serve</a></li>
+              <li><a href="#insights" className="hover:text-[#F2EEE1]">Insights</a></li>
+              <li><a href="#podcast" className="hover:text-[#F2EEE1]">Podcast</a></li>
+              <li><a href="#team" className="hover:text-[#F2EEE1]">Our Team</a></li>
+              <li><a href="#" className="hover:text-[#F2EEE1]">Careers</a></li>
             </ul>
+          </div>
+          <div>
+            <h4 className="font-mono text-[11px] tracking-[0.1em] text-[#D9B97A] uppercase mb-[14px]">Quick Links</h4>
+            <ul className="grid gap-[9px]">
+              <li><a href="#" className="hover:text-[#F2EEE1]">Privacy Policy</a></li>
+              <li><a href="#" className="hover:text-[#F2EEE1]">Disclaimer</a></li>
+              <li><a href="#" className="hover:text-[#F2EEE1]">FAQ</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-mono text-[11px] tracking-[0.1em] text-[#D9B97A] uppercase mb-[14px]">Subscribe to Insights</h4>
+            <input type="email" placeholder="Email address" className="w-full bg-transparent border border-[#23393B] text-[#F2EEE1] px-3 py-[10px] text-[13px] rounded-sm block mb-2 focus:outline-none focus:border-[#B6883F]" />
+            <a href="#" className="inline-flex items-center justify-center gap-2 bg-[#8A3C29] text-[#F2EEE1] border border-[#8A3C29] px-5 py-2.5 text-[13px] font-mono tracking-wide w-full text-center">Subscribe</a>
           </div>
         </div>
-        <div className="mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row gap-4 justify-between text-xs text-white/50">
-          <div>© {new Date().getFullYear()} NKM Advocates. All rights reserved.</div>
-          <div>NKM Advocates is a legal practice registered under the Advocates Act (Kenya).</div>
+        <div className="py-[22px] border-t border-[#23393B] flex flex-col sm:flex-row justify-between gap-2 text-[12px] text-[#6E7A75]">
+          <span>© {new Date().getFullYear()} NKM Advocates.</span>
+          <span className="flex gap-[14px]">
+            {socialLinks.slice(0, 6).map((s) => (
+              <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="hover:text-[#D9B97A]">{s.label}</a>
+            ))}
+          </span>
         </div>
       </div>
     </footer>
