@@ -69,7 +69,7 @@ function Index() {
           <nav className="hidden md:flex">
             <ul className="flex list-none items-center gap-2">
               <li className="relative group">
-                <a href="#departments" className="inline-block px-3 py-2.5 text-sm font-medium text-paper-text-dim transition-colors hover:text-paper-text">
+                <a href="#departments" className="inline-block px-3 py-2.5 text-sm font-medium text-paper-text transition-colors hover:text-paper-text">
                   Departments <span className="text-[9px] opacity-70 ml-1">▾</span>
                 </a>
                 <div className="absolute top-full left-0 min-w-[300px] bg-card border border-line shadow-xl p-2.5 opacity-0 invisible translate-y-1.5 transition-all duration-[180ms] group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 grid gap-0.5 z-50">
@@ -90,11 +90,11 @@ function Index() {
                   ))}
                 </div>
               </li>
-              <li><a href="#serve" className="inline-block px-3 py-2.5 text-sm font-medium text-paper-text-dim transition-colors hover:text-paper-text">Who We Serve</a></li>
-              <li><a href="#insights" className="inline-block px-3 py-2.5 text-sm font-medium text-paper-text-dim transition-colors hover:text-paper-text">Insights</a></li>
-              <li><a href="#podcast" className="inline-block px-3 py-2.5 text-sm font-medium text-paper-text-dim transition-colors hover:text-paper-text">Podcast</a></li>
-              <li><a href="#team" className="inline-block px-3 py-2.5 text-sm font-medium text-paper-text-dim transition-colors hover:text-paper-text">Team</a></li>
-              <li><a href="#book" className="inline-block px-3 py-2.5 text-sm font-medium text-paper-text-dim transition-colors hover:text-paper-text">Contact</a></li>
+              <li><a href="#serve" className="inline-block px-3 py-2.5 text-sm font-medium text-paper-text transition-colors hover:text-paper-text">Who We Serve</a></li>
+              <li><a href="#insights" className="inline-block px-3 py-2.5 text-sm font-medium text-paper-text transition-colors hover:text-paper-text">Insights</a></li>
+              <li><a href="#podcast" className="inline-block px-3 py-2.5 text-sm font-medium text-paper-text transition-colors hover:text-paper-text">Podcast</a></li>
+              <li><a href="#team" className="inline-block px-3 py-2.5 text-sm font-medium text-paper-text transition-colors hover:text-paper-text">Team</a></li>
+              <li><a href="#book" className="inline-block px-3 py-2.5 text-sm font-medium text-paper-text transition-colors hover:text-paper-text">Contact</a></li>
             </ul>
           </nav>
           <a href="#book" className="font-mono text-[13px] tracking-wide bg-clay text-paper-text px-[18px] py-[11px] border border-clay transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_6px_18px_rgba(138,60,41,0.28)] focus-visible:outline-2 focus-visible:outline-brass focus-visible:outline-offset-2">
@@ -143,7 +143,7 @@ function Index() {
           <h1 className="font-serif text-[clamp(32px,5vw,54px)] leading-[1.08] text-paper-text mb-5 font-semibold tracking-tight">
             Structuring your business. Protecting your family. <em className="italic text-brass-soft not-italic">Wherever you are.</em>
           </h1>
-          <p className="text-[16.5px] leading-relaxed text-paper-text-dim max-w-[560px] mx-auto mb-8">
+          <p className="text-[16.5px] leading-relaxed text-paper-text max-w-[560px] mx-auto mb-8">
             A Kenyan commercial and family law firm built for entrepreneurs, SMEs, foreign investors, and Kenyans living abroad — with a bench of advocates and consultants, not a single point of contact.
           </p>
           <div className="flex gap-3.5 flex-wrap justify-center">
@@ -154,7 +154,7 @@ function Index() {
               View Departments
             </a>
           </div>
-          <p className="font-mono text-[11.5px] tracking-wide text-paper-text-dim mt-5">
+          <p className="font-mono text-[11.5px] tracking-wide text-paper-text mt-5">
             Available entirely online — visit our office only if you'd prefer to.
           </p>
         </div>
@@ -165,7 +165,7 @@ function Index() {
         <div className="mx-auto flex max-w-[1180px] justify-center flex-wrap">
           {["Departments", "Who We Serve", "Insights", "Podcast", "Our Team"].map((label, i) => (
             <a key={label} href={["#departments", "#serve", "#insights", "#podcast", "#team"][i]}
-              className="font-mono text-[12px] tracking-wide uppercase text-paper-text-dim px-[26px] py-[18px] border-r border-line-dark last:border-r-0 transition-colors hover:text-brass-soft hover:bg-white/[0.03]">
+              className="font-mono text-[12px] tracking-wide uppercase text-paper-text px-[26px] py-[18px] border-r border-line-dark last:border-r-0 transition-colors hover:text-brass-soft hover:bg-white/[0.03]">
               {label}
             </a>
           ))}
@@ -305,7 +305,7 @@ function Index() {
               </span>
               <h2 className="font-serif text-[clamp(26px,3.2vw,38px)] font-semibold tracking-tight mt-3 text-paper-text">Who we serve.</h2>
             </div>
-            <p className="text-[13px] italic text-paper-text-dim max-w-[320px]">One Kenyan office. Three audiences we know well.</p>
+            <p className="text-[13px] italic text-paper-text max-w-[320px]">One Kenyan office. Three audiences we know well.</p>
           </div>
           <div className="grid md:grid-cols-3 gap-5">
             {[
@@ -319,7 +319,7 @@ function Index() {
                     {eyebrow}
                   </span>
                   <h3 className="font-serif text-[22px] font-semibold tracking-tight text-paper-text mb-2.5" dangerouslySetInnerHTML={{__html: title}} />
-                  <p className="text-[13.5px] leading-relaxed text-paper-text-dim mb-3.5">{desc}</p>
+                  <p className="text-[13.5px] leading-relaxed text-paper-text mb-3.5">{desc}</p>
                   <a href="#book" className="font-mono text-[12.5px] text-brass-soft inline-flex items-center gap-1.5 group">
                     Learn More
                     <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
@@ -379,7 +379,7 @@ function Index() {
               <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
             </a>
           </div>
-          <p className="text-[15.5px] leading-relaxed text-paper-text-dim max-w-[560px] mb-2">
+          <p className="text-[15.5px] leading-relaxed text-paper-text max-w-[560px] mb-2">
             Plain-English conversations on Kenyan business law, diaspora property risk, and what SMEs get wrong before it costs them. New episodes monthly.
           </p>
           <div className="grid md:grid-cols-3 gap-[18px] my-[34px]">
@@ -395,8 +395,8 @@ function Index() {
               </div>
             ))}
           </div>
-          <div className="font-mono text-[12px] text-paper-text-dim flex gap-4 items-center flex-wrap">
-            <span className="text-paper-text-dim">Listen on:</span>
+          <div className="font-mono text-[12px] text-paper-text flex gap-4 items-center flex-wrap">
+            <span className="text-paper-text">Listen on:</span>
             <span>Spotify</span><span>·</span><span>Apple Podcasts</span><span>·</span><span>YouTube</span>
           </div>
         </div>
@@ -442,7 +442,7 @@ function Index() {
           <h2 className="font-serif text-[clamp(26px,3.6vw,40px)] font-semibold tracking-tight text-paper-text max-w-[680px] mx-auto mb-4">
             Start with a conversation, not a commitment.
           </h2>
-          <p className="text-[15.5px] leading-relaxed text-paper-text-dim max-w-[520px] mx-auto mb-8">
+          <p className="text-[15.5px] leading-relaxed text-paper-text max-w-[520px] mx-auto mb-8">
             Book a free, no-obligation consultation. We'll tell you honestly whether litigation, mediation, or simple advisory is the right path — and which department should handle it.
           </p>
 
@@ -452,7 +452,7 @@ function Index() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <h3 className="font-serif text-2xl font-semibold tracking-tight text-paper-text mb-2">Thank you.</h3>
-              <p className="text-sm text-paper-text-dim">Your consultation request has been received. Our team will be in touch within one business day.</p>
+              <p className="text-sm text-paper-text">Your consultation request has been received. Our team will be in touch within one business day.</p>
             </div>
           ) : (
             <div className="max-w-[520px] mx-auto">
@@ -463,7 +463,7 @@ function Index() {
                     className={`p-3 text-center border text-sm font-mono tracking-wide uppercase transition-all duration-200 focus-visible:outline-2 focus-visible:outline-brass focus-visible:outline-offset-2 ${
                       form.service === area.title
                         ? "bg-brass text-ink border-brass"
-                        : "bg-transparent text-paper-text-dim border-line-dark hover:border-brass-soft hover:text-brass-soft"
+                        : "bg-transparent text-paper-text border-line-dark hover:border-brass-soft hover:text-brass-soft"
                     }`}>
                     {area.title.split(" ")[0]}
                   </button>
@@ -485,30 +485,30 @@ function Index() {
                   <div>
                     <label htmlFor="book-name" className="block font-mono text-[11px] font-medium uppercase tracking-wider text-brass-soft mb-1.5">Full name *</label>
                     <input id="book-name" value={form.name} onChange={(e) => setForm({...form, name: e.target.value})} placeholder="Jane Wanjiru"
-                      className="w-full bg-transparent border border-line-dark px-3 py-2.5 text-sm text-paper-text placeholder:text-paper-text-dim/50 focus-visible:outline-2 focus-visible:outline-brass focus-visible:outline-offset-2" />
+                      className="w-full bg-transparent border border-line-dark px-3 py-2.5 text-sm text-paper-text placeholder:text-paper-text/50 focus-visible:outline-2 focus-visible:outline-brass focus-visible:outline-offset-2" />
                   </div>
                   <div>
                     <label htmlFor="book-email" className="block font-mono text-[11px] font-medium uppercase tracking-wider text-brass-soft mb-1.5">Email *</label>
                     <input id="book-email" type="email" value={form.email} onChange={(e) => setForm({...form, email: e.target.value})} placeholder="jane@example.com"
-                      className="w-full bg-transparent border border-line-dark px-3 py-2.5 text-sm text-paper-text placeholder:text-paper-text-dim/50 focus-visible:outline-2 focus-visible:outline-brass focus-visible:outline-offset-2" />
+                      className="w-full bg-transparent border border-line-dark px-3 py-2.5 text-sm text-paper-text placeholder:text-paper-text/50 focus-visible:outline-2 focus-visible:outline-brass focus-visible:outline-offset-2" />
                   </div>
                 </div>
                 <div>
                   <label htmlFor="book-phone" className="block font-mono text-[11px] font-medium uppercase tracking-wider text-brass-soft mb-1.5">Phone</label>
                   <input id="book-phone" type="tel" value={form.phone} onChange={(e) => setForm({...form, phone: e.target.value})} placeholder="+254 700 000 000"
-                    className="w-full bg-transparent border border-line-dark px-3 py-2.5 text-sm text-paper-text placeholder:text-paper-text-dim/50 focus-visible:outline-2 focus-visible:outline-brass focus-visible:outline-offset-2" />
+                    className="w-full bg-transparent border border-line-dark px-3 py-2.5 text-sm text-paper-text placeholder:text-paper-text/50 focus-visible:outline-2 focus-visible:outline-brass focus-visible:outline-offset-2" />
                 </div>
                 <div>
                   <label htmlFor="book-message" className="block font-mono text-[11px] font-medium uppercase tracking-wider text-brass-soft mb-1.5">Brief description</label>
                   <textarea id="book-message" value={form.message} onChange={(e) => setForm({...form, message: e.target.value})} rows={3} placeholder="A few sentences about your matter…"
-                    className="w-full bg-transparent border border-line-dark px-3 py-2.5 text-sm text-paper-text placeholder:text-paper-text-dim/50 focus-visible:outline-2 focus-visible:outline-brass focus-visible:outline-offset-2 resize-none" />
+                    className="w-full bg-transparent border border-line-dark px-3 py-2.5 text-sm text-paper-text placeholder:text-paper-text/50 focus-visible:outline-2 focus-visible:outline-brass focus-visible:outline-offset-2 resize-none" />
                 </div>
                 <button type="submit" disabled={loading}
                   className="w-full font-mono text-[13px] tracking-wide bg-clay text-paper-text py-[14px] border border-clay transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_6px_18px_rgba(138,60,41,0.28)] disabled:opacity-50 flex items-center justify-center gap-2">
                   {loading && <Loader2 className="w-4 h-4 animate-spin" />}
                   Request Consultation
                 </button>
-                <p className="font-mono text-[11px] text-paper-text-dim/60 text-center">
+                <p className="font-mono text-[11px] text-paper-text/60 text-center">
                   Your details are confidential and used only to respond to your enquiry.
                 </p>
               </form>
@@ -528,13 +528,13 @@ function Index() {
       </section>
 
       {/* FOOTER */}
-      <footer className="bg-ink-2 text-paper-text-dim border-t border-line-dark text-[13.5px]">
+      <footer className="bg-ink-2 text-paper-text border-t border-line-dark text-[13.5px]">
         <div className="mx-auto max-w-[1180px] px-7">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr_1.2fr] gap-9 pb-[46px] pt-[60px]">
             <div>
               <h4 className="font-mono text-[11px] tracking-[0.1em] uppercase text-brass-soft mb-3.5">NKM Advocates</h4>
-              <p className="max-w-[240px] text-paper-text-dim/70 mb-4">Wilkem Edge Business Center, 1st Floor, Matasia, Ngong.</p>
-              <p className="text-paper-text-dim/70">contact@nkm-advocates.co.ke<br/>0707 329 013</p>
+              <p className="max-w-[240px] text-paper-text/70 mb-4">Wilkem Edge Business Center, 1st Floor, Matasia, Ngong.</p>
+              <p className="text-paper-text/70">contact@nkm-advocates.co.ke<br/>0707 329 013</p>
             </div>
             <div>
               <h4 className="font-mono text-[11px] tracking-[0.1em] uppercase text-brass-soft mb-3.5">Departments</h4>
@@ -563,13 +563,13 @@ function Index() {
             <div>
               <h4 className="font-mono text-[11px] tracking-[0.1em] uppercase text-brass-soft mb-3.5">Subscribe to Insights</h4>
               <input type="email" placeholder="Email address"
-                className="w-full bg-transparent border border-line-dark text-paper-text px-3 py-2.5 font-sans text-[13px] placeholder:text-paper-text-dim/50 rounded mb-2 focus:outline-none focus:border-brass" />
+                className="w-full bg-transparent border border-line-dark text-paper-text px-3 py-2.5 font-sans text-[13px] placeholder:text-paper-text/50 rounded mb-2 focus:outline-none focus:border-brass" />
               <a href="#" className="font-mono text-[13px] tracking-wide bg-clay text-paper-text px-[22px] py-[14px] border border-clay transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_6px_18px_rgba(138,60,41,0.28)] block text-center mt-1">
                 Subscribe
               </a>
             </div>
           </div>
-          <div className="border-t border-line-dark py-[22px] flex flex-wrap justify-between gap-2.5 text-[11px] font-mono tracking-wide text-paper-text-dim/70">
+          <div className="border-t border-line-dark py-[22px] flex flex-wrap justify-between gap-2.5 text-[11px] font-mono tracking-wide text-paper-text/70">
             <span className="flex flex-wrap gap-x-4 gap-y-1">
               <span>&copy; 2026 NKM Advocates</span>
               <span>Mon – Sat, 9am – 5pm · Wilkem Edge, Matasia</span>
