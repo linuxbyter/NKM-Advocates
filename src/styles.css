@@ -71,16 +71,16 @@
   /* NKM Advocates v2 Design System */
   --ink: #102224;
   --ink-2: #0B1A1B;
-  --stone: #ECE7D7;
-  --card: #F7F4E9;
+  --stone: #CDC5B0;
+  --card: #DAD3BE;
   --brass: #B6883F;
   --brass-soft: #D9B97A;
   --clay: #8A3C29;
   --clay-2: #6E2F20;
-  --ink-text: #22302E;
+  --ink-text: #1C2B29;
   --paper-text: #F2EEE1;
   --paper-text-dim: #C9C2AE;
-  --line: #D7CFB6;
+  --line: #C2B99E;
   --line-dark: #23393B;
 
   /* Tailwind semantic mappings */
@@ -90,24 +90,24 @@
   --gold-soft: #D9B97A;
   --slate-ink: #22302E;
 
-  --background: #ECE7D7;
-  --foreground: #22302E;
-  --card-bg: #F7F4E9;
+  --background: #CDC5B0;
+  --foreground: #1C2B29;
+  --card-bg: #DAD3BE;
   --card-foreground: #22302E;
-  --popover: #F7F4E9;
-  --popover-foreground: #22302E;
+  --popover: #DAD3BE;
+  --popover-foreground: #1C2B29;
   --primary: #8A3C29;
   --primary-foreground: #F2EEE1;
-  --secondary: #F7F4E9;
-  --secondary-foreground: #22302E;
-  --muted: #F7F4E9;
-  --muted-foreground: #6B756F;
+  --secondary: #DAD3BE;
+  --secondary-foreground: #1C2B29;
+  --muted: #DAD3BE;
+  --muted-foreground: #4A5A56;
   --accent: #B6883F;
   --accent-foreground: #0B1A1B;
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: #D7CFB6;
-  --input: #D7CFB6;
+  --border: #C2B99E;
+  --input: #C2B99E;
   --ring: #B6883F;
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);

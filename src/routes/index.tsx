@@ -120,7 +120,7 @@ function Index() {
                     ["DP · 08", "Data Protection"],
                   ].map(([code, name]) => (
                     <a key={code} href="#departments" className="block rounded px-3 py-2 hover:bg-stone transition-colors">
-                      <span className="font-mono text-[10px] tracking-wide text-brass">{code}</span><br/>
+                      <span className="font-mono text-[10px] tracking-wide text-clay">{code}</span><br/>
                       <span className="text-[13.5px] font-semibold text-ink-text" dangerouslySetInnerHTML={{__html: name}} />
                     </a>
                   ))}
@@ -213,7 +213,7 @@ function Index() {
         <div className="mx-auto max-w-[1180px] px-7">
           <div className="grid md:grid-cols-[0.9fr_1.1fr] gap-14 items-center">
             <div>
-              <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-brass inline-flex items-center gap-2.5 before:content-[''] before:w-[18px] before:h-px before:bg-brass before:inline-block">
+              <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-clay inline-flex items-center gap-2.5 before:content-[''] before:w-[18px] before:h-px before:bg-clay before:inline-block">
                 Why Clients Choose Nkm
               </span>
               <h2 className="font-serif text-[clamp(26px,3.2vw,38px)] font-semibold tracking-tight mt-3.5 max-w-[560px]">
@@ -246,14 +246,14 @@ function Index() {
         <div className="mx-auto max-w-[1180px] px-7">
           <div className="flex flex-wrap items-end justify-between gap-6 mb-10">
             <div>
-              <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-brass inline-flex items-center gap-2.5 before:content-[''] before:w-[18px] before:h-px before:bg-brass before:inline-block">
+              <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-clay inline-flex items-center gap-2.5 before:content-[''] before:w-[18px] before:h-px before:bg-clay before:inline-block">
                 Working With Us
               </span>
               <h2 className="font-serif text-[clamp(26px,3.2vw,38px)] font-semibold tracking-tight mt-3 max-w-[560px]">
                 The same service, whether you visit or not.
               </h2>
             </div>
-            <p className="text-[13px] italic text-ink-text/60 max-w-[320px]">
+            <p className="text-[13px] italic text-ink-text/80 max-w-[320px]">
               Every department can be engaged entirely online.
             </p>
           </div>
@@ -265,9 +265,9 @@ function Index() {
               ["04", "Sign & Pay", "Print, sign, and scan documents back over WhatsApp, then settle fees by bank transfer or M-Pesa — wherever you are. <span class=\"inline-flex items-center gap-1 mt-1\"><svg viewBox=\"0 0 40 14\" width=\"40\" height=\"14\" aria-label=\"M-Pesa\"><rect width=\"40\" height=\"14\" rx=\"2\" fill=\"#4CAF50\"/><text x=\"20\" y=\"10\" text-anchor=\"middle\" font-family=\"Arial,sans-serif\" font-size=\"8\" font-weight=\"bold\" fill=\"white\">M-PESA</text></svg></span>"],
             ].map(([num, title, desc]) => (
               <div key={num} className="pt-[18px] border-t-2 border-brass reveal">
-                <span className="font-mono text-[13px] tracking-wide text-brass">{num}</span>
+                <span className="font-mono text-[13px] tracking-wide text-clay">{num}</span>
                 <h3 className="font-serif text-[17px] font-semibold tracking-tight mt-2.5 mb-2">{title}</h3>
-                <p className="text-[13.5px] leading-relaxed text-ink-text/70" dangerouslySetInnerHTML={{__html: desc}} />
+                <p className="text-[13.5px] leading-relaxed text-ink-text/85" dangerouslySetInnerHTML={{__html: desc}} />
               </div>
             ))}
           </div>
@@ -279,12 +279,12 @@ function Index() {
         <div className="mx-auto max-w-[1180px] px-7">
           <div className="flex flex-wrap items-end justify-between gap-6 mb-10">
             <div>
-              <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-brass inline-flex items-center gap-2.5 before:content-[''] before:w-[18px] before:h-px before:bg-brass before:inline-block">
+              <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-clay inline-flex items-center gap-2.5 before:content-[''] before:w-[18px] before:h-px before:bg-clay before:inline-block">
                 How We're Organized
               </span>
               <h2 className="font-serif text-[clamp(26px,3.2vw,38px)] font-semibold tracking-tight mt-3">One firm, eight departments.</h2>
             </div>
-            <p className="text-[13px] italic text-ink-text/60 max-w-[320px]">Each matter is filed to the department built for it.</p>
+            <p className="text-[13px] italic text-ink-text/80 max-w-[320px]">Each matter is filed to the department built for it.</p>
           </div>
           <div className="relative">
             <div ref={trackRef} onScroll={() => {
@@ -306,9 +306,9 @@ function Index() {
                 ["DP-08", "Data Protection", "Privacy compliance and data governance built into how you operate."],
               ].map(([code, title, desc]) => (
                 <div key={code} className="flex-[0_0_280px] scroll-snap-start bg-card border border-line border-l-[3px] border-l-brass p-[26px_22px] transition-all duration-200 hover:border-l-[9px] hover:pl-7">
-                  <span className="font-mono text-[11px] tracking-wide text-brass">FILE NO. {code}</span>
+                  <span className="font-mono text-[11px] tracking-wide text-clay">FILE NO. {code}</span>
                   <h3 className="font-serif text-[18px] font-semibold tracking-tight mt-2.5 mb-2 leading-tight" dangerouslySetInnerHTML={{__html: title}} />
-                  <p className="text-[13.5px] leading-relaxed text-ink-text/70 mb-3.5">{desc}</p>
+                  <p className="text-[13.5px] leading-relaxed text-ink-text/85 mb-3.5">{desc}</p>
                   <span className="font-mono text-[12.5px] text-clay inline-flex items-center gap-1.5 group">
                     View Department
                     <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
@@ -317,7 +317,7 @@ function Index() {
               ))}
             </div>
             <div className="flex items-center justify-end gap-3.5 mt-5">
-              <span className="font-mono text-[12.5px] text-ink-text/60 min-w-[48px] text-center">{carouselIdx} / 8</span>
+              <span className="font-mono text-[12.5px] text-ink-text/80 min-w-[48px] text-center">{carouselIdx} / 8</span>
               <button onClick={() => scrollCarousel(-1)} aria-label="Previous department"
                 className="w-[38px] h-[38px] rounded-full border border-ink-text bg-transparent flex items-center justify-center cursor-pointer text-ink-text text-[15px] transition-colors hover:bg-clay hover:border-clay hover:text-paper-text focus-visible:outline-2 focus-visible:outline-brass focus-visible:outline-offset-2">
                 ←
@@ -372,7 +372,7 @@ function Index() {
         <div className="mx-auto max-w-[1180px] px-7">
           <div className="flex flex-wrap items-end justify-between gap-6 mb-10">
             <div>
-              <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-brass inline-flex items-center gap-2.5 before:content-[''] before:w-[18px] before:h-px before:bg-brass before:inline-block">
+              <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-clay inline-flex items-center gap-2.5 before:content-[''] before:w-[18px] before:h-px before:bg-clay before:inline-block">
                 From the Firm
               </span>
               <h2 className="font-serif text-[clamp(26px,3.2vw,38px)] font-semibold tracking-tight mt-3">Insights.</h2>
@@ -392,8 +392,8 @@ function Index() {
               <div key={title} className="bg-card border border-line p-[22px] flex flex-col min-h-[210px] reveal">
                 <span className="font-mono text-[10.5px] tracking-wide uppercase text-clay">{tag}</span>
                 <h4 className="font-serif text-base font-semibold leading-tight mt-2.5 mb-2.5 flex-1">{title}</h4>
-                <span className="font-mono text-[11px] text-ink-text/50">{date}</span>
-                <span className="font-mono text-[9.5px] tracking-wide text-ink-text/50 border border-line rounded-full px-[7px] py-[2px] mt-2.5 w-fit">Sample — not yet published</span>
+                <span className="font-mono text-[11px] text-ink-text/80">{date}</span>
+                <span className="font-mono text-[9.5px] tracking-wide text-ink-text/80 border border-line rounded-full px-[7px] py-[2px] mt-2.5 w-fit">Sample — not yet published</span>
               </div>
             ))}
           </div>
@@ -427,12 +427,12 @@ function Index() {
               <div key={ep} className="bg-white/[0.04] border border-line-dark border-l-[3px] border-l-brass-soft p-[22px] transition-colors hover:bg-white/[0.07] reveal">
                 <span className="font-mono text-[11px] tracking-wide text-brass-soft">{ep}</span>
                 <h4 className="font-serif text-[15.5px] font-semibold leading-tight text-paper-text mt-2 mb-2.5">{title}</h4>
-                <span className="font-mono text-[9.5px] tracking-wide text-ink-text/50 border border-line-dark rounded-full px-[7px] py-[2px] mt-2.5 w-fit inline-block">Sample — not yet recorded</span>
+                <span className="font-mono text-[9.5px] tracking-wide text-paper-text/50 border border-line-dark rounded-full px-[7px] py-[2px] mt-2.5 w-fit inline-block">Sample — not yet recorded</span>
               </div>
             ))}
           </div>
           <div className="font-mono text-[12px] text-paper-text-dim flex gap-4 items-center flex-wrap">
-            <span className="text-ink-text/50">Listen on:</span>
+            <span className="text-paper-text-dim">Listen on:</span>
             <span>Spotify</span><span>·</span><span>Apple Podcasts</span><span>·</span><span>YouTube</span>
           </div>
         </div>
@@ -450,7 +450,7 @@ function Index() {
                   </div>
                 ))}
               </div>
-              <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-brass inline-flex items-center gap-2.5 before:content-[''] before:w-[18px] before:h-px before:bg-brass before:inline-block">
+              <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-clay inline-flex items-center gap-2.5 before:content-[''] before:w-[18px] before:h-px before:bg-clay before:inline-block">
                 The Bench
               </span>
               <h2 className="font-serif text-[clamp(26px,3.2vw,38px)] font-semibold tracking-tight mt-3.5">A team, not a single practitioner.</h2>
