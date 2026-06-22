@@ -26,21 +26,25 @@ const newSessionId = () =>
 export function AssistantWidget() {
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState<Tab>("chat");
+}
 
   return (
     <>
-      {!open && (
-        <button
-          onClick={() => setOpen(true)}
-          aria-label="Open NKM assistant"
-          className="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-navy text-white pl-4 pr-5 py-3 shadow-2xl hover:bg-navy-deep transition-all border border-gold/40 group"
-        >
-          <span className="w-9 h-9 rounded-full bg-gold text-navy-deep flex items-center justify-center shrink-0">
-            <Scale className="w-5 h-5" />
-          </span>
-          <span className="text-sm font-semibold tracking-wide">Ask NKM Advocates</span>
-        </button>
-      )}
+           {!open && (
+         <button
+           onClick={() => {
+             console.log("Button clicked!");
+             setOpen(true);
+           }}
+           aria-label="Open NKM assistant"
+           className="fixed bottom-2 right-2 z-[9999] flex items-center gap-2 bg-red-500 text-white pl-6 pr-7 py-4 shadow-2xl hover:bg-red-600 transition-all border border-gold/40 group"
+         >
+           <span className="w-10 h-10 rounded-full bg-gold text-navy-deep flex items-center justify-center shrink-0">
+             <Scale className="w-6 h-6" />
+           </span>
+           <span className="text-base font-semibold tracking-wide">Click Me!</span>
+         </button>
+       )}
 
       {open && (
         <div className="fixed bottom-6 right-6 z-50 w-[min(420px,calc(100vw-2rem))] h-[min(640px,calc(100vh-2rem))] bg-background border border-border shadow-2xl flex flex-col overflow-hidden">
@@ -55,9 +59,12 @@ export function AssistantWidget() {
                 <div className="text-[11px] text-white/60 uppercase tracking-wider">Online · We reply in 1 business day</div>
               </div>
             </div>
-            <button onClick={() => setOpen(false)} aria-label="Close" className="text-white/80 hover:text-white">
-              <X className="w-5 h-5" />
-            </button>
+             <button onClick={() => {
+               console.log("Close button clicked!");
+               setOpen(false);
+             }} aria-label="Close" className="text-white/80 hover:text-white">
+               <X className="w-5 h-5" />
+             </button>
           </div>
 
           {/* Tabs */}

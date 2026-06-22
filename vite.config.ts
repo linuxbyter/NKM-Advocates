@@ -1,16 +1,17 @@
 import { defineConfig } from "vite";
-import tailwindcss from "@tailwindcss/vite";
-import tsConfigPaths from "vite-tsconfig-paths";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import { nitro } from "nitro/vite";
+import { tanstackRouter } from "@tanstack/router-plugin/vite";
 
 export default defineConfig({
   plugins: [
-    tailwindcss(),
-    tsConfigPaths(),
+    tanstackRouter(),
     tanstackStart({
       server: { entry: "server" },
     }),
     nitro(),
   ],
+  optimizeDeps: {
+    exclude: ["src/routeTree.gen.ts"],
+  },
 });
