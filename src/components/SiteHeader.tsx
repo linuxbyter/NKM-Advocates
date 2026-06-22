@@ -39,8 +39,8 @@ export function SiteHeader() {
     <>
       {/* Header */}
       <header
-        className={`sticky top-0 z-40 transition-all duration-300 ${
-          scrolled ? "bg-[#0B1A1B] shadow-lg" : "bg-gradient-to-b from-[#0B1A1B]/60 to-transparent"
+        className={`sticky top-0 z-40 transition-all duration-300 bg-[#0B1A1B] ${
+          scrolled ? "shadow-lg" : ""
         }`}
       >
         <div className="max-w-[1180px] mx-auto px-7 flex items-center justify-between h-[70px] md:h-[60px]">
