@@ -37,23 +37,9 @@ export function SiteHeader() {
 
   return (
     <>
-      {/* Topbar */}
-      <div className="hidden md:block bg-[#0B1A1B] text-[#C9C2AE] text-[11px] font-mono tracking-wide">
-        <div className="max-w-[1180px] mx-auto px-7 py-[7px] flex justify-between items-center">
-          <span>Mon – Sat, 9am – 5pm · Wilkem Edge, Matasia</span>
-          <span className="flex gap-[14px]">
-            {socialLinks.slice(0, 6).map((s) => (
-              <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="hover:text-[#D9B97A] transition-colors">
-                {s.label}
-              </a>
-            ))}
-          </span>
-        </div>
-      </div>
-
       {/* Header */}
       <header
-        className={`sticky top-0 md:-mt-[33px] z-40 transition-all duration-300 ${
+        className={`sticky top-0 z-40 transition-all duration-300 ${
           scrolled ? "bg-[#0B1A1B] shadow-lg" : "bg-gradient-to-b from-[#0B1A1B]/60 to-transparent"
         }`}
       >
@@ -176,11 +162,12 @@ export function SiteFooter() {
             <a href="#" className="inline-flex items-center justify-center gap-2 bg-[#8A3C29] text-[#F2EEE1] border border-[#8A3C29] px-5 py-2.5 text-[13px] font-mono tracking-wide w-full text-center">Subscribe</a>
           </div>
         </div>
-        <div className="py-[22px] border-t border-[#23393B] flex flex-col sm:flex-row justify-between gap-2 text-[12px] text-[#6E7A75]">
-          <span>© {new Date().getFullYear()} NKM Advocates.</span>
+        <div className="py-[18px] border-t border-[#23393B] flex flex-col sm:flex-row justify-between gap-2 text-[11px] font-mono tracking-wide text-[#6E7A75]">
+          <span>© {new Date().getFullYear()} NKM Advocates</span>
+          <span>Mon – Sat, 9am – 5pm · Wilkem Edge, Matasia</span>
           <span className="flex gap-[14px]">
             {socialLinks.slice(0, 6).map((s) => (
-              <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="hover:text-[#D9B97A]">{s.label}</a>
+              <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="hover:text-[#D9B97A] transition-colors">{s.label}</a>
             ))}
           </span>
         </div>
