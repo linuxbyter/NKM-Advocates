@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { Menu, X, ArrowRight } from "lucide-react";
 
 const socialLinks = [
-  { label: "LinkedIn", href: "https://ke.linkedin.com/in/nkm-a-9844b135" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/nkm-a-9844b135" },
   { label: "X", href: "https://x.com/NkmAdvocates" },
   { label: "TikTok", href: "#" },
   { label: "Instagram", href: "#" },

@@ -29,45 +29,37 @@ export function AssistantWidget() {
 
   return (
     <>
-           {!open && (
-         <button
-           onClick={() => {
-             console.log("Button clicked!");
-             setOpen(true);
-           }}
-           aria-label="Open NKM assistant"
-           className="fixed bottom-2 right-2 z-[9999] flex items-center gap-2 bg-red-500 text-white pl-6 pr-7 py-4 shadow-2xl hover:bg-red-600 transition-all border border-gold/40 group"
-         >
-           <span className="w-10 h-10 rounded-full bg-gold text-navy-deep flex items-center justify-center shrink-0">
-             <Scale className="w-6 h-6" />
-           </span>
-           <span className="text-base font-semibold tracking-wide">Click Me!</span>
-         </button>
-       )}
+      {!open && (
+        <button
+          onClick={() => setOpen(true)}
+          aria-label="Open NKM assistant"
+          className="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-clay text-paper-text pl-5 pr-6 py-3.5 shadow-xl hover:bg-clay-2 transition-all group"
+        >
+          <span className="w-9 h-9 rounded-full bg-brass-soft text-ink flex items-center justify-center shrink-0">
+            <Scale className="w-5 h-5" />
+          </span>
+          <span className="text-sm font-mono tracking-wider uppercase">Ask NKM</span>
+        </button>
+      )}
 
       {open && (
-        <div className="fixed bottom-6 right-6 z-50 w-[min(420px,calc(100vw-2rem))] h-[min(640px,calc(100vh-2rem))] bg-background border border-border shadow-2xl flex flex-col overflow-hidden">
-          {/* Header */}
-          <div className="bg-navy text-white px-5 py-4 flex items-center justify-between">
+        <div className="fixed bottom-6 right-6 z-[9999] w-[min(420px,calc(100vw-2rem))] h-[min(640px,calc(100vh-2rem))] bg-stone border border-line shadow-2xl flex flex-col overflow-hidden">
+          <div className="bg-ink text-paper-text px-5 py-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <span className="w-9 h-9 rounded-full bg-gold text-navy-deep flex items-center justify-center">
+              <span className="w-9 h-9 rounded-full bg-brass text-ink flex items-center justify-center">
                 <Scale className="w-5 h-5" />
               </span>
               <div>
-                <div className="font-display text-base">NKM Advocates</div>
-                <div className="text-[11px] text-white/60 uppercase tracking-wider">Online · We reply in 1 business day</div>
+                <div className="font-serif text-base font-semibold tracking-tight">NKM Advocates</div>
+                <div className="text-[11px] text-paper-text-dim font-mono uppercase tracking-wider">Online · We reply in 1 business day</div>
               </div>
             </div>
-             <button onClick={() => {
-               console.log("Close button clicked!");
-               setOpen(false);
-             }} aria-label="Close" className="text-white/80 hover:text-white">
-               <X className="w-5 h-5" />
-             </button>
+            <button onClick={() => setOpen(false)} aria-label="Close" className="text-paper-text-dim hover:text-paper-text transition-colors">
+              <X className="w-5 h-5" />
+            </button>
           </div>
 
-          {/* Tabs */}
-          <div className="grid grid-cols-3 border-b border-border bg-secondary text-xs">
+          <div className="grid grid-cols-3 border-b border-line bg-card text-xs font-mono uppercase tracking-wider">
             <TabButton active={tab === "chat"} onClick={() => setTab("chat")}>
               <MessageCircle className="w-3.5 h-3.5" /> Chat
             </TabButton>
@@ -102,10 +94,10 @@ function TabButton({
   return (
     <button
       onClick={onClick}
-      className={`flex items-center justify-center gap-1.5 py-3 font-semibold uppercase tracking-wider transition-colors ${
+      className={`flex items-center justify-center gap-1.5 py-3 transition-colors ${
         active
-          ? "bg-background text-navy border-b-2 border-gold -mb-px"
-          : "text-slate-ink hover:text-navy"
+          ? "bg-stone text-ink border-b-2 border-brass -mb-px"
+          : "text-ink-text hover:text-ink"
       }`}
     >
       {children}
@@ -166,14 +158,14 @@ function ChatPanel() {
 
   return (
     <>
-      <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-5 space-y-4 bg-secondary/40">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-5 space-y-4 bg-card/60">
         {messages.map((m, i) => (
           <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
             <div
               className={`max-w-[85%] px-4 py-2.5 text-sm leading-relaxed ${
                 m.role === "user"
-                  ? "bg-navy text-white"
-                  : "bg-background border border-border text-foreground"
+                  ? "bg-ink text-paper-text"
+                  : "bg-stone border border-line text-ink-text"
               }`}
             >
               {m.content}
@@ -182,14 +174,14 @@ function ChatPanel() {
         ))}
         {loading && (
           <div className="flex justify-start">
-            <div className="bg-background border border-border px-4 py-2.5 text-sm text-slate-ink flex items-center gap-2">
-              <Loader2 className="w-3.5 h-3.5 animate-spin text-gold" />
+            <div className="bg-stone border border-line px-4 py-2.5 text-sm text-ink-text flex items-center gap-2">
+              <Loader2 className="w-3.5 h-3.5 animate-spin text-brass" />
               Thinking…
             </div>
           </div>
         )}
       </div>
-      <div className="border-t border-border p-3 bg-background">
+      <div className="border-t border-line p-3 bg-stone">
         <div className="flex items-end gap-2">
           <textarea
             ref={inputRef}
@@ -203,18 +195,18 @@ function ChatPanel() {
             }}
             rows={1}
             placeholder="Ask about a practice area or our process…"
-            className="flex-1 resize-none bg-background border border-border px-3 py-2 text-sm text-foreground focus:outline-none focus:border-gold transition-colors max-h-32"
+            className="flex-1 resize-none bg-stone border border-line px-3 py-2 text-sm text-ink-text focus:outline-none focus:border-brass transition-colors max-h-32"
           />
           <button
             onClick={send}
             disabled={loading || !input.trim()}
             aria-label="Send message"
-            className="w-10 h-10 flex items-center justify-center bg-gold text-navy-deep hover:bg-gold-soft disabled:opacity-50 disabled:cursor-not-allowed transition-colors shrink-0"
+            className="w-10 h-10 flex items-center justify-center bg-brass text-ink hover:bg-brass-soft disabled:opacity-50 disabled:cursor-not-allowed transition-colors shrink-0"
           >
             <Send className="w-4 h-4" />
           </button>
         </div>
-        <p className="mt-2 text-[10px] text-muted-foreground text-center uppercase tracking-wider">
+        <p className="mt-2 text-[10px] text-ink-text/60 font-mono text-center uppercase tracking-wider">
           AI assistant · Not legal advice
         </p>
       </div>
@@ -255,13 +247,13 @@ function ConsultPanel({ onDone }: { onDone: () => void }) {
 
   if (done) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center text-center px-8 py-10 bg-secondary/40">
-        <CheckCircle2 className="w-12 h-12 text-gold" />
-        <h3 className="mt-4 font-display text-2xl text-navy">Thank you, {form.name.split(" ")[0]}.</h3>
-        <p className="mt-2 text-sm text-slate-ink">
+      <div className="flex-1 flex flex-col items-center justify-center text-center px-8 py-10 bg-card/60">
+        <CheckCircle2 className="w-12 h-12 text-brass" />
+        <h3 className="mt-4 font-serif text-2xl text-ink font-semibold tracking-tight">Thank you, {form.name.split(" ")[0]}.</h3>
+        <p className="mt-2 text-sm text-ink-text">
           Your enquiry has been received. Our team will be in touch within one business day at <strong>{form.email}</strong>.
         </p>
-        <button onClick={onDone} className="mt-6 text-sm text-gold font-semibold uppercase tracking-wider hover:underline">
+        <button onClick={onDone} className="mt-6 text-sm text-brass font-mono uppercase tracking-wider hover:underline">
           Back to chat
         </button>
       </div>
@@ -269,7 +261,7 @@ function ConsultPanel({ onDone }: { onDone: () => void }) {
   }
 
   return (
-    <form onSubmit={submit} className="flex-1 overflow-y-auto p-5 space-y-3 bg-secondary/40">
+    <form onSubmit={submit} className="flex-1 overflow-y-auto p-5 space-y-3 bg-card/60">
       <div>
         <Label>Full name *</Label>
         <Input value={form.name} onChange={(v) => setForm({ ...form, name: v })} placeholder="Jane Wanjiru" />
@@ -287,7 +279,7 @@ function ConsultPanel({ onDone }: { onDone: () => void }) {
         <select
           value={form.service}
           onChange={(e) => setForm({ ...form, service: e.target.value })}
-          className="w-full bg-background border border-border px-3 py-2 text-sm text-slate-ink focus:outline-none focus:border-gold"
+          className="w-full bg-stone border border-line px-3 py-2 text-sm text-ink-text focus:outline-none focus:border-brass"
         >
           <option value="">Select a practice area</option>
           {practiceAreas.map((p) => (
@@ -302,18 +294,18 @@ function ConsultPanel({ onDone }: { onDone: () => void }) {
           onChange={(e) => setForm({ ...form, message: e.target.value })}
           rows={3}
           placeholder="A few sentences about your matter…"
-          className="w-full bg-background border border-border px-3 py-2 text-sm text-slate-ink focus:outline-none focus:border-gold resize-none"
+          className="w-full bg-stone border border-line px-3 py-2 text-sm text-ink-text focus:outline-none focus:border-brass resize-none"
         />
       </div>
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-navy text-white py-3 text-sm font-semibold tracking-wide hover:bg-navy-deep transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+        className="w-full bg-clay text-paper-text py-3 text-sm font-mono tracking-wider uppercase hover:bg-clay-2 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
       >
         {loading && <Loader2 className="w-4 h-4 animate-spin" />}
         Request Consultation
       </button>
-      <p className="text-[11px] text-muted-foreground text-center">
+      <p className="text-[11px] text-ink-text/60 font-mono text-center">
         Your details are confidential and used only to respond to your enquiry.
       </p>
     </form>
@@ -349,13 +341,13 @@ function FeedbackPanel({ onDone }: { onDone: () => void }) {
 
   if (done) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center text-center px-8 py-10 bg-secondary/40">
-        <CheckCircle2 className="w-12 h-12 text-gold" />
-        <h3 className="mt-4 font-display text-2xl text-navy">Thank you.</h3>
-        <p className="mt-2 text-sm text-slate-ink">
+      <div className="flex-1 flex flex-col items-center justify-center text-center px-8 py-10 bg-card/60">
+        <CheckCircle2 className="w-12 h-12 text-brass" />
+        <h3 className="mt-4 font-serif text-2xl text-ink font-semibold tracking-tight">Thank you.</h3>
+        <p className="mt-2 text-sm text-ink-text">
           Your feedback helps us serve our clients better.
         </p>
-        <button onClick={onDone} className="mt-6 text-sm text-gold font-semibold uppercase tracking-wider hover:underline">
+        <button onClick={onDone} className="mt-6 text-sm text-brass font-mono uppercase tracking-wider hover:underline">
           Back to chat
         </button>
       </div>
@@ -363,7 +355,7 @@ function FeedbackPanel({ onDone }: { onDone: () => void }) {
   }
 
   return (
-    <form onSubmit={submit} className="flex-1 overflow-y-auto p-5 space-y-4 bg-secondary/40">
+    <form onSubmit={submit} className="flex-1 overflow-y-auto p-5 space-y-4 bg-card/60">
       <div>
         <Label>How would you rate your experience?</Label>
         <div className="flex gap-1.5 mt-1">
@@ -379,7 +371,7 @@ function FeedbackPanel({ onDone }: { onDone: () => void }) {
             >
               <Star
                 className={`w-7 h-7 transition-colors ${
-                  n <= (hover || rating) ? "fill-gold text-gold" : "text-border"
+                  n <= (hover || rating) ? "fill-brass text-brass" : "text-line"
                 }`}
               />
             </button>
@@ -393,7 +385,7 @@ function FeedbackPanel({ onDone }: { onDone: () => void }) {
           onChange={(e) => setComment(e.target.value)}
           rows={4}
           placeholder="What did you like? What could we improve?"
-          className="w-full bg-background border border-border px-3 py-2 text-sm text-slate-ink focus:outline-none focus:border-gold resize-none"
+          className="w-full bg-stone border border-line px-3 py-2 text-sm text-ink-text focus:outline-none focus:border-brass resize-none"
         />
       </div>
       <div>
@@ -403,7 +395,7 @@ function FeedbackPanel({ onDone }: { onDone: () => void }) {
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-navy text-white py-3 text-sm font-semibold tracking-wide hover:bg-navy-deep transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+        className="w-full bg-clay text-paper-text py-3 text-sm font-mono tracking-wider uppercase hover:bg-clay-2 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
       >
         {loading && <Loader2 className="w-4 h-4 animate-spin" />}
         Submit Feedback
@@ -414,7 +406,7 @@ function FeedbackPanel({ onDone }: { onDone: () => void }) {
 
 function Label({ children }: { children: React.ReactNode }) {
   return (
-    <label className="block text-[11px] font-semibold uppercase tracking-wider text-navy mb-1.5">
+    <label className="block text-[11px] font-mono font-medium uppercase tracking-wider text-ink mb-1.5">
       {children}
     </label>
   );
@@ -437,7 +429,7 @@ function Input({
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
-      className="w-full bg-background border border-border px-3 py-2 text-sm text-slate-ink focus:outline-none focus:border-gold"
+      className="w-full bg-stone border border-line px-3 py-2 text-sm text-ink-text focus:outline-none focus:border-brass"
     />
   );
 }
