@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowRight, CheckCircle2, ArrowLeft } from "lucide-react";
+import { ArrowRight, ArrowLeft } from "lucide-react";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 import { AssistantWidget } from "@/components/AssistantWidget";
 import { getPracticeArea, practiceAreas, type PracticeArea } from "@/lib/practice-areas";
@@ -15,12 +15,12 @@ export const Route = createFileRoute("/practice/$slug")({
     return {
       meta: a
         ? [
-            { title: `${a.title} — NKM Advocates` },
+            { title: `${a.title} \u2014 NKM Advocates` },
             { name: "description", content: a.short },
-            { property: "og:title", content: `${a.title} — NKM Advocates` },
+            { property: "og:title", content: `${a.title} \u2014 NKM Advocates` },
             { property: "og:description", content: a.short },
           ]
-        : [{ title: "Practice Area — NKM Advocates" }],
+        : [{ title: "Practice Area \u2014 NKM Advocates" }],
     };
   },
   component: PracticePage,
@@ -36,7 +36,6 @@ export const Route = createFileRoute("/practice/$slug")({
 
 function PracticePage() {
   const { area } = Route.useLoaderData() as { area: PracticeArea };
-  const Icon = area.icon;
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -48,112 +47,111 @@ function PracticePage() {
         <div className="relative mx-auto max-w-5xl px-6 lg:px-10">
           <Link
             to="/"
-            hash="practice"
+            hash="departments"
             className="inline-flex items-center gap-2 text-gold text-xs font-semibold tracking-[0.2em] uppercase hover:gap-3 transition-all"
           >
-            <ArrowLeft className="w-3.5 h-3.5" /> All Practice Areas
+            <ArrowLeft className="w-3.5 h-3.5" /> All Departments
           </Link>
-          <div className="mt-6 flex items-center gap-4">
-            <div className="w-14 h-14 flex items-center justify-center bg-gold text-navy-deep">
-              <Icon className="w-7 h-7" />
-            </div>
-            <span className="text-gold-soft text-xs font-semibold tracking-[0.25em] uppercase">Practice Area</span>
+          <div className="mt-6">
+            <span className="text-brass font-mono text-xs tracking-[0.12em] uppercase">
+              FILE NO. {area.fileNo}
+            </span>
           </div>
-          <h1 className="mt-5 font-display text-4xl sm:text-5xl lg:text-6xl text-white leading-tight max-w-3xl">
+          <h1 className="mt-4 font-display text-4xl sm:text-5xl lg:text-6xl text-white leading-tight max-w-3xl">
             {area.title}
           </h1>
-          <p className="mt-5 text-lg text-white/75 max-w-2xl">{area.tagline}</p>
         </div>
       </section>
 
-      {/* Overview + scope */}
-      <section className="py-20 lg:py-24">
-        <div className="mx-auto max-w-5xl px-6 lg:px-10 grid lg:grid-cols-3 gap-12">
-          <div className="lg:col-span-2">
-            <h2 className="font-display text-3xl text-navy">Overview</h2>
-            <p className="mt-5 text-slate-ink leading-relaxed text-lg">{area.overview}</p>
+      {/* Content */}
+      <section className="py-16 lg:py-20">
+        <div className="mx-auto max-w-4xl px-6 lg:px-10">
+          {/* Legal Basis Panel */}
+          <div className="border border-teal-lt border-l-4 border-l-teal bg-teal-lt p-5 mb-8">
+            <div className="grid grid-cols-[120px_1fr] gap-0">
+              <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-teal self-start">
+                Legal Basis
+              </span>
+              <p className="text-sm text-slate-ink leading-relaxed m-0">
+                {area.legalBasis}
+              </p>
+            </div>
+          </div>
 
-            <h3 className="mt-12 font-display text-2xl text-navy">What we handle</h3>
-            <ul className="mt-5 grid sm:grid-cols-2 gap-3">
-              {area.scope.map((s) => (
-                <li key={s} className="flex gap-3 text-slate-ink">
-                  <CheckCircle2 className="w-5 h-5 text-gold shrink-0 mt-0.5" />
-                  <span>{s}</span>
+          {/* Overview */}
+          <p className="text-lg leading-relaxed text-foreground mb-10">
+            {area.overview}
+          </p>
+
+          {/* What We Do */}
+          <h2 className="font-display text-2xl text-teal font-bold mb-6">What We Do</h2>
+          <ul className="list-none p-0 mb-12 space-y-0">
+            {area.services.map((service) => (
+              <li
+                key={service.name}
+                className="py-4 pl-6 relative border-b border-gray-100 last:border-b-0"
+              >
+                <span className="absolute left-0 top-4 text-brass font-bold text-xl">{'\u203A'}</span>
+                <strong className="text-teal font-bold">{service.name}</strong>
+                <span className="text-foreground"> \u2014 {service.description}</span>
+              </li>
+            ))}
+          </ul>
+
+          {/* Diaspora Advantage */}
+          <h2 className="font-display text-2xl text-teal font-bold mb-6">Diaspora Advantage</h2>
+          <div className="bg-amber border border-brass border-l-5 border-l-brass p-6 mb-10">
+            <p className="font-mono text-xs font-bold uppercase tracking-widest text-brass mb-4">
+              Diaspora Advantage
+            </p>
+            <ul className="list-none p-0 m-0 space-y-2">
+              {area.diasporaAdvantage.map((item) => (
+                <li key={item} className="text-foreground text-sm leading-relaxed py-1 border-b border-brass/15 last:border-b-0">
+                  {'\u2192'} {item}
                 </li>
               ))}
             </ul>
-
-            {area.faqs.length > 0 && (
-              <>
-                <h3 className="mt-12 font-display text-2xl text-navy">Frequently asked</h3>
-                <dl className="mt-5 space-y-5">
-                  {area.faqs.map((f) => (
-                    <div key={f.q} className="border-l-2 border-gold pl-5">
-                      <dt className="font-semibold text-navy">{f.q}</dt>
-                      <dd className="mt-1.5 text-slate-ink leading-relaxed">{f.a}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </>
-            )}
           </div>
 
-          <aside className="lg:col-span-1">
-            <div className="bg-navy text-white p-7 sticky top-28">
-              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-gold-soft">
-                Who we serve
-              </div>
-              <ul className="mt-4 space-y-2 text-white/85 text-sm">
-                {area.whoWeServe.map((w) => (
-                  <li key={w} className="flex items-start gap-2">
-                    <span className="text-gold mt-0.5">·</span> {w}
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-7 pt-6 border-t border-white/15">
-                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-gold-soft mb-3">
-                  Ready to talk?
-                </div>
-                <Link
-                  to="/"
-                  hash="contact"
-                  className="inline-flex items-center gap-2 bg-gold text-navy-deep w-full justify-center py-3 text-sm font-semibold tracking-wide hover:bg-gold-soft transition-colors"
-                >
-                  Request Consultation <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
-            </div>
-          </aside>
+          {/* CTA */}
+          <div className="bg-teal text-white p-10 text-center mt-12">
+            <h3 className="font-mono text-sm font-bold tracking-widest uppercase text-white mb-4">
+              Book a Consultation
+            </h3>
+            <p className="text-white/90 text-sm leading-relaxed mb-2">
+              Our {area.title} team is ready to advise. Book a free initial consultation \u2014 by phone, WhatsApp, or in person at our Ngong office.
+            </p>
+            <p className="font-mono text-xs font-bold text-brass mt-4">
+              WhatsApp 0707 329 013  \u00b7  contact@nkm-advocates.co.ke
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* Other practice areas */}
-      <section className="py-20 bg-secondary">
+      {/* Other departments */}
+      <section className="py-16 bg-secondary">
         <div className="mx-auto max-w-5xl px-6 lg:px-10">
-          <h2 className="font-display text-2xl text-navy">Other practice areas</h2>
+          <h2 className="font-display text-2xl text-navy">Other departments</h2>
           <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {practiceAreas
               .filter((p) => p.slug !== area.slug)
               .slice(0, 3)
-              .map((p) => {
-                const PIcon = p.icon;
-                return (
-                  <Link
-                    key={p.slug}
-                    to="/practice/$slug"
-                    params={{ slug: p.slug }}
-                    className="group bg-background border border-border p-6 hover:border-gold hover:-translate-y-1 transition-all"
-                  >
-                    <div className="w-11 h-11 flex items-center justify-center bg-navy text-gold group-hover:bg-gold group-hover:text-navy transition-colors">
-                      <PIcon className="w-5 h-5" />
-                    </div>
-                    <div className="mt-4 font-display text-lg text-navy leading-snug">{p.title}</div>
-                    <div className="mt-3 text-xs font-semibold uppercase tracking-wider text-gold flex items-center gap-2">
-                      View <ArrowRight className="w-3 h-3" />
-                    </div>
-                  </Link>
-                );
-              })}
+              .map((p) => (
+                <Link
+                  key={p.slug}
+                  to="/practice/$slug"
+                  params={{ slug: p.slug }}
+                  className="group bg-background border border-border p-6 hover:border-gold hover:-translate-y-1 transition-all"
+                >
+                  <span className="font-mono text-[11px] tracking-wide text-brass">
+                    FILE NO. {p.fileNo}
+                  </span>
+                  <div className="mt-3 font-display text-lg text-navy leading-snug">{p.title}</div>
+                  <div className="mt-3 text-xs font-semibold uppercase tracking-wider text-brass flex items-center gap-2">
+                    View <ArrowRight className="w-3 h-3" />
+                  </div>
+                </Link>
+              ))}
           </div>
         </div>
       </section>

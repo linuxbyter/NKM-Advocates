@@ -540,7 +540,7 @@ function Index() {
               </h2>
             </div>
             <a
-              href="#"
+              href="/insights"
               className="font-mono text-[12.5px] text-clay inline-flex items-center gap-1.5 group"
             >
               View All
@@ -549,38 +549,27 @@ function Index() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[18px]">
             {[
-              [
-                "Real Estate · Diaspora",
-                "Buying Land in Kenya From Overseas: A Pre-Purchase Checklist",
-                "May 2026",
-              ],
-              ["SME Advisory", "Five Contract Clauses Every Kenyan SME Forgets", "Apr 2026"],
-              [
-                "Family Law · Diaspora",
-                "Power of Attorney From Abroad: What Actually Works in Kenya",
-                "Mar 2026",
-              ],
-              [
-                "Debt Recovery",
-                "Chasing an Unpaid Invoice in Kenya: Demand Letter to Small Claims, Explained",
-                "Feb 2026",
-              ],
-            ].map(([tag, title, date]) => (
-              <div
-                key={title}
-                className="bg-card border border-line p-[22px] flex flex-col min-h-[210px]"
+              { slug: "buying-land-in-kenya-from-overseas", tag: "Real Estate \u00b7 Diaspora", title: "Buying Land in Kenya From Overseas: A Pre-Purchase Checklist", date: "May 2026" },
+              { slug: "five-contract-clauses-every-kenyan-sme-forgets", tag: "SME Advisory", title: "Five Contract Clauses Every Kenyan SME Forgets", date: "Apr 2026" },
+              { slug: "power-of-attorney-from-abroad-kenya", tag: "Family Law \u00b7 Diaspora", title: "Power of Attorney From Abroad: What Actually Works in Kenya", date: "Mar 2026" },
+              { slug: "chasing-an-unpaid-invoice-kenya", tag: "Debt Recovery", title: "Chasing an Unpaid Invoice in Kenya: Demand Letter to Small Claims, Explained", date: "Feb 2026" },
+            ].map((article) => (
+              <a
+                key={article.slug}
+                href={`/insights/${article.slug}`}
+                className="bg-card border border-line p-[22px] flex flex-col min-h-[210px] no-underline hover:-translate-y-1 hover:shadow-lg transition-all group"
               >
                 <span className="font-mono text-[10.5px] tracking-wide uppercase text-clay">
-                  {tag}
+                  {article.tag}
                 </span>
-                <h4 className="font-serif text-base font-semibold leading-tight mt-2.5 mb-2.5 flex-1">
-                  {title}
+                <h4 className="font-serif text-base font-semibold leading-tight mt-2.5 mb-2.5 flex-1 text-navy group-hover:text-clay transition-colors">
+                  {article.title}
                 </h4>
-                <span className="font-mono text-[11px] text-ink-text">{date}</span>
-                <span className="font-mono text-[9.5px] tracking-wide text-ink-text border border-line rounded-full px-[7px] py-[2px] mt-2.5 w-fit">
-                  Sample — not yet published
+                <span className="font-mono text-[11px] text-ink-text">{article.date}</span>
+                <span className="font-mono text-[12px] text-clay mt-2.5 inline-flex items-center gap-1.5">
+                  Read article <span>{'\u2192'}</span>
                 </span>
-              </div>
+              </a>
             ))}
           </div>
         </div>
