@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { supabaseAdmin } from "@/integrations/supabase/client.server";
+import { db } from "@/lib/db";
+import { leads, feedback } from "@/lib/db/schema";
 import { sendLeadNotification, sendFeedbackNotification } from "@/lib/email.functions";
 
 const LeadInput = z.object({
@@ -15,15 +16,16 @@ const LeadInput = z.object({
 export const submitLead = createServerFn({ method: "POST" })
   .validator((input: unknown) => LeadInput.parse(input))
   .handler(async ({ data }) => {
-    const { error } = await supabaseAdmin.from("leads").insert({
-      name: data.name,
-      email: data.email,
-      phone: data.phone || null,
-      service: data.service || null,
-      message: data.message || null,
-      source: data.source || "website",
-    });
-    if (error) {
+    try {
+      await db.insert(leads).values({
+        name: data.name,
+        email: data.email,
+        phone: data.phone || null,
+        service: data.service || null,
+        message: data.message || null,
+        source: data.source || "website",
+      });
+    } catch (error) {
       console.error("submitLead error", error);
       throw new Error("Could not save your enquiry — please try again.");
     }
@@ -45,12 +47,13 @@ const FeedbackInput = z.object({
 export const submitFeedback = createServerFn({ method: "POST" })
   .validator((input: unknown) => FeedbackInput.parse(input))
   .handler(async ({ data }) => {
-    const { error } = await supabaseAdmin.from("feedback").insert({
-      rating: data.rating,
-      comment: data.comment || null,
-      email: data.email || null,
-    });
-    if (error) {
+    try {
+      await db.insert(feedback).values({
+        rating: data.rating,
+        comment: data.comment || null,
+        email: data.email || null,
+      });
+    } catch (error) {
       console.error("submitFeedback error", error);
       throw new Error("Could not save your feedback — please try again.");
     }
