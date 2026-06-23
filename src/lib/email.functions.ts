@@ -1,7 +1,7 @@
 import { Resend } from "resend";
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
-const NOTIFICATION_EMAIL = process.env.NOTIFICATION_EMAIL || "nkionga@gmail.com";
+const NOTIFICATION_EMAIL = process.env.NOTIFICATION_EMAIL || "lawfirmnkmadvocates@gmail.com";
 
 function getClient() {
   if (!RESEND_API_KEY) {
