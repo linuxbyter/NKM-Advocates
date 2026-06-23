@@ -128,14 +128,14 @@ export function SiteFooter() {
           <div>
             <h4 className="font-mono text-[11px] tracking-[0.1em] text-[#D9B97A] uppercase mb-[14px]">Departments</h4>
             <ul className="grid gap-[9px]">
-              <li><a href="#departments" className="hover:text-[#F2EEE1]">Business & SME Advisory</a></li>
-              <li><a href="#departments" className="hover:text-[#F2EEE1]">Real Estate</a></li>
-              <li><a href="#departments" className="hover:text-[#F2EEE1]">Debt Recovery</a></li>
-              <li><a href="#departments" className="hover:text-[#F2EEE1]">Mediation & ADR</a></li>
-              <li><a href="#departments" className="hover:text-[#F2EEE1]">Intellectual Property</a></li>
-              <li><a href="#departments" className="hover:text-[#F2EEE1]">NGO Registration</a></li>
-              <li><a href="#departments" className="hover:text-[#F2EEE1]">Family Law</a></li>
-              <li><a href="#departments" className="hover:text-[#F2EEE1]">Data Protection</a></li>
+              <li><Link to="/practice/$slug" params={{ slug: "business-sme-advisory" }} className="hover:text-[#F2EEE1]">Business & SME Advisory</Link></li>
+              <li><Link to="/practice/$slug" params={{ slug: "real-estate" }} className="hover:text-[#F2EEE1]">Real Estate</Link></li>
+              <li><Link to="/practice/$slug" params={{ slug: "debt-recovery-small-claims" }} className="hover:text-[#F2EEE1]">Debt Recovery</Link></li>
+              <li><Link to="/practice/$slug" params={{ slug: "mediation-arbitration-adr" }} className="hover:text-[#F2EEE1]">Mediation & ADR</Link></li>
+              <li><Link to="/practice/$slug" params={{ slug: "intellectual-property" }} className="hover:text-[#F2EEE1]">Intellectual Property</Link></li>
+              <li><Link to="/practice/$slug" params={{ slug: "ngo-non-profit-registration" }} className="hover:text-[#F2EEE1]">NGO Registration</Link></li>
+              <li><Link to="/practice/$slug" params={{ slug: "family-law" }} className="hover:text-[#F2EEE1]">Family Law</Link></li>
+              <li><Link to="/practice/$slug" params={{ slug: "data-protection" }} className="hover:text-[#F2EEE1]">Data Protection</Link></li>
             </ul>
           </div>
           <div>

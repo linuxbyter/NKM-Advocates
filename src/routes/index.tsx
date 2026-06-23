@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect, useRef } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
@@ -378,67 +378,27 @@ function Index() {
               }}
               className="flex gap-[18px] overflow-x-auto snap-x snap-mandatory scrollbar-none pb-1.5"
             >
-              {[
-                [
-                  "SME-01",
-                  "Business &amp; SME Advisory",
-                  "Formation, contracts, compliance and tax structuring for founders and growing businesses.",
-                ],
-                [
-                  "RE-02",
-                  "Real Estate",
-                  "Title verification, leases, and protection against fraudulent land transactions.",
-                ],
-                [
-                  "DR-03",
-                  "Debt Recovery &amp; Small Claims",
-                  "Structured collections for unpaid invoices and small claims representation.",
-                ],
-                [
-                  "ADR-04",
-                  "Mediation, Arbitration &amp; ADR",
-                  "Out-of-court resolution for commercial and family disputes.",
-                ],
-                [
-                  "IP-05",
-                  "Intellectual Property",
-                  "Trademark, copyright, and brand protection for growing businesses.",
-                ],
-                [
-                  "NGO-06",
-                  "NGO &amp; Non-Profit Registration",
-                  "Registration and compliance for nonprofits and diaspora-funded initiatives.",
-                ],
-                [
-                  "FAM-07",
-                  "Family Law",
-                  "Succession, custody, and power of attorney — with experience supporting clients abroad.",
-                ],
-                [
-                  "DP-08",
-                  "Data Protection",
-                  "Privacy compliance and data governance built into how you operate.",
-                ],
-              ].map(([code, title, desc]) => (
-                <div
-                  key={code}
-                  className="flex-[0_0_280px] scroll-snap-start bg-card border border-line border-l-[3px] border-l-brass p-[26px_22px] transition-all duration-200 hover:border-l-[9px] hover:pl-7"
+              {practiceAreas.map((area) => (
+                <Link
+                  key={area.slug}
+                  to="/practice/$slug"
+                  params={{ slug: area.slug }}
+                  className="flex-[0_0_280px] scroll-snap-start bg-card border border-line border-l-[3px] border-l-brass p-[26px_22px] transition-all duration-200 hover:border-l-[9px] hover:pl-7 no-underline group"
                 >
                   <span className="font-mono text-[11px] tracking-wide text-clay">
-                    FILE NO. {code}
+                    FILE NO. {area.fileNo}
                   </span>
-                  <h3
-                    className="font-serif text-[18px] font-semibold tracking-tight mt-2.5 mb-2 leading-tight"
-                    dangerouslySetInnerHTML={{ __html: title }}
-                  />
-                  <p className="text-[13.5px] leading-relaxed text-ink-text mb-3.5">{desc}</p>
+                  <h3 className="font-serif text-[18px] font-semibold tracking-tight mt-2.5 mb-2 leading-tight text-navy group-hover:text-clay transition-colors">
+                    {area.title}
+                  </h3>
+                  <p className="text-[13.5px] leading-relaxed text-ink-text mb-3.5">{area.short}</p>
                   <span className="font-mono text-[12.5px] text-clay inline-flex items-center gap-1.5 group">
                     View Department
                     <span className="transition-transform duration-200 group-hover:translate-x-1">
                       →
                     </span>
                   </span>
-                </div>
+                </Link>
               ))}
             </div>
             <div className="flex items-center justify-end gap-3.5 mt-5">
