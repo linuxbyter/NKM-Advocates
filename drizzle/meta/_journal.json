@@ -8,6 +8,13 @@
       "when": 1782225166939,
       "tag": "0000_spooky_nocturne",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1782241111047,
+      "tag": "0001_zippy_misty_knight",
+      "breakpoints": true
     }
   ]
 }

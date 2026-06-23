@@ -559,25 +559,16 @@ function Index() {
             Plain-English conversations on Kenyan business law, diaspora property risk, and what
             SMEs get wrong before it costs them. New episodes monthly.
           </p>
-          <div className="grid md:grid-cols-3 gap-[18px] my-[34px]">
-            {[
-              ["EP. 01", "Buying Land in Kenya When You Live Abroad"],
-              ["EP. 02", "Five Mistakes SMEs Make Before Their First Contract"],
-              ["EP. 03", "What Actually Counts as a Small Claim in Kenya"],
-            ].map(([ep, title]) => (
-              <div
-                key={ep}
-                className="bg-white/[0.04] border border-line-dark border-l-[3px] border-l-brass-soft p-[22px] transition-colors hover:bg-white/[0.07]"
-              >
-                <span className="font-mono text-[11px] tracking-wide text-brass-soft">{ep}</span>
-                <h4 className="font-serif text-[15.5px] font-semibold leading-tight text-paper-text mt-2 mb-2.5">
-                  {title}
-                </h4>
-                <span className="font-mono text-[9.5px] tracking-wide text-paper-text/50 border border-line-dark rounded-full px-[7px] py-[2px] mt-2.5 w-fit inline-block">
-                  Sample — not yet recorded
-                </span>
-              </div>
-            ))}
+          <div className="my-[34px]">
+            <div className="bg-white/[0.04] border border-line-dark border-l-[3px] border-l-brass-soft p-[30px] text-center">
+              <span className="font-mono text-[11px] tracking-wide text-brass-soft uppercase">Coming Soon</span>
+              <h4 className="font-serif text-[18px] font-semibold leading-tight text-paper-text mt-3 mb-2">
+                New episodes are on the way.
+              </h4>
+              <p className="text-[14px] leading-relaxed text-paper-text/60 max-w-[420px] mx-auto">
+                Plain-English conversations on Kenyan business law, diaspora property risk, and what SMEs get wrong. Follow us on Spotify to be notified when we launch.
+              </p>
+            </div>
           </div>
           <div className="font-mono text-[12px] text-paper-text flex gap-4 items-center flex-wrap">
             <span className="text-paper-text">Listen on:</span>
@@ -606,18 +597,18 @@ function Index() {
                 ))}
               </div>
               <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-clay inline-flex items-center gap-2.5 before:content-[''] before:w-[18px] before:h-px before:bg-clay before:inline-block">
-                The Bench
+                Advocates &amp; Consultants
               </span>
               <h2 className="font-serif text-[clamp(26px,3.2vw,38px)] font-semibold tracking-tight mt-3.5">
-                A team, not a single practitioner.
+                Meet the team behind the work.
               </h2>
             </div>
             <div>
               <p className="text-[15.5px] leading-relaxed text-ink-text mb-5">
                 NKM operates across partners, associate advocates, and consulting counsel — each
                 attached to a named department, so your matter is never dependent on one person's
-                availability. Full bios, practising certificate status, and department leads are on
-                the Team page.
+                availability. Our team brings combined experience across corporate law, property,
+                dispute resolution, and data protection.
               </p>
               <a
                 href="#"
