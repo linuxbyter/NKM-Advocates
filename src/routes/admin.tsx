@@ -8,62 +8,21 @@ import {
   getEpisodes,
   upsertEpisode,
   deleteEpisode,
+  type ArticleRow,
+  type EpisodeRow,
 } from "@/lib/admin.functions";
 
 export const Route = createFileRoute("/admin")({
   component: AdminPage,
 });
 
-type Article = {
-  id: string;
-  slug: string;
-  kicker: string;
-  title: string;
-  metaLine: string;
-  lead: string;
-  content: unknown;
-  seoTitle: string;
-  seoDescription: string;
-  published: boolean;
-  createdAt: string;
-};
-
-type Episode = {
-  id: string;
-  number: number;
-  title: string;
-  description: string | null;
-  spotifyUrl: string | null;
-  published: boolean;
-  createdAt: string;
-};
-
-const emptyArticle = {
-  slug: "",
-  kicker: "",
-  title: "",
-  metaLine: "",
-  lead: "",
-  content: "[]",
-  seoTitle: "",
-  seoDescription: "",
-  published: false,
-};
-
-const emptyEpisode = {
-  number: 1,
-  title: "",
-  description: "",
-  spotifyUrl: "",
-  published: false,
-};
 
 function AdminPage() {
   const [tab, setTab] = useState<"articles" | "episodes">("articles");
-  const [articleList, setArticleList] = useState<Article[]>([]);
-  const [episodeList, setEpisodeList] = useState<Episode[]>([]);
-  const [editingArticle, setEditingArticle] = useState<Partial<Article> | null>(null);
-  const [editingEpisode, setEditingEpisode] = useState<Partial<Episode> | null>(null);
+  const [articleList, setArticleList] = useState<ArticleRow[]>([]);
+  const [episodeList, setEpisodeList] = useState<EpisodeRow[]>([]);
+  const [editingArticle, setEditingArticle] = useState<Partial<ArticleRow> | null>(null);
+  const [editingEpisode, setEditingEpisode] = useState<Partial<EpisodeRow> | null>(null);
   const [msg, setMsg] = useState("");
 
   const loadArticles = useServerFn(getArticles);
@@ -75,12 +34,12 @@ function AdminPage() {
 
   const refreshArticles = useCallback(async () => {
     const data = await loadArticles();
-    setArticleList((data as Article[]) || []);
+    setArticleList(data || []);
   }, [loadArticles]);
 
   const refreshEpisodes = useCallback(async () => {
     const data = await loadEpisodes();
-    setEpisodeList((data as Episode[]) || []);
+    setEpisodeList(data || []);
   }, [loadEpisodes]);
 
   useEffect(() => {
