@@ -67,9 +67,9 @@ function PracticePage() {
       <section className="py-16 lg:py-20">
         <div className="mx-auto max-w-4xl px-6 lg:px-10">
           {/* Legal Basis Panel */}
-          <div className="border border-teal-lt border-l-4 border-l-teal bg-teal-lt p-5 mb-8">
+          <div className="border border-l-4 border-l-brass bg-brass-soft p-5 mb-8">
             <div className="grid grid-cols-[120px_1fr] gap-0">
-              <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-teal self-start">
+              <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-navy self-start">
                 Legal Basis
               </span>
               <p className="text-sm text-slate-ink leading-relaxed m-0">
@@ -84,7 +84,7 @@ function PracticePage() {
           </p>
 
           {/* What We Do */}
-          <h2 className="font-display text-2xl text-teal font-bold mb-6">What We Do</h2>
+          <h2 className="font-display text-2xl text-navy font-bold mb-6">What We Do</h2>
           <ul className="list-none p-0 mb-12 space-y-0">
             {area.services.map((service) => (
               <li
@@ -92,15 +92,15 @@ function PracticePage() {
                 className="py-4 pl-6 relative border-b border-gray-100 last:border-b-0"
               >
                 <span className="absolute left-0 top-4 text-brass font-bold text-xl">{'\u203A'}</span>
-                <strong className="text-teal font-bold">{service.name}</strong>
+                <strong className="text-navy font-bold">{service.name}</strong>
                 <span className="text-foreground"> \u2014 {service.description}</span>
               </li>
             ))}
           </ul>
 
           {/* Diaspora Advantage */}
-          <h2 className="font-display text-2xl text-teal font-bold mb-6">Diaspora Advantage</h2>
-          <div className="bg-amber border border-brass border-l-5 border-l-brass p-6 mb-10">
+          <h2 className="font-display text-2xl text-navy font-bold mb-6">Diaspora Advantage</h2>
+          <div className="bg-gold-soft border border-brass border-l-5 border-l-brass p-6 mb-10">
             <p className="font-mono text-xs font-bold uppercase tracking-widest text-brass mb-4">
               Diaspora Advantage
             </p>
@@ -114,7 +114,7 @@ function PracticePage() {
           </div>
 
           {/* CTA */}
-          <div className="bg-teal text-white p-10 text-center mt-12">
+          <div className="bg-ink text-white p-10 text-center mt-12">
             <h3 className="font-mono text-sm font-bold tracking-widest uppercase text-white mb-4">
               Book a Consultation
             </h3>

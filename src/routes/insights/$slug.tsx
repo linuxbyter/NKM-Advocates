@@ -59,7 +59,7 @@ function InsightPage() {
 
         <p className="font-sans text-[14px] text-ink-text mb-6">{article.metaLine}</p>
 
-        <hr className="border-teal mb-8" />
+        <hr className="border-navy mb-8" />
 
         <p className="font-sans text-[18px] font-bold italic text-navy leading-relaxed mb-10">
           {article.lead}
@@ -75,7 +75,7 @@ function InsightPage() {
               );
             case "heading":
               return (
-                <h2 key={i} className="font-sans text-[22px] font-bold text-teal mt-10 mb-5">
+                <h2 key={i} className="font-sans text-[22px] font-bold text-navy mt-10 mb-5">
                   {section.content}
                 </h2>
               );
@@ -83,7 +83,7 @@ function InsightPage() {
               return (
                 <blockquote
                   key={i}
-                  className="border-l-4 border-teal pl-6 py-3 my-8 font-serif text-[20px] italic text-teal font-bold max-w-[75ch]"
+                  className="border-l-4 border-navy pl-6 py-3 my-8 font-serif text-[20px] italic text-navy font-bold max-w-[75ch]"
                 >
                   {section.content}
                 </blockquote>
@@ -94,10 +94,10 @@ function InsightPage() {
                   key={i}
                   className={`p-5 my-8 border-l-[5px] ${
                     section.variant === "brass"
-                      ? "bg-amber border-brass border"
+                      ? "bg-gold-soft border-brass border"
                       : section.variant === "teal"
-                      ? "bg-teal-lt border-teal border border-l-teal"
-                      : "bg-red-lt border-red-dk border border-l-red-dk"
+                      ? "bg-brass-soft border-navy border border-l-navy"
+                      : "bg-clay/10 border-clay border border-l-clay"
                   }`}
                 >
                   <p
@@ -105,8 +105,8 @@ function InsightPage() {
                       section.variant === "brass"
                         ? "text-brass"
                         : section.variant === "teal"
-                        ? "text-teal"
-                        : "text-red-dk"
+                        ? "text-navy"
+                        : "text-clay"
                     }`}
                   >
                     {section.title}
@@ -124,7 +124,7 @@ function InsightPage() {
                   {section.items.map((item, j) => (
                     <li key={j} className="py-2 pl-7 relative border-b border-gray-100 last:border-b-0 leading-relaxed">
                       <span className="absolute left-0 top-2 text-brass font-bold text-xl">{'\u203A'}</span>
-                      {item.bold && <strong className="text-teal font-bold">{item.bold}</strong>}
+                      {item.bold && <strong className="text-navy font-bold">{item.bold}</strong>}
                       {item.text}
                     </li>
                   ))}
@@ -132,7 +132,7 @@ function InsightPage() {
               );
             case "cta":
               return (
-                <div key={i} className="bg-teal text-white p-10 text-center mt-12">
+                <div key={i} className="bg-ink text-white p-10 text-center mt-12">
                   <h3 className="font-mono text-sm font-bold tracking-widest uppercase text-white mb-4">
                     {section.heading}
                   </h3>
