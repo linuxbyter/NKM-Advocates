@@ -3,6 +3,76 @@ import { z } from "zod";
 import { db } from "@/lib/db";
 import { articles, episodes } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
+import { getCookie, setCookie, deleteCookie } from "@tanstack/start-server-core";
+import { createHash, timingSafeEqual } from "crypto";
+
+const COOKIE_NAME = "nkm_admin";
+const SESSION_TTL = 8 * 60 * 60; // 8 hours
+
+function signToken(password: string, secret: string): string {
+  return createHash("sha256").update(`${password}:${secret}`).digest("hex");
+}
+
+function getAdminSecret(): string {
+  const secret = process.env.ADMIN_SECRET;
+  if (!secret) throw new Error("ADMIN_SECRET env var not set");
+  return secret;
+}
+
+function getAdminPassword(): string {
+  const pw = process.env.ADMIN_PASSWORD;
+  if (!pw) throw new Error("ADMIN_PASSWORD env var not set");
+  return pw;
+}
+
+function getAdminToken(): string {
+  return signToken(getAdminPassword(), getAdminSecret());
+}
+
+function timingSafeCompare(a: string, b: string): boolean {
+  const bufA = Buffer.from(a);
+  const bufB = Buffer.from(b);
+  if (bufA.length !== bufB.length) return false;
+  return timingSafeEqual(bufA, bufB);
+}
+
+// ── Auth ──
+
+export const adminLogin = createServerFn({ method: "POST" })
+  .validator((input: unknown) => z.object({ password: z.string() }).parse(input))
+  .handler(async ({ data }) => {
+    const valid = timingSafeCompare(data.password, getAdminPassword());
+    if (!valid) {
+      throw new Error("Invalid password");
+    }
+    const token = getAdminToken();
+    setCookie(COOKIE_NAME, token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+      path: "/",
+      maxAge: SESSION_TTL,
+    });
+    return { ok: true };
+  });
+
+export const adminLogout = createServerFn({ method: "POST" })
+  .handler(async () => {
+    deleteCookie(COOKIE_NAME, { path: "/" });
+    return { ok: true };
+  });
+
+export const adminCheck = createServerFn({ method: "GET" })
+  .handler(async (): Promise<{ authenticated: boolean }> => {
+    try {
+      const token = getCookie(COOKIE_NAME);
+      if (!token) return { authenticated: false };
+      const expected = getAdminToken();
+      return { authenticated: timingSafeCompare(token, expected) };
+    } catch {
+      return { authenticated: false };
+    }
+  });
 
 export interface ArticleRow {
   id: string;

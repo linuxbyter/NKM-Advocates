@@ -201,7 +201,7 @@ function Index() {
         </div>
         <div className="absolute inset-0 bg-gradient-to-b from-[rgba(10,22,24,0.55)] via-[rgba(10,22,24,0.78)] to-[rgba(10,22,24,0.94)] z-[1]"></div>
         <div className="relative z-10 max-w-[720px] mx-auto px-7 py-[120px_28px_90px] text-center">
-          <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-brass-soft inline-flex items-center gap-2.5 justify-center mb-[18px] before:content-[''] before:w-[18px] before:h-px before:bg-brass-soft before:inline-block">
+          <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-brass-soft inline-flex items-center gap-2.5 justify-center mb-[18px]">
             Kenya · Diaspora · Cross-Border
           </span>
           <h1 className="font-serif text-[clamp(32px,5vw,54px)] leading-[1.08] text-paper-text mb-5 font-semibold tracking-tight">
@@ -253,7 +253,7 @@ function Index() {
         <div className="mx-auto max-w-[1180px] px-7">
           <div className="grid md:grid-cols-[0.9fr_1.1fr] gap-14 items-center">
             <div>
-              <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-clay inline-flex items-center gap-2.5 before:content-[''] before:w-[18px] before:h-px before:bg-clay before:inline-block">
+              <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-clay inline-flex items-center gap-2.5">
                 Why Clients Choose Nkm
               </span>
               <h2 className="font-serif text-[clamp(26px,3.2vw,38px)] font-semibold tracking-tight mt-3.5 max-w-[560px]">
@@ -300,7 +300,7 @@ function Index() {
         <div className="mx-auto max-w-[1180px] px-7">
           <div className="flex flex-wrap items-end justify-between gap-6 mb-10">
             <div>
-              <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-clay inline-flex items-center gap-2.5 before:content-[''] before:w-[18px] before:h-px before:bg-clay before:inline-block">
+              <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-clay inline-flex items-center gap-2.5">
                 Working With Us
               </span>
               <h2 className="font-serif text-[clamp(26px,3.2vw,38px)] font-semibold tracking-tight mt-3 max-w-[560px]">
@@ -354,7 +354,7 @@ function Index() {
         <div className="mx-auto max-w-[1180px] px-7">
           <div className="flex flex-wrap items-end justify-between gap-6 mb-10">
             <div>
-              <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-clay inline-flex items-center gap-2.5 before:content-[''] before:w-[18px] before:h-px before:bg-clay before:inline-block">
+              <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-clay inline-flex items-center gap-2.5">
                 How We're Organized
               </span>
               <h2 className="font-serif text-[clamp(26px,3.2vw,38px)] font-semibold tracking-tight mt-3">
@@ -429,7 +429,7 @@ function Index() {
         <div className="mx-auto max-w-[1180px] px-7">
           <div className="flex flex-wrap items-end justify-between gap-6 mb-10">
             <div>
-              <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-brass-soft inline-flex items-center gap-2.5 before:content-[''] before:w-[18px] before:h-px before:bg-brass-soft before:inline-block">
+              <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-brass-soft inline-flex items-center gap-2.5">
                 Our Reach
               </span>
               <h2 className="font-serif text-[clamp(26px,3.2vw,38px)] font-semibold tracking-tight mt-3 text-paper-text">
@@ -463,7 +463,7 @@ function Index() {
                 className="bg-ink text-paper-text relative min-h-[280px] p-[30px_26px] flex flex-col justify-end overflow-hidden"
               >
                 <div className="relative z-10">
-                  <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-brass-soft inline-flex items-center gap-2.5 mb-2.5 before:content-[''] before:w-[18px] before:h-px before:bg-brass-soft before:inline-block">
+                  <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-brass-soft inline-flex items-center gap-2.5 mb-2.5">
                     {eyebrow}
                   </span>
                   <h3
@@ -492,7 +492,7 @@ function Index() {
         <div className="mx-auto max-w-[1180px] px-7">
           <div className="flex flex-wrap items-end justify-between gap-6 mb-10">
             <div>
-              <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-clay inline-flex items-center gap-2.5 before:content-[''] before:w-[18px] before:h-px before:bg-clay before:inline-block">
+              <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-clay inline-flex items-center gap-2.5">
                 From the Firm
               </span>
               <h2 className="font-serif text-[clamp(26px,3.2vw,38px)] font-semibold tracking-tight mt-3">
@@ -540,7 +540,7 @@ function Index() {
         <div className="mx-auto max-w-[1180px] px-7">
           <div className="flex flex-wrap items-end justify-between gap-6 mb-4">
             <div>
-              <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-brass-soft inline-flex items-center gap-2.5 mb-3 before:content-[''] before:w-[18px] before:h-px before:bg-brass-soft before:inline-block">
+              <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-brass-soft inline-flex items-center gap-2.5 mb-3">
                 On Air
               </span>
               <h2 className="font-serif text-[clamp(26px,3.2vw,38px)] font-semibold tracking-tight text-paper-text">
@@ -586,17 +586,16 @@ function Index() {
         <div className="mx-auto max-w-[1180px] px-7">
           <div className="grid md:grid-cols-2 gap-14 items-center">
             <div>
-              <div className="flex mb-6">
-                {["A", "·", "·", "RW", "HM"].map((init, i) => (
-                  <div
-                    key={i}
-                    className={`w-[58px] h-[58px] rounded-full bg-ink text-brass-soft flex items-center justify-center font-serif font-semibold text-[17px] border-2 border-card ${i > 0 ? "-ml-[14px]" : ""}`}
-                  >
-                    {init}
-                  </div>
-                ))}
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-[58px] h-[58px] rounded-full bg-ink text-brass-soft flex items-center justify-center font-serif font-semibold text-[17px] border-2 border-card">
+                  A
+                </div>
+                <div>
+                  <span className="font-serif font-semibold text-[17px] text-paper-text block">Agnes Nyawira</span>
+                  <span className="font-mono text-[11px] tracking-wide text-brass-soft uppercase">Principal Advocate</span>
+                </div>
               </div>
-              <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-clay inline-flex items-center gap-2.5 before:content-[''] before:w-[18px] before:h-px before:bg-clay before:inline-block">
+              <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-clay inline-flex items-center gap-2.5">
                 Advocates &amp; Consultants
               </span>
               <h2 className="font-serif text-[clamp(26px,3.2vw,38px)] font-semibold tracking-tight mt-3.5">

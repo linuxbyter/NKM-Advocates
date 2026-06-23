@@ -2,6 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect, useCallback } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import {
+  adminLogin,
+  adminLogout,
+  adminCheck,
   getArticles,
   upsertArticle,
   deleteArticle,
@@ -18,6 +21,75 @@ export const Route = createFileRoute("/admin")({
 
 
 function AdminPage() {
+  const [authenticated, setAuthenticated] = useState<boolean | null>(null);
+  const [password, setPassword] = useState("");
+  const [loginError, setLoginError] = useState("");
+  const [loggingIn, setLoggingIn] = useState(false);
+
+  const checkAuth = useServerFn(adminCheck);
+  const doLogin = useServerFn(adminLogin);
+  const doLogout = useServerFn(adminLogout);
+
+  useEffect(() => {
+    checkAuth().then((res) => setAuthenticated(res?.authenticated ?? false));
+  }, [checkAuth]);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoggingIn(true);
+    setLoginError("");
+    try {
+      await doLogin({ data: { password } });
+      setAuthenticated(true);
+      setPassword("");
+    } catch {
+      setLoginError("Wrong password.");
+    } finally {
+      setLoggingIn(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    await doLogout();
+    setAuthenticated(false);
+  };
+
+  if (authenticated === null) {
+    return (
+      <div className="min-h-screen bg-stone flex items-center justify-center">
+        <span className="font-mono text-sm text-brass-soft">Checking access…</span>
+      </div>
+    );
+  }
+
+  if (!authenticated) {
+    return (
+      <div className="min-h-screen bg-stone flex items-center justify-center">
+        <div className="bg-card border border-border p-8 w-full max-w-[360px]">
+          <h1 className="font-serif text-xl text-navy mb-1">Admin Access</h1>
+          <p className="font-mono text-[11px] text-brass-soft mb-6 uppercase tracking-widest">Password required</p>
+          <form onSubmit={handleLogin} className="space-y-4">
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter password"
+              autoFocus
+              className="w-full bg-background border border-border px-3 py-2.5 text-sm focus:outline-2 focus:outline-brass"
+            />
+            {loginError && <p className="text-red-500 text-sm">{loginError}</p>}
+            <button
+              type="submit"
+              disabled={loggingIn || !password}
+              className="w-full bg-clay text-paper-text font-mono text-sm px-6 py-2.5 hover:bg-clay/80 transition-colors disabled:opacity-50"
+            >
+              {loggingIn ? "Checking…" : "Enter"}
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
   const [tab, setTab] = useState<"articles" | "episodes">("articles");
   const [articleList, setArticleList] = useState<ArticleRow[]>([]);
   const [episodeList, setEpisodeList] = useState<EpisodeRow[]>([]);
@@ -125,6 +197,7 @@ function AdminPage() {
           <span className="font-mono text-[10px] tracking-[0.18em] text-brass-soft ml-3">CONTENT MANAGEMENT</span>
         </div>
         {msg && <span className="font-mono text-xs text-brass-soft">{msg}</span>}
+        <button onClick={handleLogout} className="font-mono text-xs text-ink-text hover:text-navy transition-colors">Logout</button>
       </header>
 
       {/* Tabs */}
