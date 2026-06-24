@@ -87,6 +87,11 @@ function AdminPage() {
     setEpisodeList(data || []);
   }, [loadEpisodes]);
 
+  useEffect(() => {
+    refreshArticles();
+    refreshEpisodes();
+  }, [refreshArticles, refreshEpisodes]);
+
   if (authenticated === null) {
     return (
       <div className="min-h-screen bg-stone flex items-center justify-center">
@@ -145,11 +150,6 @@ function AdminPage() {
       </div>
     );
   }
-
-  useEffect(() => {
-    refreshArticles();
-    refreshEpisodes();
-  }, [refreshArticles, refreshEpisodes]);
 
   const flash = (m: string) => {
     setMsg(m);
