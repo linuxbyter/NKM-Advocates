@@ -31,7 +31,7 @@ function AdminPage() {
   const [articleList, setArticleList] = useState<ArticleRow[]>([]);
   const [episodeList, setEpisodeList] = useState<EpisodeRow[]>([]);
   const [editingArticle, setEditingArticle] = useState<Partial<ArticleRow> | null>(null);
-  const [editingEpisode, setEditingEpisode] = useState<Partial<EpisodeRow> | null>(null);
+  const [editingEpisode, setEditingEpisode] = useState<Partial<EpisodeRow> | null>(() => ({ number: 1 }));
   const [msg, setMsg] = useState("");
 
   const checkAuth = useServerFn(adminCheck);
@@ -166,24 +166,28 @@ function AdminPage() {
     } catch {
       parsedContent = [{ type: "paragraph", content: fd.get("content") as string }];
     }
-    await saveArticle({
-      data: {
-        id: editingArticle?.id || undefined,
-        slug: fd.get("slug") as string,
-        kicker: fd.get("kicker") as string,
-        title: fd.get("title") as string,
-        metaLine: fd.get("metaLine") as string,
-        lead: fd.get("lead") as string,
-        content: parsedContent,
-        seoTitle: fd.get("seoTitle") as string,
-        seoDescription: fd.get("seoDescription") as string,
-        published: fd.get("published") === "on",
-      },
-    });
-    setEditingArticle(null);
-    (e.currentTarget as HTMLFormElement).reset();
-    await refreshArticles();
-    flash("Article saved");
+    try {
+      await saveArticle({
+        data: {
+          id: editingArticle?.id || undefined,
+          slug: fd.get("slug") as string,
+          kicker: fd.get("kicker") as string,
+          title: fd.get("title") as string,
+          metaLine: fd.get("metaLine") as string,
+          lead: fd.get("lead") as string,
+          content: parsedContent,
+          seoTitle: fd.get("seoTitle") as string,
+          seoDescription: fd.get("seoDescription") as string,
+          published: fd.get("published") === "on",
+        },
+      });
+      setEditingArticle(null);
+      (e.currentTarget as HTMLFormElement).reset();
+      await refreshArticles();
+      flash("Article saved");
+    } catch (err: any) {
+      flash(err?.message || "Failed to save article");
+    }
   };
 
   const handleArticleDelete = async (id: string) => {
@@ -197,20 +201,28 @@ function AdminPage() {
   const handleEpisodeSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
-    await saveEpisode({
-      data: {
-        id: editingEpisode?.id || undefined,
-        number: Number(fd.get("number")),
-        title: fd.get("title") as string,
-        description: (fd.get("description") as string) || "",
-        spotifyUrl: (fd.get("spotifyUrl") as string) || "",
-        published: fd.get("published") === "on",
-      },
-    });
-    setEditingEpisode(null);
-    (e.currentTarget as HTMLFormElement).reset();
-    await refreshEpisodes();
-    flash("Episode saved");
+    const num = Number(fd.get("number"));
+    const title = (fd.get("title") as string || "").trim();
+    if (!num || num < 1) { flash("Episode number is required"); return; }
+    if (!title) { flash("Title is required"); return; }
+    try {
+      await saveEpisode({
+        data: {
+          id: editingEpisode?.id || undefined,
+          number: num,
+          title,
+          description: (fd.get("description") as string) || "",
+          spotifyUrl: (fd.get("spotifyUrl") as string) || "",
+          published: fd.get("published") === "on",
+        },
+      });
+      setEditingEpisode(null);
+      (e.currentTarget as HTMLFormElement).reset();
+      await refreshEpisodes();
+      flash("Episode saved");
+    } catch (err: any) {
+      flash(err?.message || "Failed to save episode");
+    }
   };
 
   const handleEpisodeDelete = async (id: string) => {
