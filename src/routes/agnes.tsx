@@ -78,13 +78,23 @@ function AdminPage() {
   };
 
   const refreshArticles = useCallback(async () => {
-    const data = await loadArticles();
-    setArticleList(data || []);
+    try {
+      const data = await loadArticles();
+      setArticleList(data || []);
+    } catch (err: any) {
+      console.error("Failed to load articles:", err);
+      flash("Failed to load articles: " + (err?.message || "unknown error"));
+    }
   }, [loadArticles]);
 
   const refreshEpisodes = useCallback(async () => {
-    const data = await loadEpisodes();
-    setEpisodeList(data || []);
+    try {
+      const data = await loadEpisodes();
+      setEpisodeList(data || []);
+    } catch (err: any) {
+      console.error("Failed to load episodes:", err);
+      flash("Failed to load episodes: " + (err?.message || "unknown error"));
+    }
   }, [loadEpisodes]);
 
   useEffect(() => {
