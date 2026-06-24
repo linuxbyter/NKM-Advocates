@@ -26,9 +26,22 @@ function AdminPage() {
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
   const [loggingIn, setLoggingIn] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [tab, setTab] = useState<"articles" | "episodes">("articles");
+  const [articleList, setArticleList] = useState<ArticleRow[]>([]);
+  const [episodeList, setEpisodeList] = useState<EpisodeRow[]>([]);
+  const [editingArticle, setEditingArticle] = useState<Partial<ArticleRow> | null>(null);
+  const [editingEpisode, setEditingEpisode] = useState<Partial<EpisodeRow> | null>(null);
+  const [msg, setMsg] = useState("");
 
   const checkAuth = useServerFn(adminCheck);
   const doLogin = useServerFn(adminLogin);
+  const loadArticles = useServerFn(getArticles);
+  const loadEpisodes = useServerFn(getEpisodes);
+  const saveArticle = useServerFn(upsertArticle);
+  const removeArticle = useServerFn(deleteArticle);
+  const saveEpisode = useServerFn(upsertEpisode);
+  const removeEpisode = useServerFn(deleteEpisode);
 
   useEffect(() => {
     const token = localStorage.getItem(TOKEN_KEY);
@@ -64,7 +77,15 @@ function AdminPage() {
     setAuthenticated(false);
   };
 
-  const [showPassword, setShowPassword] = useState(false);
+  const refreshArticles = useCallback(async () => {
+    const data = await loadArticles();
+    setArticleList(data || []);
+  }, [loadArticles]);
+
+  const refreshEpisodes = useCallback(async () => {
+    const data = await loadEpisodes();
+    setEpisodeList(data || []);
+  }, [loadEpisodes]);
 
   if (authenticated === null) {
     return (
@@ -124,29 +145,6 @@ function AdminPage() {
       </div>
     );
   }
-  const [tab, setTab] = useState<"articles" | "episodes">("articles");
-  const [articleList, setArticleList] = useState<ArticleRow[]>([]);
-  const [episodeList, setEpisodeList] = useState<EpisodeRow[]>([]);
-  const [editingArticle, setEditingArticle] = useState<Partial<ArticleRow> | null>(null);
-  const [editingEpisode, setEditingEpisode] = useState<Partial<EpisodeRow> | null>(null);
-  const [msg, setMsg] = useState("");
-
-  const loadArticles = useServerFn(getArticles);
-  const loadEpisodes = useServerFn(getEpisodes);
-  const saveArticle = useServerFn(upsertArticle);
-  const removeArticle = useServerFn(deleteArticle);
-  const saveEpisode = useServerFn(upsertEpisode);
-  const removeEpisode = useServerFn(deleteEpisode);
-
-  const refreshArticles = useCallback(async () => {
-    const data = await loadArticles();
-    setArticleList(data || []);
-  }, [loadArticles]);
-
-  const refreshEpisodes = useCallback(async () => {
-    const data = await loadEpisodes();
-    setEpisodeList(data || []);
-  }, [loadEpisodes]);
 
   useEffect(() => {
     refreshArticles();
