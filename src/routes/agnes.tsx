@@ -159,7 +159,8 @@ function AdminPage() {
   // ── Article handlers ──
   const handleArticleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const fd = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const fd = new FormData(form);
     let parsedContent: unknown = [];
     try {
       parsedContent = JSON.parse(fd.get("content") as string);
@@ -182,7 +183,7 @@ function AdminPage() {
         },
       });
       setEditingArticle(null);
-      (e.currentTarget as HTMLFormElement).reset();
+      form.reset();
       await refreshArticles();
       flash("Article saved");
     } catch (err: any) {
@@ -200,7 +201,8 @@ function AdminPage() {
   // ── Episode handlers ──
   const handleEpisodeSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const fd = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const fd = new FormData(form);
     const num = Number(fd.get("number"));
     const title = (fd.get("title") as string || "").trim();
     if (!num || num < 1) { flash("Episode number is required"); return; }
@@ -217,7 +219,7 @@ function AdminPage() {
         },
       });
       setEditingEpisode(null);
-      (e.currentTarget as HTMLFormElement).reset();
+      form.reset();
       await refreshEpisodes();
       flash("Episode saved");
     } catch (err: any) {
