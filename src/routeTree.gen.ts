@@ -9,15 +9,15 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AgnesRouteImport } from './routes/agnes'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as InsightsIndexRouteImport } from './routes/insights/index'
 import { Route as PracticeSlugRouteImport } from './routes/practice.$slug'
 import { Route as InsightsSlugRouteImport } from './routes/insights/$slug'
 
-const AdminRoute = AdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
+const AgnesRoute = AgnesRouteImport.update({
+  id: '/agnes',
+  path: '/agnes',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -43,14 +43,14 @@ const InsightsSlugRoute = InsightsSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRoute
+  '/agnes': typeof AgnesRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/practice/$slug': typeof PracticeSlugRoute
   '/insights/': typeof InsightsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRoute
+  '/agnes': typeof AgnesRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/practice/$slug': typeof PracticeSlugRoute
   '/insights': typeof InsightsIndexRoute
@@ -58,7 +58,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/admin': typeof AdminRoute
+  '/agnes': typeof AgnesRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/practice/$slug': typeof PracticeSlugRoute
   '/insights/': typeof InsightsIndexRoute
@@ -67,16 +67,16 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/admin'
+    | '/agnes'
     | '/insights/$slug'
     | '/practice/$slug'
     | '/insights/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/insights/$slug' | '/practice/$slug' | '/insights'
+  to: '/' | '/agnes' | '/insights/$slug' | '/practice/$slug' | '/insights'
   id:
     | '__root__'
     | '/'
-    | '/admin'
+    | '/agnes'
     | '/insights/$slug'
     | '/practice/$slug'
     | '/insights/'
@@ -84,7 +84,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AdminRoute: typeof AdminRoute
+  AgnesRoute: typeof AgnesRoute
   InsightsSlugRoute: typeof InsightsSlugRoute
   PracticeSlugRoute: typeof PracticeSlugRoute
   InsightsIndexRoute: typeof InsightsIndexRoute
@@ -92,11 +92,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/admin': {
-      id: '/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminRouteImport
+    '/agnes': {
+      id: '/agnes'
+      path: '/agnes'
+      fullPath: '/agnes'
+      preLoaderRoute: typeof AgnesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -132,7 +132,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AdminRoute: AdminRoute,
+  AgnesRoute: AgnesRoute,
   InsightsSlugRoute: InsightsSlugRoute,
   PracticeSlugRoute: PracticeSlugRoute,
   InsightsIndexRoute: InsightsIndexRoute,
@@ -140,3 +140,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

@@ -3,37 +3,53 @@ import { z } from "zod";
 import { db } from "@/lib/db";
 import { articles, episodes } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
-import { getCookie, setCookie, deleteCookie } from "@tanstack/start-server-core";
-import { createHash, timingSafeEqual } from "crypto";
+import { createHmac, timingSafeEqual } from "crypto";
 
-const COOKIE_NAME = "nkm_admin";
-const SESSION_TTL = 8 * 60 * 60; // 8 hours
+const TOKEN_TTL = 8 * 60 * 60; // 8 hours
 
-function signToken(password: string, secret: string): string {
-  return createHash("sha256").update(`${password}:${secret}`).digest("hex");
+function hmacSign(data: string, secret: string): string {
+  return createHmac("sha256", secret).update(data).digest("hex");
 }
 
-function getAdminSecret(): string {
-  const secret = process.env.ADMIN_SECRET;
-  if (!secret) throw new Error("ADMIN_SECRET env var not set");
-  return secret;
+function getSecret(): string {
+  const s = process.env.ADMIN_SECRET;
+  if (!s) throw new Error("ADMIN_SECRET not set");
+  return s;
 }
 
-function getAdminPassword(): string {
-  const pw = process.env.ADMIN_PASSWORD;
-  if (!pw) throw new Error("ADMIN_PASSWORD env var not set");
-  return pw;
+function getPassword(): string {
+  const p = process.env.ADMIN_PASSWORD;
+  if (!p) throw new Error("ADMIN_PASSWORD not set");
+  return p;
 }
 
-function getAdminToken(): string {
-  return signToken(getAdminPassword(), getAdminSecret());
+function timingSafeEq(a: string, b: string): boolean {
+  const aBuf = Buffer.from(a);
+  const bBuf = Buffer.from(b);
+  if (aBuf.length !== bBuf.length) return false;
+  return timingSafeEqual(aBuf, bBuf);
 }
 
-function timingSafeCompare(a: string, b: string): boolean {
-  const bufA = Buffer.from(a);
-  const bufB = Buffer.from(b);
-  if (bufA.length !== bufB.length) return false;
-  return timingSafeEqual(bufA, bufB);
+function makeToken(): string {
+  const issued = Math.floor(Date.now() / 1000);
+  const payload = `${issued}:${TOKEN_TTL}`;
+  const sig = hmacSign(payload, getSecret());
+  return Buffer.from(`${payload}:${sig}`).toString("base64url");
+}
+
+function verifyToken(token: string): boolean {
+  try {
+    const decoded = Buffer.from(token, "base64url").toString();
+    const parts = decoded.split(":");
+    if (parts.length !== 3) return false;
+    const [issued, ttl, sig] = parts;
+    const expected = hmacSign(`${issued}:${ttl}`, getSecret());
+    if (!timingSafeEq(sig, expected)) return false;
+    const now = Math.floor(Date.now() / 1000);
+    return now - Number(issued) < Number(ttl);
+  } catch {
+    return false;
+  }
 }
 
 // ── Auth ──
@@ -41,37 +57,16 @@ function timingSafeCompare(a: string, b: string): boolean {
 export const adminLogin = createServerFn({ method: "POST" })
   .validator((input: unknown) => z.object({ password: z.string() }).parse(input))
   .handler(async ({ data }) => {
-    const valid = timingSafeCompare(data.password, getAdminPassword());
-    if (!valid) {
+    if (!timingSafeEq(data.password, getPassword())) {
       throw new Error("Invalid password");
     }
-    const token = getAdminToken();
-    setCookie(COOKIE_NAME, token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "lax",
-      path: "/",
-      maxAge: SESSION_TTL,
-    });
-    return { ok: true };
+    return { ok: true, token: makeToken() };
   });
 
-export const adminLogout = createServerFn({ method: "POST" })
-  .handler(async () => {
-    deleteCookie(COOKIE_NAME, { path: "/" });
-    return { ok: true };
-  });
-
-export const adminCheck = createServerFn({ method: "GET" })
-  .handler(async (): Promise<{ authenticated: boolean }> => {
-    try {
-      const token = getCookie(COOKIE_NAME);
-      if (!token) return { authenticated: false };
-      const expected = getAdminToken();
-      return { authenticated: timingSafeCompare(token, expected) };
-    } catch {
-      return { authenticated: false };
-    }
+export const adminCheck = createServerFn({ method: "POST" })
+  .validator((input: unknown) => z.object({ token: z.string() }).parse(input))
+  .handler(async ({ data }): Promise<{ authenticated: boolean }> => {
+    return { authenticated: verifyToken(data.token) };
   });
 
 export interface ArticleRow {

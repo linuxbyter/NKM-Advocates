@@ -3,7 +3,6 @@ import { useState, useEffect, useCallback } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import {
   adminLogin,
-  adminLogout,
   adminCheck,
   getArticles,
   upsertArticle,
@@ -15,7 +14,9 @@ import {
   type EpisodeRow,
 } from "@/lib/admin.functions";
 
-export const Route = createFileRoute("/admin")({
+const TOKEN_KEY = "nkm_admin_token";
+
+export const Route = createFileRoute("/agnes")({
   component: AdminPage,
 });
 
@@ -28,10 +29,16 @@ function AdminPage() {
 
   const checkAuth = useServerFn(adminCheck);
   const doLogin = useServerFn(adminLogin);
-  const doLogout = useServerFn(adminLogout);
 
   useEffect(() => {
-    checkAuth().then((res) => setAuthenticated(res?.authenticated ?? false));
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) {
+      setAuthenticated(false);
+      return;
+    }
+    checkAuth({ data: { token } })
+      .then((res) => setAuthenticated(res?.authenticated ?? false))
+      .catch(() => setAuthenticated(false));
   }, [checkAuth]);
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -39,9 +46,12 @@ function AdminPage() {
     setLoggingIn(true);
     setLoginError("");
     try {
-      await doLogin({ data: { password } });
-      setAuthenticated(true);
-      setPassword("");
+      const res = await doLogin({ data: { password } });
+      if (res?.token) {
+        localStorage.setItem(TOKEN_KEY, res.token);
+        setAuthenticated(true);
+        setPassword("");
+      }
     } catch {
       setLoginError("Wrong password.");
     } finally {
@@ -49,8 +59,8 @@ function AdminPage() {
     }
   };
 
-  const handleLogout = async () => {
-    await doLogout();
+  const handleLogout = () => {
+    localStorage.removeItem(TOKEN_KEY);
     setAuthenticated(false);
   };
 
