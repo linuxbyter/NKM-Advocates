@@ -585,39 +585,37 @@ function Index() {
       <section className="py-24" id="team">
         <div className="mx-auto max-w-[1180px] px-7">
           <div className="grid md:grid-cols-2 gap-14 items-center">
-            <div>
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-[58px] h-[58px] rounded-full bg-ink text-brass-soft flex items-center justify-center font-serif font-semibold text-[17px] border-2 border-card">
-                  A
-                </div>
-                <div>
-                  <span className="font-serif font-semibold text-[17px] text-paper-text block">Agnes Nyawira</span>
-                  <span className="font-mono text-[11px] tracking-wide text-brass-soft uppercase">Principal Advocate</span>
-                </div>
+            <div className="flex justify-center">
+              <div className="w-[340px] h-[400px] rounded-lg border border-line-dark flex items-center justify-center bg-card">
+                <span className="font-serif text-7xl font-bold text-brass-soft">A</span>
               </div>
-              <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-clay inline-flex items-center gap-2.5">
-                Advocates &amp; Consultants
-              </span>
-              <h2 className="font-serif text-[clamp(26px,3.2vw,38px)] font-semibold tracking-tight mt-3.5">
-                Meet the team behind the work.
-              </h2>
             </div>
             <div>
-              <p className="text-[15.5px] leading-relaxed text-ink-text mb-5">
-                NKM operates across partners, associate advocates, and consulting counsel — each
-                attached to a named department, so your matter is never dependent on one person's
-                availability. Our team brings combined experience across corporate law, property,
-                dispute resolution, and data protection.
+              <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-clay inline-flex items-center gap-2.5">
+                NKM Advocates
+              </span>
+              <h2 className="font-serif text-[clamp(26px,3.2vw,38px)] font-semibold tracking-tight mt-3.5 mb-4">
+                Managing Partner.
+              </h2>
+              <div className="mb-4">
+                <span className="font-serif font-semibold text-[18px] text-ink block">Agnes Nyawira</span>
+                <span className="font-mono text-[11px] tracking-wide text-brass uppercase">Principal Advocate</span>
+              </div>
+              <p className="text-[15.5px] leading-relaxed text-ink-text font-medium mb-5">
+                Over 10 years of experience in property, commercial, corporate, banking, and
+                intellectual property law. Based in Nairobi, Agnes leads a client-focused practice
+                dedicated to guiding individuals and businesses through complex transactions and
+                regulatory processes with clarity and integrity.
               </p>
-              <a
-                href="#"
+              <Link
+                to="/team/agnes-nyawira"
                 className="font-mono text-[12.5px] text-clay inline-flex items-center gap-1.5 group"
               >
-                Meet the Full Team
+                Full Profile
                 <span className="transition-transform duration-200 group-hover:translate-x-1">
-                  →
+                  &rarr;
                 </span>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
