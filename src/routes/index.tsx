@@ -586,9 +586,11 @@ function Index() {
         <div className="mx-auto max-w-[1180px] px-7">
           <div className="grid md:grid-cols-2 gap-14 items-center">
             <div className="flex justify-center">
-              <div className="w-[340px] h-[400px] rounded-lg border border-line-dark flex items-center justify-center bg-card">
-                <span className="font-serif text-7xl font-bold text-brass-soft">A</span>
-              </div>
+              <img
+                src="/agnes-nyawira.jpg"
+                alt="Agnes Nyawira — Principal Advocate"
+                className="w-[340px] h-[400px] object-cover rounded-lg border border-line-dark"
+              />
             </div>
             <div>
               <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-clay inline-flex items-center gap-2.5">
