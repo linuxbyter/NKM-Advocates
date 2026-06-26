@@ -19,9 +19,11 @@ function TeamProfilePage() {
 
       <section className="bg-ink text-paper-text py-20">
         <div className="mx-auto max-w-[960px] px-7 flex flex-col md:flex-row gap-10 items-center">
-          <div className="w-[280px] h-[320px] rounded-lg border border-line-dark flex-shrink-0 bg-card flex items-center justify-center">
-            <span className="font-serif text-6xl font-bold text-brass-soft">A</span>
-          </div>
+          <img
+            src="/agnes-nyawira.jpg"
+            alt="Agnes Nyawira"
+            className="w-[280px] h-[320px] object-cover rounded-lg border border-line-dark flex-shrink-0"
+          />
           <div>
             <Link
               to="/"
