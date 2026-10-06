@@ -5,13 +5,14 @@ import { toast } from "sonner";
 import { submitLead } from "@/lib/leads.functions";
 import { AssistantWidget } from "@/components/AssistantWidget";
 import { practiceAreas } from "@/lib/practice-areas";
-import { Loader2 } from "lucide-react";
+import { Loader2, Menu, X } from "lucide-react";
 import leaderPhoto from "@/assets/leader-photo.jpg";
 
 export const Route = createFileRoute("/")({ component: Index });
 
 function Index() {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80);
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -68,16 +69,16 @@ function Index() {
           scrolled ? "shadow-lg" : ""
         }`}
       >
-        <div className="mx-auto flex max-w-[1180px] items-center justify-between px-7 py-[18px] transition-all duration-200">
-          <div className="flex flex-col leading-none">
-            <span className="font-serif text-[19px] font-bold tracking-tight text-paper-text">
+        <div className="mx-auto flex max-w-[1180px] items-center justify-between gap-3 px-5 sm:px-7 py-[18px] transition-all duration-200">
+          <div className="flex flex-col leading-none min-w-0">
+            <span className="font-serif text-[19px] font-bold tracking-tight text-paper-text whitespace-nowrap">
               NKM ADVOCATES
             </span>
-            <span className="font-mono text-[10px] tracking-[0.18em] text-brass-soft">
+            <span className="hidden sm:block font-mono text-[10px] tracking-[0.18em] text-brass-soft whitespace-nowrap">
               ADVOCATES &amp; CONSULTANTS
             </span>
           </div>
-          <nav className="hidden md:flex">
+          <nav className="hidden lg:flex">
             <ul className="flex list-none items-center gap-2">
               <li className="relative group">
                 <a
@@ -154,17 +155,60 @@ function Index() {
               </li>
             </ul>
           </nav>
-          <a
-            href="#book"
-            className="font-mono text-[13px] tracking-wide bg-clay text-paper-text px-[18px] py-[11px] border border-clay transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_6px_18px_rgba(138,60,41,0.28)] focus-visible:outline-2 focus-visible:outline-brass focus-visible:outline-offset-2"
-          >
-            Book Consultation
-          </a>
+          <div className="flex items-center gap-3 shrink-0">
+            <a
+              href="#book"
+              className="hidden min-[360px]:inline-block font-mono text-[12px] sm:text-[13px] tracking-wide bg-clay text-paper-text whitespace-nowrap px-4 sm:px-[18px] py-[10px] sm:py-[11px] border border-clay transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_6px_18px_rgba(138,60,41,0.28)] focus-visible:outline-2 focus-visible:outline-brass focus-visible:outline-offset-2"
+            >
+              Book Consultation
+            </a>
+            <button
+              type="button"
+              onClick={() => setMenuOpen((o) => !o)}
+              aria-label="Toggle menu"
+              aria-expanded={menuOpen}
+              className="lg:hidden text-paper-text p-1"
+            >
+              {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
+
+        {/* Mobile Menu */}
+        {menuOpen && (
+          <div className="lg:hidden bg-ink-2/98 backdrop-blur-md border-t border-line-dark">
+            <div className="mx-auto max-w-[1180px] px-5 sm:px-7 py-4 flex flex-col">
+              {[
+                ["Departments", "#departments"],
+                ["Who We Serve", "#serve"],
+                ["Insights", "#insights"],
+                ["Podcast", "#podcast"],
+                ["Team", "#team"],
+                ["Contact", "#book"],
+              ].map(([label, href]) => (
+                <a
+                  key={label}
+                  href={href}
+                  onClick={() => setMenuOpen(false)}
+                  className="py-2.5 text-sm font-medium text-paper-text border-b border-line-dark/60 hover:text-brass-soft transition-colors"
+                >
+                  {label}
+                </a>
+              ))}
+              <a
+                href="#book"
+                onClick={() => setMenuOpen(false)}
+                className="mt-4 font-mono text-[13px] tracking-wide bg-clay text-paper-text text-center px-5 py-3 border border-clay hover:-translate-y-0.5 transition-all duration-150"
+              >
+                Book Consultation
+              </a>
+            </div>
+          </div>
+        )}
       </header>
 
       {/* HERO — full viewport */}
-      <section className="relative min-h-screen flex items-center overflow-hidden -mt-[68px]">
+      <section className="relative min-h-[100svh] flex items-center overflow-hidden -mt-[68px]">
         <div className="absolute inset-0 z-0">
           <svg
             viewBox="0 0 1400 800"
@@ -200,7 +244,7 @@ function Index() {
           </svg>
         </div>
         <div className="absolute inset-0 bg-gradient-to-b from-[rgba(10,22,24,0.55)] via-[rgba(10,22,24,0.78)] to-[rgba(10,22,24,0.94)] z-[1]"></div>
-        <div className="relative z-10 max-w-[720px] mx-auto px-7 py-[120px_28px_90px] text-center">
+        <div className="relative z-10 max-w-[720px] mx-auto px-7 pt-[120px] pb-[90px] text-center">
           <span className="font-mono text-[12px] tracking-[0.16em] uppercase text-brass-soft inline-flex items-center gap-2.5 justify-center mb-[18px]">
             Kenya · Diaspora · Cross-Border
           </span>
@@ -589,7 +633,7 @@ function Index() {
               <img
                 src="/agnes-nyawira.jpg"
                 alt="Agnes Nyawira — Principal Advocate"
-                className="w-[340px] h-[400px] object-cover rounded-lg border border-line-dark"
+                className="w-full max-w-[340px] h-[400px] object-cover rounded-lg border border-line-dark"
               />
             </div>
             <div>
@@ -680,7 +724,7 @@ function Index() {
                     type="button"
                     onClick={() => setForm({ ...form, service: area.title })}
                     aria-pressed={form.service === area.title}
-                    className={`p-3 text-center border text-sm font-mono tracking-wide uppercase transition-all duration-200 focus-visible:outline-2 focus-visible:outline-brass focus-visible:outline-offset-2 ${
+                    className={`p-3 text-center border min-w-0 break-words text-[12px] sm:text-sm font-mono tracking-wide uppercase transition-all duration-200 focus-visible:outline-2 focus-visible:outline-brass focus-visible:outline-offset-2 ${
                       form.service === area.title
                         ? "bg-brass text-ink border-brass"
                         : "bg-transparent text-paper-text border-line-dark hover:border-brass-soft hover:text-brass-soft"
@@ -909,7 +953,7 @@ function Index() {
               <span>&copy; 2026 NKM Advocates</span>
               <span>Mon – Sat, 9am – 5pm · Wilkem Edge, Matasia</span>
             </span>
-            <span className="flex gap-3.5">
+            <span className="flex flex-wrap gap-x-3.5 gap-y-1">
               <a
                 href="https://www.linkedin.com/in/nkm-a-9844b135"
                 target="_blank"

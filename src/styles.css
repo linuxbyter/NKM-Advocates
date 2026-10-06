@@ -162,16 +162,31 @@
 
   html {
     background-color: #0B1A1B;
+    overflow-x: clip;
   }
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+
+  img,
+  svg,
+  video {
+    max-width: 100%;
   }
 
   html {
     scroll-behavior: smooth;
+  }
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
   }
 }
 

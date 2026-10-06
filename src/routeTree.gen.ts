@@ -12,18 +12,13 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AgnesRouteImport } from './routes/agnes'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as InsightsIndexRouteImport } from './routes/insights/index'
+import { Route as TeamAgnesNyawiraRouteImport } from './routes/team.agnes-nyawira'
 import { Route as PracticeSlugRouteImport } from './routes/practice.$slug'
 import { Route as InsightsSlugRouteImport } from './routes/insights/$slug'
-import { Route as TeamAgnesNyawiraRouteImport } from './routes/team.agnes-nyawira'
 
 const AgnesRoute = AgnesRouteImport.update({
   id: '/agnes',
   path: '/agnes',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const TeamAgnesNyawiraRoute = TeamAgnesNyawiraRouteImport.update({
-  id: '/team/agnes-nyawira',
-  path: '/team/agnes-nyawira',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -34,6 +29,11 @@ const IndexRoute = IndexRouteImport.update({
 const InsightsIndexRoute = InsightsIndexRouteImport.update({
   id: '/insights/',
   path: '/insights/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TeamAgnesNyawiraRoute = TeamAgnesNyawiraRouteImport.update({
+  id: '/team/agnes-nyawira',
+  path: '/team/agnes-nyawira',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PracticeSlugRoute = PracticeSlugRouteImport.update({
@@ -50,26 +50,26 @@ const InsightsSlugRoute = InsightsSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/agnes': typeof AgnesRoute
-  '/team/agnes-nyawira': typeof TeamAgnesNyawiraRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/practice/$slug': typeof PracticeSlugRoute
+  '/team/agnes-nyawira': typeof TeamAgnesNyawiraRoute
   '/insights/': typeof InsightsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/agnes': typeof AgnesRoute
-  '/team/agnes-nyawira': typeof TeamAgnesNyawiraRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/practice/$slug': typeof PracticeSlugRoute
+  '/team/agnes-nyawira': typeof TeamAgnesNyawiraRoute
   '/insights': typeof InsightsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/agnes': typeof AgnesRoute
-  '/team/agnes-nyawira': typeof TeamAgnesNyawiraRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/practice/$slug': typeof PracticeSlugRoute
+  '/team/agnes-nyawira': typeof TeamAgnesNyawiraRoute
   '/insights/': typeof InsightsIndexRoute
 }
 export interface FileRouteTypes {
@@ -77,28 +77,34 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/agnes'
-    | '/team/agnes-nyawira'
     | '/insights/$slug'
     | '/practice/$slug'
+    | '/team/agnes-nyawira'
     | '/insights/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/agnes' | '/team/agnes-nyawira' | '/insights/$slug' | '/practice/$slug' | '/insights'
+  to:
+    | '/'
+    | '/agnes'
+    | '/insights/$slug'
+    | '/practice/$slug'
+    | '/team/agnes-nyawira'
+    | '/insights'
   id:
     | '__root__'
     | '/'
     | '/agnes'
-    | '/team/agnes-nyawira'
     | '/insights/$slug'
     | '/practice/$slug'
+    | '/team/agnes-nyawira'
     | '/insights/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AgnesRoute: typeof AgnesRoute
-  TeamAgnesNyawiraRoute: typeof TeamAgnesNyawiraRoute
   InsightsSlugRoute: typeof InsightsSlugRoute
   PracticeSlugRoute: typeof PracticeSlugRoute
+  TeamAgnesNyawiraRoute: typeof TeamAgnesNyawiraRoute
   InsightsIndexRoute: typeof InsightsIndexRoute
 }
 
@@ -109,13 +115,6 @@ declare module '@tanstack/react-router' {
       path: '/agnes'
       fullPath: '/agnes'
       preLoaderRoute: typeof AgnesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/team/agnes-nyawira': {
-      id: '/team/agnes-nyawira'
-      path: '/team/agnes-nyawira'
-      fullPath: '/team/agnes-nyawira'
-      preLoaderRoute: typeof TeamAgnesNyawiraRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -130,6 +129,13 @@ declare module '@tanstack/react-router' {
       path: '/insights'
       fullPath: '/insights/'
       preLoaderRoute: typeof InsightsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/team/agnes-nyawira': {
+      id: '/team/agnes-nyawira'
+      path: '/team/agnes-nyawira'
+      fullPath: '/team/agnes-nyawira'
+      preLoaderRoute: typeof TeamAgnesNyawiraRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/practice/$slug': {
@@ -152,9 +158,9 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AgnesRoute: AgnesRoute,
-  TeamAgnesNyawiraRoute: TeamAgnesNyawiraRoute,
   InsightsSlugRoute: InsightsSlugRoute,
   PracticeSlugRoute: PracticeSlugRoute,
+  TeamAgnesNyawiraRoute: TeamAgnesNyawiraRoute,
   InsightsIndexRoute: InsightsIndexRoute,
 }
 export const routeTree = rootRouteImport

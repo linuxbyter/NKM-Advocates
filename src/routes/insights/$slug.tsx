@@ -140,7 +140,7 @@ function InsightPage() {
                     {section.body}
                   </p>
                   <p className="font-mono text-xs font-bold text-brass mt-4">
-                    nkm-advocates.co.ke &nbsp;\u00b7&nbsp; WhatsApp 0707 329 013 &nbsp;\u00b7&nbsp; contact@nkm-advocates.co.ke
+                    nkm-advocates.co.ke &nbsp;·&nbsp; WhatsApp 0707 329 013 &nbsp;·&nbsp; contact@nkm-advocates.co.ke
                   </p>
                 </div>
               );

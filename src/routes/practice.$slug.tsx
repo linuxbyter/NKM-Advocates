@@ -74,7 +74,7 @@ function PracticePage() {
           <div className="lg:col-span-2">
             {/* Legal Basis Panel */}
             <div className="bg-brass-soft/30 border-l-4 border-l-brass p-5 mb-10">
-              <div className="grid grid-cols-[120px_1fr] gap-0">
+              <div className="grid grid-cols-1 sm:grid-cols-[120px_1fr] gap-0 sm:gap-4">
                 <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-brass self-start">
                   Legal Basis
                 </span>
@@ -98,7 +98,7 @@ function PracticePage() {
                 >
                   <span className="absolute left-0 top-4 text-brass font-bold text-xl">{'\u203A'}</span>
                   <strong className="text-navy font-semibold">{service.name}</strong>
-                  <span className="text-ink-text"> \u2014 {service.description}</span>
+                  <span className="text-ink-text"> — {service.description}</span>
                 </li>
               ))}
             </ul>
@@ -156,10 +156,10 @@ function PracticePage() {
             Book a Consultation
           </h3>
           <p className="text-paper-text/90 text-sm leading-relaxed mb-2 max-w-[600px] mx-auto">
-            Our {area.title} team is ready to advise. Book a free initial consultation \u2014 by phone, WhatsApp, or in person at our Ngong office.
+            Our {area.title} team is ready to advise. Book a free initial consultation — by phone, WhatsApp, or in person at our Ngong office.
           </p>
           <p className="font-mono text-xs font-bold text-brass mt-4">
-            WhatsApp 0707 329 013  \u00b7  contact@nkm-advocates.co.ke
+            WhatsApp 0707 329 013 · contact@nkm-advocates.co.ke
           </p>
         </div>
       </section>

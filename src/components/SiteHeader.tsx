@@ -165,7 +165,7 @@ export function SiteFooter() {
         <div className="py-[18px] border-t border-[#23393B] flex flex-col sm:flex-row justify-between gap-2 text-[11px] font-mono tracking-wide text-[#6E7A75]">
           <span>© {new Date().getFullYear()} NKM Advocates</span>
           <span>Mon – Sat, 9am – 5pm · Wilkem Edge, Matasia</span>
-          <span className="flex gap-[14px]">
+          <span className="flex flex-wrap gap-x-[14px] gap-y-1 justify-start sm:justify-end">
             {socialLinks.slice(0, 6).map((s) => (
               <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="hover:text-[#D9B97A] transition-colors">{s.label}</a>
             ))}

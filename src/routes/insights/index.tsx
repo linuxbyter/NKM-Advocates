@@ -28,7 +28,7 @@ function InsightsPage() {
             Insights
           </h1>
           <p className="mt-5 text-lg text-white/75 max-w-2xl mx-auto">
-            Plain-English legal analysis on the issues that matter most to Kenyan businesses, diaspora investors, and families \u2014 written by the advocates who handle these cases every day.
+            Plain-English legal analysis on the issues that matter most to Kenyan businesses, diaspora investors, and families — written by the advocates who handle these cases every day.
           </p>
         </div>
       </section>

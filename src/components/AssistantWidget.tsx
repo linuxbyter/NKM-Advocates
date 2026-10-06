@@ -33,12 +33,12 @@ export function AssistantWidget() {
         <button
           onClick={() => setOpen(true)}
           aria-label="Open NKM assistant"
-          className="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-clay text-paper-text pl-5 pr-6 py-3.5 shadow-xl hover:bg-clay-2 transition-all group"
+          className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex items-center gap-2.5 sm:gap-3 bg-clay text-paper-text pl-4 pr-4 sm:pl-5 sm:pr-6 py-3 sm:py-3.5 shadow-xl hover:bg-clay-2 transition-all group"
         >
-          <span className="w-9 h-9 rounded-full bg-brass-soft text-ink flex items-center justify-center shrink-0">
+          <span className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-brass-soft text-ink flex items-center justify-center shrink-0">
             <Scale className="w-5 h-5" />
           </span>
-          <span className="text-sm font-mono tracking-wider uppercase">Ask NKM</span>
+          <span className="text-[12px] sm:text-sm font-mono tracking-wider uppercase">Ask NKM</span>
         </button>
       )}
 

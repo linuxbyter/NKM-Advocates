@@ -22,7 +22,7 @@ function TeamProfilePage() {
           <img
             src="/agnes-nyawira.jpg"
             alt="Agnes Nyawira"
-            className="w-[280px] h-[320px] object-cover rounded-lg border border-line-dark flex-shrink-0"
+            className="w-full max-w-[280px] h-[320px] object-cover rounded-lg border border-line-dark flex-shrink-0"
           />
           <div>
             <Link
