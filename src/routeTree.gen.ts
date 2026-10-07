@@ -9,41 +9,21 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as PrivacyRouteImport } from './routes/privacy'
-import { Route as FaqRouteImport } from './routes/faq'
-import { Route as DisclaimerRouteImport } from './routes/disclaimer'
-import { Route as CustomerServiceWeekRouteImport } from './routes/customer-service-week'
-import { Route as CareersRouteImport } from './routes/careers'
-import { Route as AgnesRouteImport } from './routes/agnes'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AgnesRouteImport } from './routes/agnes'
+import { Route as CareersRouteImport } from './routes/careers'
+import { Route as CustomerServiceWeekRouteImport } from './routes/customer-service-week'
+import { Route as DisclaimerRouteImport } from './routes/disclaimer'
+import { Route as FaqRouteImport } from './routes/faq'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as InsightsIndexRouteImport } from './routes/insights/index'
-import { Route as TeamAgnesNyawiraRouteImport } from './routes/team.agnes-nyawira'
-import { Route as PracticeSlugRouteImport } from './routes/practice.$slug'
 import { Route as InsightsSlugRouteImport } from './routes/insights/$slug'
+import { Route as PracticeSlugRouteImport } from './routes/practice.$slug'
+import { Route as TeamAgnesNyawiraRouteImport } from './routes/team.agnes-nyawira'
 
-const PrivacyRoute = PrivacyRouteImport.update({
-  id: '/privacy',
-  path: '/privacy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FaqRoute = FaqRouteImport.update({
-  id: '/faq',
-  path: '/faq',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DisclaimerRoute = DisclaimerRouteImport.update({
-  id: '/disclaimer',
-  path: '/disclaimer',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CustomerServiceWeekRoute = CustomerServiceWeekRouteImport.update({
-  id: '/customer-service-week',
-  path: '/customer-service-week',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CareersRoute = CareersRouteImport.update({
-  id: '/careers',
-  path: '/careers',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AgnesRoute = AgnesRouteImport.update({
@@ -51,9 +31,29 @@ const AgnesRoute = AgnesRouteImport.update({
   path: '/agnes',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const CareersRoute = CareersRouteImport.update({
+  id: '/careers',
+  path: '/careers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CustomerServiceWeekRoute = CustomerServiceWeekRouteImport.update({
+  id: '/customer-service-week',
+  path: '/customer-service-week',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DisclaimerRoute = DisclaimerRouteImport.update({
+  id: '/disclaimer',
+  path: '/disclaimer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InsightsIndexRoute = InsightsIndexRouteImport.update({
@@ -61,9 +61,9 @@ const InsightsIndexRoute = InsightsIndexRouteImport.update({
   path: '/insights/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TeamAgnesNyawiraRoute = TeamAgnesNyawiraRouteImport.update({
-  id: '/team/agnes-nyawira',
-  path: '/team/agnes-nyawira',
+const InsightsSlugRoute = InsightsSlugRouteImport.update({
+  id: '/insights/$slug',
+  path: '/insights/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PracticeSlugRoute = PracticeSlugRouteImport.update({
@@ -71,9 +71,9 @@ const PracticeSlugRoute = PracticeSlugRouteImport.update({
   path: '/practice/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const InsightsSlugRoute = InsightsSlugRouteImport.update({
-  id: '/insights/$slug',
-  path: '/insights/$slug',
+const TeamAgnesNyawiraRoute = TeamAgnesNyawiraRouteImport.update({
+  id: '/team/agnes-nyawira',
+  path: '/team/agnes-nyawira',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -175,39 +175,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/privacy': {
-      id: '/privacy'
-      path: '/privacy'
-      fullPath: '/privacy'
-      preLoaderRoute: typeof PrivacyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/faq': {
-      id: '/faq'
-      path: '/faq'
-      fullPath: '/faq'
-      preLoaderRoute: typeof FaqRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/disclaimer': {
-      id: '/disclaimer'
-      path: '/disclaimer'
-      fullPath: '/disclaimer'
-      preLoaderRoute: typeof DisclaimerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/customer-service-week': {
-      id: '/customer-service-week'
-      path: '/customer-service-week'
-      fullPath: '/customer-service-week'
-      preLoaderRoute: typeof CustomerServiceWeekRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/careers': {
-      id: '/careers'
-      path: '/careers'
-      fullPath: '/careers'
-      preLoaderRoute: typeof CareersRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/agnes': {
@@ -217,11 +189,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgnesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/careers': {
+      id: '/careers'
+      path: '/careers'
+      fullPath: '/careers'
+      preLoaderRoute: typeof CareersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/customer-service-week': {
+      id: '/customer-service-week'
+      path: '/customer-service-week'
+      fullPath: '/customer-service-week'
+      preLoaderRoute: typeof CustomerServiceWeekRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/disclaimer': {
+      id: '/disclaimer'
+      path: '/disclaimer'
+      fullPath: '/disclaimer'
+      preLoaderRoute: typeof DisclaimerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/insights/': {
@@ -231,11 +231,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InsightsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/team/agnes-nyawira': {
-      id: '/team/agnes-nyawira'
-      path: '/team/agnes-nyawira'
-      fullPath: '/team/agnes-nyawira'
-      preLoaderRoute: typeof TeamAgnesNyawiraRouteImport
+    '/insights/$slug': {
+      id: '/insights/$slug'
+      path: '/insights/$slug'
+      fullPath: '/insights/$slug'
+      preLoaderRoute: typeof InsightsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/practice/$slug': {
@@ -245,11 +245,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PracticeSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/insights/$slug': {
-      id: '/insights/$slug'
-      path: '/insights/$slug'
-      fullPath: '/insights/$slug'
-      preLoaderRoute: typeof InsightsSlugRouteImport
+    '/team/agnes-nyawira': {
+      id: '/team/agnes-nyawira'
+      path: '/team/agnes-nyawira'
+      fullPath: '/team/agnes-nyawira'
+      preLoaderRoute: typeof TeamAgnesNyawiraRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
