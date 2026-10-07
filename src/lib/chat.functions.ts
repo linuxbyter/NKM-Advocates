@@ -37,6 +37,7 @@ Firm facts you can rely on:
 - Consultations: visitors can request one via the "Book Consultation" tab in this widget or the contact form on the page. We respond within one business day.
 
 Rules:
+- It is Customer Service Week (5\u20139 October 2026). If a visitor wishes you a happy week or mentions it, respond warmly and briefly \u2014 but never invent promotions, discounts, or offers. If they want details, point them to the Customer Service Week page at /customer-service-week.
 - Never invent fees, court outcomes, or claims about the firm not listed above.
 - If a visitor describes a legal matter, acknowledge it briefly and point them to the "Book Consultation" tab to share details confidentially.
 - If asked something outside the firm's scope, say so and suggest booking a consultation to be referred appropriately.
@@ -56,7 +57,10 @@ export const chatTurn = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const groq = getGroqClient();
     if (!groq) {
-      return { reply: "Our AI assistant is not configured yet. Please use the Book Consultation tab to reach our team directly." };
+      return {
+        reply:
+          "Our AI assistant is not configured yet. Please use the Book Consultation tab to reach our team directly.",
+      };
     }
 
     const userMessage = data.messages[data.messages.length - 1];
@@ -83,13 +87,15 @@ export const chatTurn = createServerFn({ method: "POST" })
 
     try {
       const completion = await groq.chat.completions.create({
-        model: "llama-3.1-8b-instant",
+        model: "openai/gpt-oss-120b",
         messages,
-        max_tokens: 256,
+        max_tokens: 1024,
         temperature: 0.7,
       });
 
-      const reply = completion.choices[0]?.message?.content?.trim() ?? "I'm here to help — could you rephrase that?";
+      const reply =
+        completion.choices[0]?.message?.content?.trim() ??
+        "I'm here to help — could you rephrase that?";
 
       // Persist assistant reply (best-effort)
       try {
@@ -103,11 +109,19 @@ export const chatTurn = createServerFn({ method: "POST" })
       }
 
       return { reply };
-    } catch (err: any) {
-      console.error("[chatTurn] Groq API error:", err?.status, err?.message);
-      if (err?.status === 429) {
-        return { reply: "Our assistant is briefly at capacity — please try again in a moment, or use the Book Consultation tab to reach our team directly." };
+    } catch (err) {
+      const status = (err as { status?: number } | null)?.status;
+      const message = err instanceof Error ? err.message : String(err);
+      console.error("[chatTurn] Groq API error:", status, message);
+      if (status === 429) {
+        return {
+          reply:
+            "Our assistant is briefly at capacity — please try again in a moment, or use the Book Consultation tab to reach our team directly.",
+        };
       }
-      return { reply: "I'm having trouble processing your request right now. Please use the Book Consultation tab to reach our team directly." };
+      return {
+        reply:
+          "I'm having trouble processing your request right now. Please use the Book Consultation tab to reach our team directly.",
+      };
     }
   });

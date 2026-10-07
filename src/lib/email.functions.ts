@@ -1,14 +1,51 @@
 import { Resend } from "resend";
+import nodemailer from "nodemailer";
 
-const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const NOTIFICATION_EMAIL = process.env.NOTIFICATION_EMAIL || "lawfirmnkmadvocates@gmail.com";
 
-function getClient() {
-  if (!RESEND_API_KEY) {
-    console.error("[email] RESEND_API_KEY is not set");
-    return null;
+type DeliverArgs = { subject: string; html: string };
+
+// Transport priority: Resend (if configured) → SMTP (Hostinger, Gmail, etc.)
+// Both are optional; enquiries are always saved to the database either way.
+async function deliver({ subject, html }: DeliverArgs): Promise<void> {
+  const resendKey = process.env.RESEND_API_KEY;
+  if (resendKey) {
+    const resend = new Resend(resendKey);
+    const { error } = await resend.emails.send({
+      from: "NKM Advocates <onboarding@resend.dev>",
+      to: NOTIFICATION_EMAIL,
+      subject,
+      html,
+    });
+    if (error) throw new Error(error.message);
+    return;
   }
-  return new Resend(RESEND_API_KEY);
+
+  const host = process.env.SMTP_HOST;
+  const user = process.env.SMTP_USER;
+  const pass = process.env.SMTP_PASS;
+  if (host && user && pass) {
+    const port = Number(process.env.SMTP_PORT || 465);
+    const secure = process.env.SMTP_SECURE === "true" || port === 465;
+    const transporter = nodemailer.createTransport({
+      host,
+      port,
+      secure,
+      auth: { user, pass },
+    });
+    await transporter.sendMail({
+      from: `NKM Advocates <${user}>`,
+      to: NOTIFICATION_EMAIL,
+      subject,
+      html,
+    });
+    return;
+  }
+
+  console.error(
+    "[email] No transport configured — set RESEND_API_KEY or SMTP_HOST/SMTP_USER/SMTP_PASS. Subject:",
+    subject,
+  );
 }
 
 export async function sendLeadNotification(data: {
@@ -19,15 +56,10 @@ export async function sendLeadNotification(data: {
   message?: string;
   source?: string;
 }) {
-  const resend = getClient();
-  if (!resend) return;
-
   const source = data.source === "widget" ? "AI Assistant Widget" : "Contact Form";
 
   try {
-    await resend.emails.send({
-      from: "NKM Advocates <onboarding@resend.dev>",
-      to: NOTIFICATION_EMAIL,
+    await deliver({
       subject: `New Enquiry from ${data.name} — ${data.service || "General"}`,
       html: `
         <div style="font-family: Georgia, serif; max-width: 600px; margin: 0 auto; padding: 20px;">
@@ -45,16 +77,24 @@ export async function sendLeadNotification(data: {
                 <td style="padding: 8px 0; color: #666; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Email</td>
                 <td style="padding: 8px 0; color: #1a1a3e;"><a href="mailto:${data.email}" style="color: #1a1a3e;">${data.email}</a></td>
               </tr>
-              ${data.phone ? `
+              ${
+                data.phone
+                  ? `
               <tr>
                 <td style="padding: 8px 0; color: #666; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Phone</td>
                 <td style="padding: 8px 0; color: #1a1a3e;"><a href="tel:${data.phone}" style="color: #1a1a3e;">${data.phone}</a></td>
-              </tr>` : ""}
-              ${data.service ? `
+              </tr>`
+                  : ""
+              }
+              ${
+                data.service
+                  ? `
               <tr>
                 <td style="padding: 8px 0; color: #666; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Service</td>
                 <td style="padding: 8px 0; color: #1a1a3e; font-weight: 600;">${data.service}</td>
-              </tr>` : ""}
+              </tr>`
+                  : ""
+              }
               <tr>
                 <td style="padding: 8px 0; color: #666; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Source</td>
                 <td style="padding: 8px 0; color: #1a1a3e;">${source}</td>
@@ -64,11 +104,15 @@ export async function sendLeadNotification(data: {
                 <td style="padding: 8px 0; color: #1a1a3e;">${new Date().toLocaleString("en-KE", { timeZone: "Africa/Nairobi" })}</td>
               </tr>
             </table>
-            ${data.message ? `
+            ${
+              data.message
+                ? `
             <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #e0e0e0;">
               <div style="color: #666; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Message</div>
               <div style="color: #333; line-height: 1.6; white-space: pre-wrap;">${data.message}</div>
-            </div>` : ""}
+            </div>`
+                : ""
+            }
           </div>
           <div style="padding: 16px; text-align: center; color: #999; font-size: 11px;">
             This enquiry was submitted through the NKM Advocates website.
@@ -86,13 +130,8 @@ export async function sendFeedbackNotification(data: {
   comment?: string;
   email?: string;
 }) {
-  const resend = getClient();
-  if (!resend) return;
-
   try {
-    await resend.emails.send({
-      from: "NKM Advocates <onboarding@resend.dev>",
-      to: NOTIFICATION_EMAIL,
+    await deliver({
       subject: `New Feedback — ${data.rating}/5 Stars`,
       html: `
         <div style="font-family: Georgia, serif; max-width: 600px; margin: 0 auto; padding: 20px;">
@@ -103,14 +142,22 @@ export async function sendFeedbackNotification(data: {
           <div style="background: #f8f8f8; padding: 20px; border: 1px solid #e0e0e0; text-align: center;">
             <div style="font-size: 36px; color: #c9a84c; margin-bottom: 8px;">${"★".repeat(data.rating)}${"☆".repeat(5 - data.rating)}</div>
             <div style="color: #666; font-size: 14px;">${data.rating} out of 5 stars</div>
-            ${data.comment ? `
+            ${
+              data.comment
+                ? `
             <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #e0e0e0; text-align: left;">
               <div style="color: #333; line-height: 1.6;">${data.comment}</div>
-            </div>` : ""}
-            ${data.email ? `
+            </div>`
+                : ""
+            }
+            ${
+              data.email
+                ? `
             <div style="margin-top: 12px; color: #999; font-size: 12px;">
               From: <a href="mailto:${data.email}" style="color: #1a1a3e;">${data.email}</a>
-            </div>` : ""}
+            </div>`
+                : ""
+            }
           </div>
           <div style="padding: 16px; text-align: center; color: #999; font-size: 11px;">
             This feedback was submitted through the NKM Advocates website.

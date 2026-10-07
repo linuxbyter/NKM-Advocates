@@ -13,7 +13,13 @@ import {
   type ArticleRow,
   type EpisodeRow,
 } from "@/lib/admin.functions";
-import { ChevronUp, ChevronDown, Trash2, Plus, Eye, Pencil } from "lucide-react";
+import {
+  aiDraftArticle,
+  aiDraftEpisode,
+  getNextEpisodeNumber,
+  slugExists,
+} from "@/lib/ai.functions";
+import { ChevronUp, ChevronDown, Trash2, Plus, Eye, Pencil, Sparkles } from "lucide-react";
 
 const TOKEN_KEY = "nkm_admin_token";
 
@@ -153,6 +159,10 @@ function errMsg(err: unknown, fallback: string): string {
   return err instanceof Error && err.message ? err.message : fallback;
 }
 
+function isAuthErr(err: unknown): boolean {
+  return /not authorized|log in again/i.test(errMsg(err, ""));
+}
+
 // ── Page ──
 
 function AdminPage() {
@@ -171,6 +181,9 @@ function AdminPage() {
   const [blocks, setBlocks] = useState<Block[]>([]);
   const [preview, setPreview] = useState(false);
   const [msg, setMsg] = useState("");
+  const [formEpoch, setFormEpoch] = useState(0);
+  const [aiBrief, setAiBrief] = useState("");
+  const [aiBusy, setAiBusy] = useState(false);
   const msgTimer = useRef<number | null>(null);
   const slugEditedRef = useRef(false);
   const slugRef = useRef<HTMLInputElement>(null);
@@ -183,6 +196,12 @@ function AdminPage() {
   const removeArticle = useServerFn(deleteArticle);
   const saveEpisode = useServerFn(upsertEpisode);
   const removeEpisode = useServerFn(deleteEpisode);
+  const askArticleDraft = useServerFn(aiDraftArticle);
+  const askEpisodeDraft = useServerFn(aiDraftEpisode);
+  const askNextEpisodeNumber = useServerFn(getNextEpisodeNumber);
+  const askSlugExists = useServerFn(slugExists);
+
+  const getToken = () => localStorage.getItem(TOKEN_KEY) ?? "";
 
   const flash = useCallback((m: string) => {
     setMsg(m);
@@ -226,21 +245,23 @@ function AdminPage() {
 
   const refreshArticles = useCallback(async () => {
     try {
-      const data = await loadArticles();
+      const data = await loadArticles({ data: { token: getToken() } });
       setArticleList(data || []);
     } catch (err) {
       console.error("Failed to load articles:", err);
-      flash("Failed to load articles: " + errMsg(err, "unknown error"));
+      if (isAuthErr(err)) setAuthenticated(false);
+      else flash("Failed to load articles: " + errMsg(err, "unknown error"));
     }
   }, [loadArticles, flash]);
 
   const refreshEpisodes = useCallback(async () => {
     try {
-      const data = await loadEpisodes();
+      const data = await loadEpisodes({ data: { token: getToken() } });
       setEpisodeList(data || []);
     } catch (err) {
       console.error("Failed to load episodes:", err);
-      flash("Failed to load episodes: " + errMsg(err, "unknown error"));
+      if (isAuthErr(err)) setAuthenticated(false);
+      else flash("Failed to load episodes: " + errMsg(err, "unknown error"));
     }
   }, [loadEpisodes, flash]);
 
@@ -275,6 +296,7 @@ function AdminPage() {
     setBlocks(blocksFromContent(a.content));
     setPreview(false);
     slugEditedRef.current = true;
+    setFormEpoch((e) => e + 1);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -283,6 +305,78 @@ function AdminPage() {
     setBlocks([]);
     setPreview(false);
     slugEditedRef.current = false;
+    setFormEpoch((e) => e + 1);
+  };
+
+  // ── AI drafting ──
+  const handleAiDraft = async () => {
+    if (aiBusy) return;
+    const brief = aiBrief.trim();
+    if (brief.length < 10) {
+      flash("Describe what you want first — topic, audience, angle");
+      return;
+    }
+    setAiBusy(true);
+    try {
+      const token = getToken();
+      if (tab === "articles") {
+        const draft = await askArticleDraft({ data: { token, brief } });
+        let slug = draft.slug;
+        try {
+          const dup = await askSlugExists({ data: { token, slug } });
+          if (dup.exists) slug = `${slug}-2`;
+        } catch {
+          // uniqueness check is best-effort
+        }
+        setEditingArticle({
+          slug,
+          kicker: draft.kicker,
+          title: draft.title,
+          metaLine: draft.metaLine,
+          lead: draft.lead,
+          seoTitle: draft.seoTitle,
+          seoDescription: draft.seoDescription,
+          published: false,
+        });
+        setBlocks(blocksFromContent(draft.sections));
+        setPreview(false);
+        slugEditedRef.current = true;
+        setFormEpoch((e) => e + 1);
+        setAiBrief("");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        flash("Draft ready — review it below, then Create to publish");
+      } else {
+        let nextNumber = editingEpisode?.number;
+        if (!editingEpisode?.id) {
+          try {
+            const next = await askNextEpisodeNumber({ data: { token } });
+            nextNumber = next.number;
+          } catch {
+            nextNumber = (episodeList[0]?.number ?? 0) + 1;
+          }
+        }
+        const draft = await askEpisodeDraft({
+          data: { token, brief, nextNumber: nextNumber ?? 1 },
+        });
+        setEditingEpisode((prev) => ({
+          ...(prev?.id ? prev : {}),
+          number: draft.number,
+          title: draft.title,
+          description: draft.description,
+          published: prev?.published ?? false,
+        }));
+        setFormEpoch((e) => e + 1);
+        setAiBrief("");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        flash("Episode draft ready — add the Spotify link when it's live");
+      }
+    } catch (err) {
+      console.error("AI draft failed:", err);
+      flash(errMsg(err, "AI draft failed — please try again"));
+      if (isAuthErr(err)) setAuthenticated(false);
+    } finally {
+      setAiBusy(false);
+    }
   };
 
   const switchTab = (t: "articles" | "episodes") => {
@@ -399,6 +493,7 @@ function AdminPage() {
     try {
       await saveArticle({
         data: {
+          token: getToken(),
           id: editingArticle?.id || undefined,
           slug,
           kicker: ((fd.get("kicker") as string) || "").trim(),
@@ -416,14 +511,20 @@ function AdminPage() {
       flash("Article saved");
     } catch (err) {
       flash(errMsg(err, "Failed to save article"));
+      if (isAuthErr(err)) setAuthenticated(false);
     }
   };
 
   const handleArticleDelete = async (id: string) => {
     if (!confirm("Delete this article?")) return;
-    await removeArticle({ data: id });
-    await refreshArticles();
-    flash("Article deleted");
+    try {
+      await removeArticle({ data: { token: getToken(), id } });
+      await refreshArticles();
+      flash("Article deleted");
+    } catch (err) {
+      flash(errMsg(err, "Failed to delete article"));
+      if (isAuthErr(err)) setAuthenticated(false);
+    }
   };
 
   // ── Episode handlers ──
@@ -444,6 +545,7 @@ function AdminPage() {
     try {
       await saveEpisode({
         data: {
+          token: getToken(),
           id: editingEpisode?.id || undefined,
           number: num,
           title,
@@ -453,18 +555,25 @@ function AdminPage() {
         },
       });
       setEditingEpisode(null);
+      setFormEpoch((e) => e + 1);
       await refreshEpisodes();
       flash("Episode saved");
     } catch (err) {
       flash(errMsg(err, "Failed to save episode"));
+      if (isAuthErr(err)) setAuthenticated(false);
     }
   };
 
   const handleEpisodeDelete = async (id: string) => {
     if (!confirm("Delete this episode?")) return;
-    await removeEpisode({ data: id });
-    await refreshEpisodes();
-    flash("Episode deleted");
+    try {
+      await removeEpisode({ data: { token: getToken(), id } });
+      await refreshEpisodes();
+      flash("Episode deleted");
+    } catch (err) {
+      flash(errMsg(err, "Failed to delete episode"));
+      if (isAuthErr(err)) setAuthenticated(false);
+    }
   };
 
   return (
@@ -511,6 +620,16 @@ function AdminPage() {
         {/* ── ARTICLES TAB ── */}
         {tab === "articles" && (
           <>
+            {/* AI Assistant */}
+            <AiPanel
+              brief={aiBrief}
+              setBrief={setAiBrief}
+              busy={aiBusy}
+              onGenerate={handleAiDraft}
+              hint="Describe the article — topic, audience, angle. The assistant writes a full draft you can edit before publishing."
+              placeholder="e.g. A practical checklist for diaspora buyers doing due diligence on Nairobi apartments — common frauds, what to verify, when to involve a lawyer"
+            />
+
             {/* Form */}
             <div className="bg-card border border-border p-4 sm:p-6 mb-8">
               <div className="flex items-center justify-between mb-4">
@@ -528,7 +647,7 @@ function AdminPage() {
                 )}
               </div>
               <form
-                key={editingArticle?.id ?? "new"}
+                key={`${editingArticle?.id ?? "new"}:${formEpoch}`}
                 onSubmit={handleArticleSubmit}
                 className="space-y-4"
               >
@@ -790,13 +909,23 @@ function AdminPage() {
         {/* ── EPISODES TAB ── */}
         {tab === "episodes" && (
           <>
+            {/* AI Assistant */}
+            <AiPanel
+              brief={aiBrief}
+              setBrief={setAiBrief}
+              busy={aiBusy}
+              onGenerate={handleAiDraft}
+              hint="Describe the episode idea. The assistant drafts the title and description — add the Spotify link once it's published."
+              placeholder="e.g. Why SMEs lose small claims cases — missing paperwork, wrong venue, and how to prepare before the hearing"
+            />
+
             {/* Form */}
             <div className="bg-card border border-border p-4 sm:p-6 mb-8">
               <h2 className="font-serif text-xl text-navy mb-4">
                 {editingEpisode?.id ? "Edit Episode" : "New Episode"}
               </h2>
               <form
-                key={editingEpisode?.id ?? "new"}
+                key={`${editingEpisode?.id ?? "new"}:${formEpoch}`}
                 onSubmit={handleEpisodeSubmit}
                 className="space-y-4"
               >
@@ -935,6 +1064,60 @@ function AdminPage() {
 }
 
 // ── UI pieces ──
+
+function AiPanel({
+  brief,
+  setBrief,
+  busy,
+  onGenerate,
+  hint,
+  placeholder,
+}: {
+  brief: string;
+  setBrief: (v: string) => void;
+  busy: boolean;
+  onGenerate: () => void;
+  hint: string;
+  placeholder: string;
+}) {
+  return (
+    <div className="bg-card border border-border border-l-[3px] border-l-brass p-4 sm:p-5 mb-6">
+      <div className="flex flex-wrap items-center justify-between gap-2 mb-1">
+        <span className="font-mono text-[11px] uppercase tracking-widest text-brass inline-flex items-center gap-2">
+          <Sparkles className="w-3.5 h-3.5" /> AI Assistant
+        </span>
+        <span className="font-mono text-[10px] uppercase tracking-widest text-ink-text/50">
+          draft → review → publish
+        </span>
+      </div>
+      <p className="text-sm text-ink-text/70 mb-3">{hint}</p>
+      <textarea
+        rows={3}
+        value={brief}
+        onChange={(e) => setBrief(e.target.value)}
+        placeholder={placeholder}
+        disabled={busy}
+        className={inputCls + " resize-y disabled:opacity-60"}
+      />
+      <div className="flex flex-wrap items-center gap-3 mt-3">
+        <button
+          type="button"
+          onClick={onGenerate}
+          disabled={busy}
+          className="bg-navy text-paper-text font-mono text-sm px-5 py-2.5 hover:bg-navy/85 transition-colors disabled:opacity-50 inline-flex items-center gap-2"
+        >
+          <Sparkles className="w-3.5 h-3.5" />
+          {busy ? "Writing…" : "Generate draft"}
+        </button>
+        {busy && (
+          <span className="font-mono text-[11px] text-brass-soft">
+            Thinking — this can take up to half a minute…
+          </span>
+        )}
+      </div>
+    </div>
+  );
+}
 
 function Hint({ children }: { children: React.ReactNode }) {
   return <p className="font-sans text-[11px] text-ink-text/60 mt-1">{children}</p>;

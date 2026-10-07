@@ -1,6 +1,13 @@
+import net from "node:net";
 import { neon } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
 import * as schema from "./schema";
+
+// Some container networks have no IPv6 route. Node's Happy Eyeballs
+// (autoSelectFamily) racing then fails both families with
+// ETIMEDOUT/ENETUNREACH, while sequential connect (IPv6 instant-fail →
+// IPv4) succeeds. Disable the race for the whole server process.
+net.setDefaultAutoSelectFamily(false);
 
 function createDb() {
   const url = process.env.DATABASE_URL;

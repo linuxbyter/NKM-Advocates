@@ -3,10 +3,17 @@ import { ArrowLeft } from "lucide-react";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 import { AssistantWidget } from "@/components/AssistantWidget";
 import { getInsight, type InsightArticle } from "@/lib/insights";
+import { getSiteInsight } from "@/lib/admin.functions";
 
 export const Route = createFileRoute("/insights/$slug")({
-  loader: ({ params }): { article: InsightArticle } => {
-    const article = getInsight(params.slug);
+  loader: async ({ params }): Promise<{ article: InsightArticle }> => {
+    let article: InsightArticle | null = null;
+    try {
+      article = await getSiteInsight({ data: params.slug });
+    } catch {
+      article = null;
+    }
+    if (!article) article = getInsight(params.slug) ?? null;
     if (!article) throw notFound();
     return { article };
   },
@@ -28,7 +35,9 @@ export const Route = createFileRoute("/insights/$slug")({
     <div className="min-h-screen flex items-center justify-center">
       <div className="text-center">
         <h1 className="font-display text-3xl text-navy">Article not found</h1>
-        <Link to="/insights" className="mt-4 inline-block text-gold font-semibold">Back to Insights</Link>
+        <Link to="/insights" className="mt-4 inline-block text-gold font-semibold">
+          Back to Insights
+        </Link>
       </div>
     </div>
   ),
@@ -96,8 +105,8 @@ function InsightPage() {
                     section.variant === "brass"
                       ? "bg-gold-soft border-brass border"
                       : section.variant === "teal"
-                      ? "bg-brass-soft border-navy border border-l-navy"
-                      : "bg-clay/10 border-clay border border-l-clay"
+                        ? "bg-brass-soft border-navy border border-l-navy"
+                        : "bg-clay/10 border-clay border border-l-clay"
                   }`}
                 >
                   <p
@@ -105,8 +114,8 @@ function InsightPage() {
                       section.variant === "brass"
                         ? "text-brass"
                         : section.variant === "teal"
-                        ? "text-navy"
-                        : "text-clay"
+                          ? "text-navy"
+                          : "text-clay"
                     }`}
                   >
                     {section.title}
@@ -122,8 +131,13 @@ function InsightPage() {
               return (
                 <ul key={i} className="list-none p-0 mb-6">
                   {section.items.map((item, j) => (
-                    <li key={j} className="py-2 pl-7 relative border-b border-gray-100 last:border-b-0 leading-relaxed">
-                      <span className="absolute left-0 top-2 text-brass font-bold text-xl">{'\u203A'}</span>
+                    <li
+                      key={j}
+                      className="py-2 pl-7 relative border-b border-gray-100 last:border-b-0 leading-relaxed"
+                    >
+                      <span className="absolute left-0 top-2 text-brass font-bold text-xl">
+                        {"\u203A"}
+                      </span>
                       {item.bold && <strong className="text-navy font-bold">{item.bold}</strong>}
                       {item.text}
                     </li>
@@ -140,7 +154,8 @@ function InsightPage() {
                     {section.body}
                   </p>
                   <p className="font-mono text-xs font-bold text-brass mt-4">
-                    nkm-advocates.co.ke &nbsp;·&nbsp; WhatsApp 0707 329 013 &nbsp;·&nbsp; contact@nkm-advocates.co.ke
+                    nkm-advocates.co.ke &nbsp;·&nbsp; WhatsApp 0707 329 013 &nbsp;·&nbsp;
+                    contact@nkm-advocates.co.ke
                   </p>
                 </div>
               );

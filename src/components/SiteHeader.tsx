@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { Menu, X, ArrowRight } from "lucide-react";
+import { submitLead } from "@/lib/leads.functions";
 
 const socialLinks = [
   { label: "LinkedIn", href: "https://www.linkedin.com/in/nkm-a-9844b135" },
   { label: "X", href: "https://x.com/NkmAdvocates" },
-  { label: "TikTok", href: "#" },
-  { label: "Instagram", href: "#" },
-  { label: "Pinterest", href: "#" },
-  { label: "YouTube", href: "#" },
+  { label: "TikTok", href: "https://tiktok.com/@nkmadvocates" },
+  { label: "Instagram", href: "https://instagram.com/nkmadvocates" },
+  { label: "Pinterest", href: "https://pinterest.com/nkmadvocates" },
+  { label: "YouTube", href: "https://youtube.com/@nkmadvocates" },
 ];
 
 const navLinks = [
@@ -19,7 +21,7 @@ const navLinks = [
   { label: "Insights", to: "/", hash: "insights" as const },
   { label: "Podcast", to: "/", hash: "podcast" as const },
   { label: "Team", to: "/", hash: "team" as const },
-  { label: "Contact", to: "/", hash: "contact" as const },
+  { label: "Contact", to: "/", hash: "book" as const },
 ];
 
 export { socialLinks };
@@ -116,50 +118,221 @@ export function SiteHeader() {
 }
 
 export function SiteFooter() {
+  const [email, setEmail] = useState("");
+  const [state, setState] = useState<"idle" | "busy" | "done" | "error">("idle");
+  const submit = useServerFn(submitLead);
+
+  const subscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const value = email.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+      setState("error");
+      return;
+    }
+    setState("busy");
+    try {
+      await submit({
+        data: {
+          name: "Newsletter subscriber",
+          email: value,
+          source: "newsletter",
+          message: "Newsletter subscription request",
+        },
+      });
+      setEmail("");
+      setState("done");
+    } catch (err) {
+      console.error("Newsletter subscribe failed:", err);
+      setState("error");
+    }
+  };
+
   return (
     <footer className="bg-[#0B1A1B] text-[#C9C2AE] pt-[60px] border-t border-[#23393B] text-[13.5px]">
       <div className="max-w-[1180px] mx-auto px-7">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-9 pb-[46px]">
           <div className="lg:col-span-1">
-            <h4 className="font-mono text-[11px] tracking-[0.1em] text-[#D9B97A] uppercase mb-[14px]">NKM Advocates</h4>
-            <p className="text-[#9aa39d] max-w-[240px] mb-4">Wilkem Edge Business Center, 1st Floor, Matasia, Ngong.</p>
-            <p className="text-[#9aa39d] mb-0">contact@nkm-advocates.co.ke<br />0707 329 013</p>
+            <h4 className="font-mono text-[11px] tracking-[0.1em] text-[#D9B97A] uppercase mb-[14px]">
+              NKM Advocates
+            </h4>
+            <p className="text-[#9aa39d] max-w-[240px] mb-4">
+              Wilkem Edge Business Center, 1st Floor, Matasia, Ngong.
+            </p>
+            <p className="text-[#9aa39d] mb-0">
+              contact@nkm-advocates.co.ke
+              <br />
+              0707 329 013
+            </p>
           </div>
           <div>
-            <h4 className="font-mono text-[11px] tracking-[0.1em] text-[#D9B97A] uppercase mb-[14px]">Departments</h4>
+            <h4 className="font-mono text-[11px] tracking-[0.1em] text-[#D9B97A] uppercase mb-[14px]">
+              Departments
+            </h4>
             <ul className="grid gap-[9px]">
-              <li><Link to="/practice/$slug" params={{ slug: "business-sme-advisory" }} className="hover:text-[#F2EEE1]">Business & SME Advisory</Link></li>
-              <li><Link to="/practice/$slug" params={{ slug: "real-estate" }} className="hover:text-[#F2EEE1]">Real Estate</Link></li>
-              <li><Link to="/practice/$slug" params={{ slug: "debt-recovery-small-claims" }} className="hover:text-[#F2EEE1]">Debt Recovery</Link></li>
-              <li><Link to="/practice/$slug" params={{ slug: "mediation-arbitration-adr" }} className="hover:text-[#F2EEE1]">Mediation & ADR</Link></li>
-              <li><Link to="/practice/$slug" params={{ slug: "intellectual-property" }} className="hover:text-[#F2EEE1]">Intellectual Property</Link></li>
-              <li><Link to="/practice/$slug" params={{ slug: "ngo-non-profit-registration" }} className="hover:text-[#F2EEE1]">NGO Registration</Link></li>
-              <li><Link to="/practice/$slug" params={{ slug: "family-law" }} className="hover:text-[#F2EEE1]">Family Law</Link></li>
-              <li><Link to="/practice/$slug" params={{ slug: "data-protection" }} className="hover:text-[#F2EEE1]">Data Protection</Link></li>
+              <li>
+                <Link
+                  to="/practice/$slug"
+                  params={{ slug: "business-sme-advisory" }}
+                  className="hover:text-[#F2EEE1]"
+                >
+                  Business & SME Advisory
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/practice/$slug"
+                  params={{ slug: "real-estate" }}
+                  className="hover:text-[#F2EEE1]"
+                >
+                  Real Estate
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/practice/$slug"
+                  params={{ slug: "debt-recovery-small-claims" }}
+                  className="hover:text-[#F2EEE1]"
+                >
+                  Debt Recovery
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/practice/$slug"
+                  params={{ slug: "mediation-arbitration-adr" }}
+                  className="hover:text-[#F2EEE1]"
+                >
+                  Mediation & ADR
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/practice/$slug"
+                  params={{ slug: "intellectual-property" }}
+                  className="hover:text-[#F2EEE1]"
+                >
+                  Intellectual Property
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/practice/$slug"
+                  params={{ slug: "ngo-non-profit-registration" }}
+                  className="hover:text-[#F2EEE1]"
+                >
+                  NGO Registration
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/practice/$slug"
+                  params={{ slug: "family-law" }}
+                  className="hover:text-[#F2EEE1]"
+                >
+                  Family Law
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/practice/$slug"
+                  params={{ slug: "data-protection" }}
+                  className="hover:text-[#F2EEE1]"
+                >
+                  Data Protection
+                </Link>
+              </li>
             </ul>
           </div>
           <div>
-            <h4 className="font-mono text-[11px] tracking-[0.1em] text-[#D9B97A] uppercase mb-[14px]">Firm</h4>
+            <h4 className="font-mono text-[11px] tracking-[0.1em] text-[#D9B97A] uppercase mb-[14px]">
+              Firm
+            </h4>
             <ul className="grid gap-[9px]">
-              <li><a href="#serve" className="hover:text-[#F2EEE1]">Who We Serve</a></li>
-              <li><a href="#insights" className="hover:text-[#F2EEE1]">Insights</a></li>
-              <li><a href="#podcast" className="hover:text-[#F2EEE1]">Podcast</a></li>
-              <li><a href="#team" className="hover:text-[#F2EEE1]">Our Team</a></li>
-              <li><a href="#" className="hover:text-[#F2EEE1]">Careers</a></li>
+              <li>
+                <Link to="/" hash="serve" className="hover:text-[#F2EEE1]">
+                  Who We Serve
+                </Link>
+              </li>
+              <li>
+                <Link to="/" hash="insights" className="hover:text-[#F2EEE1]">
+                  Insights
+                </Link>
+              </li>
+              <li>
+                <Link to="/" hash="podcast" className="hover:text-[#F2EEE1]">
+                  Podcast
+                </Link>
+              </li>
+              <li>
+                <Link to="/" hash="team" className="hover:text-[#F2EEE1]">
+                  Our Team
+                </Link>
+              </li>
+              <li>
+                <Link to="/careers" className="hover:text-[#F2EEE1]">
+                  Careers
+                </Link>
+              </li>
             </ul>
           </div>
           <div>
-            <h4 className="font-mono text-[11px] tracking-[0.1em] text-[#D9B97A] uppercase mb-[14px]">Quick Links</h4>
+            <h4 className="font-mono text-[11px] tracking-[0.1em] text-[#D9B97A] uppercase mb-[14px]">
+              Quick Links
+            </h4>
             <ul className="grid gap-[9px]">
-              <li><a href="#" className="hover:text-[#F2EEE1]">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-[#F2EEE1]">Disclaimer</a></li>
-              <li><a href="#" className="hover:text-[#F2EEE1]">FAQ</a></li>
+              <li>
+                <Link to="/privacy" className="hover:text-[#F2EEE1]">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link to="/disclaimer" className="hover:text-[#F2EEE1]">
+                  Disclaimer
+                </Link>
+              </li>
+              <li>
+                <Link to="/faq" className="hover:text-[#F2EEE1]">
+                  FAQ
+                </Link>
+              </li>
             </ul>
           </div>
           <div>
-            <h4 className="font-mono text-[11px] tracking-[0.1em] text-[#D9B97A] uppercase mb-[14px]">Subscribe to Insights</h4>
-            <input type="email" placeholder="Email address" className="w-full bg-transparent border border-[#23393B] text-[#F2EEE1] px-3 py-[10px] text-[13px] rounded-sm block mb-2 focus:outline-none focus:border-[#B6883F]" />
-            <a href="#" className="inline-flex items-center justify-center gap-2 bg-[#8A3C29] text-[#F2EEE1] border border-[#8A3C29] px-5 py-2.5 text-[13px] font-mono tracking-wide w-full text-center">Subscribe</a>
+            <h4 className="font-mono text-[11px] tracking-[0.1em] text-[#D9B97A] uppercase mb-[14px]">
+              Subscribe to Insights
+            </h4>
+            <form onSubmit={subscribe}>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (state !== "idle") setState("idle");
+                }}
+                placeholder="Email address"
+                aria-label="Email address"
+                className="w-full bg-transparent border border-[#23393B] text-[#F2EEE1] px-3 py-[10px] text-[13px] rounded-sm block mb-2 focus:outline-none focus:border-[#B6883F]"
+              />
+              <button
+                type="submit"
+                disabled={state === "busy" || state === "done"}
+                className="inline-flex items-center justify-center gap-2 bg-[#8A3C29] text-[#F2EEE1] border border-[#8A3C29] px-5 py-2.5 text-[13px] font-mono tracking-wide w-full text-center hover:bg-[#6E2F20] transition-colors disabled:opacity-70"
+              >
+                {state === "busy"
+                  ? "Subscribing…"
+                  : state === "done"
+                    ? "Subscribed ✓"
+                    : "Subscribe"}
+              </button>
+            </form>
+            {state === "done" && (
+              <p className="mt-2 font-mono text-[11px] text-[#D9B97A]">You're on the list.</p>
+            )}
+            {state === "error" && (
+              <p className="mt-2 font-mono text-[11px] text-[#E8A0A0]">
+                Couldn't subscribe — please check your email or contact us directly.
+              </p>
+            )}
           </div>
         </div>
         <div className="py-[18px] border-t border-[#23393B] flex flex-col sm:flex-row justify-between gap-2 text-[11px] font-mono tracking-wide text-[#6E7A75]">
@@ -167,7 +340,15 @@ export function SiteFooter() {
           <span>Mon – Sat, 9am – 5pm · Wilkem Edge, Matasia</span>
           <span className="flex flex-wrap gap-x-[14px] gap-y-1 justify-start sm:justify-end">
             {socialLinks.slice(0, 6).map((s) => (
-              <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="hover:text-[#D9B97A] transition-colors">{s.label}</a>
+              <a
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-[#D9B97A] transition-colors"
+              >
+                {s.label}
+              </a>
             ))}
           </span>
         </div>

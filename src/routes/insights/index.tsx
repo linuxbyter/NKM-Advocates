@@ -1,19 +1,36 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 import { AssistantWidget } from "@/components/AssistantWidget";
-import { insights } from "@/lib/insights";
+import { insights, type InsightArticle } from "@/lib/insights";
+import { getSiteInsights } from "@/lib/admin.functions";
 
 export const Route = createFileRoute("/insights/")({
   head: () => ({
     meta: [
       { title: "Insights \u2014 NKM Advocates" },
-      { name: "description", content: "Legal insights and analysis from NKM Advocates \u2014 covering real estate, SME advisory, family law, and debt recovery for Kenyans at home and abroad." },
+      {
+        name: "description",
+        content:
+          "Legal insights and analysis from NKM Advocates \u2014 covering real estate, SME advisory, family law, and debt recovery for Kenyans at home and abroad.",
+      },
     ],
   }),
+  loader: async (): Promise<{ list: InsightArticle[] }> => {
+    let fromDb: InsightArticle[] = [];
+    try {
+      fromDb = await getSiteInsights();
+    } catch {
+      fromDb = [];
+    }
+    const dbSlugs = new Set(fromDb.map((a) => a.slug));
+    const fallback = insights.filter((a) => !dbSlugs.has(a.slug));
+    return { list: [...fromDb.slice().reverse(), ...fallback] };
+  },
   component: InsightsPage,
 });
 
 function InsightsPage() {
+  const { list } = Route.useLoaderData();
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SiteHeader />
@@ -28,7 +45,9 @@ function InsightsPage() {
             Insights
           </h1>
           <p className="mt-5 text-lg text-white/75 max-w-2xl mx-auto">
-            Plain-English legal analysis on the issues that matter most to Kenyan businesses, diaspora investors, and families — written by the advocates who handle these cases every day.
+            Plain-English legal analysis on the issues that matter most to Kenyan businesses,
+            diaspora investors, and families — written by the advocates who handle these cases every
+            day.
           </p>
         </div>
       </section>
@@ -36,7 +55,7 @@ function InsightsPage() {
       <section className="py-16 lg:py-20">
         <div className="mx-auto max-w-5xl px-6 lg:px-10">
           <div className="grid md:grid-cols-2 gap-6">
-            {insights.map((article) => (
+            {list.map((article) => (
               <Link
                 key={article.slug}
                 to="/insights/$slug"
@@ -51,7 +70,7 @@ function InsightsPage() {
                 </h2>
                 <span className="font-mono text-[12px] text-ink-text">{article.metaLine}</span>
                 <span className="font-mono text-[12px] text-clay mt-3 inline-flex items-center gap-1.5 group-hover:gap-2.5 transition-all">
-                  Read article <span>{'\u2192'}</span>
+                  Read article <span>{"\u2192"}</span>
                 </span>
               </Link>
             ))}

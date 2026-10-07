@@ -9,6 +9,11 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as FaqRouteImport } from './routes/faq'
+import { Route as DisclaimerRouteImport } from './routes/disclaimer'
+import { Route as CustomerServiceWeekRouteImport } from './routes/customer-service-week'
+import { Route as CareersRouteImport } from './routes/careers'
 import { Route as AgnesRouteImport } from './routes/agnes'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as InsightsIndexRouteImport } from './routes/insights/index'
@@ -16,6 +21,31 @@ import { Route as TeamAgnesNyawiraRouteImport } from './routes/team.agnes-nyawir
 import { Route as PracticeSlugRouteImport } from './routes/practice.$slug'
 import { Route as InsightsSlugRouteImport } from './routes/insights/$slug'
 
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DisclaimerRoute = DisclaimerRouteImport.update({
+  id: '/disclaimer',
+  path: '/disclaimer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CustomerServiceWeekRoute = CustomerServiceWeekRouteImport.update({
+  id: '/customer-service-week',
+  path: '/customer-service-week',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CareersRoute = CareersRouteImport.update({
+  id: '/careers',
+  path: '/careers',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AgnesRoute = AgnesRouteImport.update({
   id: '/agnes',
   path: '/agnes',
@@ -50,6 +80,11 @@ const InsightsSlugRoute = InsightsSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/agnes': typeof AgnesRoute
+  '/careers': typeof CareersRoute
+  '/customer-service-week': typeof CustomerServiceWeekRoute
+  '/disclaimer': typeof DisclaimerRoute
+  '/faq': typeof FaqRoute
+  '/privacy': typeof PrivacyRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/practice/$slug': typeof PracticeSlugRoute
   '/team/agnes-nyawira': typeof TeamAgnesNyawiraRoute
@@ -58,6 +93,11 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/agnes': typeof AgnesRoute
+  '/careers': typeof CareersRoute
+  '/customer-service-week': typeof CustomerServiceWeekRoute
+  '/disclaimer': typeof DisclaimerRoute
+  '/faq': typeof FaqRoute
+  '/privacy': typeof PrivacyRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/practice/$slug': typeof PracticeSlugRoute
   '/team/agnes-nyawira': typeof TeamAgnesNyawiraRoute
@@ -67,6 +107,11 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/agnes': typeof AgnesRoute
+  '/careers': typeof CareersRoute
+  '/customer-service-week': typeof CustomerServiceWeekRoute
+  '/disclaimer': typeof DisclaimerRoute
+  '/faq': typeof FaqRoute
+  '/privacy': typeof PrivacyRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/practice/$slug': typeof PracticeSlugRoute
   '/team/agnes-nyawira': typeof TeamAgnesNyawiraRoute
@@ -77,6 +122,11 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/agnes'
+    | '/careers'
+    | '/customer-service-week'
+    | '/disclaimer'
+    | '/faq'
+    | '/privacy'
     | '/insights/$slug'
     | '/practice/$slug'
     | '/team/agnes-nyawira'
@@ -85,6 +135,11 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/agnes'
+    | '/careers'
+    | '/customer-service-week'
+    | '/disclaimer'
+    | '/faq'
+    | '/privacy'
     | '/insights/$slug'
     | '/practice/$slug'
     | '/team/agnes-nyawira'
@@ -93,6 +148,11 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/agnes'
+    | '/careers'
+    | '/customer-service-week'
+    | '/disclaimer'
+    | '/faq'
+    | '/privacy'
     | '/insights/$slug'
     | '/practice/$slug'
     | '/team/agnes-nyawira'
@@ -102,6 +162,11 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AgnesRoute: typeof AgnesRoute
+  CareersRoute: typeof CareersRoute
+  CustomerServiceWeekRoute: typeof CustomerServiceWeekRoute
+  DisclaimerRoute: typeof DisclaimerRoute
+  FaqRoute: typeof FaqRoute
+  PrivacyRoute: typeof PrivacyRoute
   InsightsSlugRoute: typeof InsightsSlugRoute
   PracticeSlugRoute: typeof PracticeSlugRoute
   TeamAgnesNyawiraRoute: typeof TeamAgnesNyawiraRoute
@@ -110,6 +175,41 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/disclaimer': {
+      id: '/disclaimer'
+      path: '/disclaimer'
+      fullPath: '/disclaimer'
+      preLoaderRoute: typeof DisclaimerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/customer-service-week': {
+      id: '/customer-service-week'
+      path: '/customer-service-week'
+      fullPath: '/customer-service-week'
+      preLoaderRoute: typeof CustomerServiceWeekRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/careers': {
+      id: '/careers'
+      path: '/careers'
+      fullPath: '/careers'
+      preLoaderRoute: typeof CareersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/agnes': {
       id: '/agnes'
       path: '/agnes'
@@ -158,6 +258,11 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AgnesRoute: AgnesRoute,
+  CareersRoute: CareersRoute,
+  CustomerServiceWeekRoute: CustomerServiceWeekRoute,
+  DisclaimerRoute: DisclaimerRoute,
+  FaqRoute: FaqRoute,
+  PrivacyRoute: PrivacyRoute,
   InsightsSlugRoute: InsightsSlugRoute,
   PracticeSlugRoute: PracticeSlugRoute,
   TeamAgnesNyawiraRoute: TeamAgnesNyawiraRoute,

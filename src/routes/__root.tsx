@@ -11,6 +11,7 @@ import { type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { Toaster } from "sonner";
+import { ServiceWeekToast } from "@/components/ServiceWeekToast";
 
 function NotFoundComponent() {
   return (
@@ -34,7 +35,7 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+function ErrorComponent({ error, reset }: { error: unknown; reset: () => void }) {
   console.error(error);
   const router = useRouter();
 
@@ -75,7 +76,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "NKM Advocates — Multi-Disciplinary Law Firm" },
-      { name: "description", content: "A Kenyan multi-disciplinary law firm. Law, HR, and tax under one roof — for businesses and diaspora families." },
+      {
+        name: "description",
+        content:
+          "A Kenyan multi-disciplinary law firm. Law, HR, and tax under one roof — for businesses and diaspora families.",
+      },
       { name: "author", content: "NKM Advocates" },
       { property: "og:title", content: "NKM Advocates — Multi-Disciplinary Law Firm" },
       { property: "og:description", content: "Law, HR, and tax under one roof." },
@@ -128,6 +133,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <Outlet />
       <Toaster position="top-right" richColors />
+      <ServiceWeekToast />
     </QueryClientProvider>
   );
 }

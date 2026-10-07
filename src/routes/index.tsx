@@ -3,14 +3,25 @@ import { useState, useEffect, useRef } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 import { submitLead } from "@/lib/leads.functions";
+import { getSiteEpisodes, type PublicEpisode } from "@/lib/admin.functions";
 import { AssistantWidget } from "@/components/AssistantWidget";
 import { practiceAreas } from "@/lib/practice-areas";
 import { Loader2, Menu, X } from "lucide-react";
 import leaderPhoto from "@/assets/leader-photo.jpg";
 
-export const Route = createFileRoute("/")({ component: Index });
+export const Route = createFileRoute("/")({
+  loader: async (): Promise<{ episodes: PublicEpisode[] }> => {
+    try {
+      return { episodes: await getSiteEpisodes() };
+    } catch {
+      return { episodes: [] };
+    }
+  },
+  component: Index,
+});
 
 function Index() {
+  const { episodes } = Route.useLoaderData();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   useEffect(() => {
@@ -33,7 +44,34 @@ function Index() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [carouselIdx, setCarouselIdx] = useState(1);
+  const [subEmail, setSubEmail] = useState("");
+  const [subState, setSubState] = useState<"idle" | "busy" | "done" | "error">("idle");
   const call = useServerFn(submitLead);
+
+  const subscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const value = subEmail.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+      toast.error("Enter a valid email address.");
+      return;
+    }
+    setSubState("busy");
+    try {
+      await call({
+        data: {
+          name: "Newsletter subscriber",
+          email: value,
+          source: "newsletter",
+          message: "Newsletter subscription request",
+        },
+      });
+      setSubEmail("");
+      setSubState("done");
+    } catch (err) {
+      console.error("Newsletter subscribe failed:", err);
+      setSubState("error");
+    }
+  };
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -293,7 +331,7 @@ function Index() {
       </div>
 
       {/* ABOUT — with leadership photo */}
-      <section className="py-24 md:py-32">
+      <section className="py-24 md:py-32" id="about">
         <div className="mx-auto max-w-[1180px] px-7">
           <div className="grid md:grid-cols-[0.9fr_1.1fr] gap-14 items-center">
             <div>
@@ -553,10 +591,31 @@ function Index() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[18px]">
             {[
-              { slug: "buying-land-in-kenya-from-overseas", tag: "Real Estate \u00b7 Diaspora", title: "Buying Land in Kenya From Overseas: A Pre-Purchase Checklist", date: "May 2026" },
-              { slug: "five-contract-clauses-every-kenyan-sme-forgets", tag: "SME Advisory", title: "Five Contract Clauses Every Kenyan SME Forgets", date: "Apr 2026" },
-              { slug: "power-of-attorney-from-abroad-kenya", tag: "Family Law \u00b7 Diaspora", title: "Power of Attorney From Abroad: What Actually Works in Kenya", date: "Mar 2026" },
-              { slug: "chasing-an-unpaid-invoice-kenya", tag: "Debt Recovery", title: "Chasing an Unpaid Invoice in Kenya: Demand Letter to Small Claims, Explained", date: "Feb 2026" },
+              {
+                slug: "buying-land-in-kenya-from-overseas",
+                tag: "Real Estate \u00b7 Diaspora",
+                title: "Buying Land in Kenya From Overseas: A Pre-Purchase Checklist",
+                date: "May 2026",
+              },
+              {
+                slug: "five-contract-clauses-every-kenyan-sme-forgets",
+                tag: "SME Advisory",
+                title: "Five Contract Clauses Every Kenyan SME Forgets",
+                date: "Apr 2026",
+              },
+              {
+                slug: "power-of-attorney-from-abroad-kenya",
+                tag: "Family Law \u00b7 Diaspora",
+                title: "Power of Attorney From Abroad: What Actually Works in Kenya",
+                date: "Mar 2026",
+              },
+              {
+                slug: "chasing-an-unpaid-invoice-kenya",
+                tag: "Debt Recovery",
+                title:
+                  "Chasing an Unpaid Invoice in Kenya: Demand Letter to Small Claims, Explained",
+                date: "Feb 2026",
+              },
             ].map((article) => (
               <a
                 key={article.slug}
@@ -571,7 +630,7 @@ function Index() {
                 </h4>
                 <span className="font-mono text-[11px] text-ink-text">{article.date}</span>
                 <span className="font-mono text-[12px] text-clay mt-2.5 inline-flex items-center gap-1.5">
-                  Read article <span>{'\u2192'}</span>
+                  Read article <span>{"\u2192"}</span>
                 </span>
               </a>
             ))}
@@ -591,28 +650,57 @@ function Index() {
                 The NKM Podcast.
               </h2>
             </div>
-            <a
-              href="#"
-              className="font-mono text-[12.5px] text-brass-soft inline-flex items-center gap-1.5 group"
-            >
-              All Episodes
-              <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
-            </a>
           </div>
           <p className="text-[15.5px] leading-relaxed text-paper-text max-w-[560px] mb-2">
             Plain-English conversations on Kenyan business law, diaspora property risk, and what
             SMEs get wrong before it costs them. New episodes monthly.
           </p>
           <div className="my-[34px]">
-            <div className="bg-white/[0.04] border border-line-dark border-l-[3px] border-l-brass-soft p-[30px] text-center">
-              <span className="font-mono text-[11px] tracking-wide text-brass-soft uppercase">Coming Soon</span>
-              <h4 className="font-serif text-[18px] font-semibold leading-tight text-paper-text mt-3 mb-2">
-                New episodes are on the way.
-              </h4>
-              <p className="text-[14px] leading-relaxed text-paper-text/60 max-w-[420px] mx-auto">
-                Plain-English conversations on Kenyan business law, diaspora property risk, and what SMEs get wrong. Follow us on Spotify to be notified when we launch.
-              </p>
-            </div>
+            {episodes.length > 0 ? (
+              <div className="space-y-4">
+                {[...episodes].reverse().map((ep) => (
+                  <div
+                    key={ep.number}
+                    className="bg-white/[0.04] border border-line-dark border-l-[3px] border-l-brass-soft p-[30px] text-center"
+                  >
+                    <span className="font-mono text-[11px] tracking-wide text-brass-soft uppercase">
+                      Episode {ep.number}
+                    </span>
+                    <h4 className="font-serif text-[18px] font-semibold leading-tight text-paper-text mt-3 mb-2">
+                      {ep.title}
+                    </h4>
+                    {ep.description && (
+                      <p className="text-[14px] leading-relaxed text-paper-text/60 max-w-[520px] mx-auto">
+                        {ep.description}
+                      </p>
+                    )}
+                    {ep.spotifyUrl && (
+                      <a
+                        href={ep.spotifyUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block mt-4 font-mono text-[12px] tracking-wide text-brass-soft hover:text-paper-text transition-colors"
+                      >
+                        Listen on Spotify &rarr;
+                      </a>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="bg-white/[0.04] border border-line-dark border-l-[3px] border-l-brass-soft p-[30px] text-center">
+                <span className="font-mono text-[11px] tracking-wide text-brass-soft uppercase">
+                  Coming Soon
+                </span>
+                <h4 className="font-serif text-[18px] font-semibold leading-tight text-paper-text mt-3 mb-2">
+                  New episodes are on the way.
+                </h4>
+                <p className="text-[14px] leading-relaxed text-paper-text/60 max-w-[420px] mx-auto">
+                  Plain-English conversations on Kenyan business law, diaspora property risk, and
+                  what SMEs get wrong. Follow us on Spotify to be notified when we launch.
+                </p>
+              </div>
+            )}
           </div>
           <div className="font-mono text-[12px] text-paper-text flex gap-4 items-center flex-wrap">
             <span className="text-paper-text">Listen on:</span>
@@ -644,8 +732,12 @@ function Index() {
                 Managing Partner.
               </h2>
               <div className="mb-4">
-                <span className="font-serif font-semibold text-[18px] text-ink block">Agnes Nyawira</span>
-                <span className="font-mono text-[11px] tracking-wide text-brass uppercase">Principal Advocate</span>
+                <span className="font-serif font-semibold text-[18px] text-ink block">
+                  Agnes Nyawira
+                </span>
+                <span className="font-mono text-[11px] tracking-wide text-brass uppercase">
+                  Principal Advocate
+                </span>
               </div>
               <p className="text-[15.5px] leading-relaxed text-ink-text font-medium mb-5">
                 Over 10 years of experience in property, commercial, corporate, banking, and
@@ -905,16 +997,31 @@ function Index() {
                 Firm
               </h4>
               <ul className="list-none grid gap-2.5">
-                {["Who We Serve", "Insights", "Podcast", "Our Team", "Careers"].map((l) => (
-                  <li key={l}>
-                    <a
-                      href={l === "Careers" ? "#" : "#" + l.toLowerCase().replace(/\s+/g, "")}
-                      className="hover:text-paper-text transition-colors"
-                    >
-                      {l}
-                    </a>
-                  </li>
-                ))}
+                <li>
+                  <a href="#serve" className="hover:text-paper-text transition-colors">
+                    Who We Serve
+                  </a>
+                </li>
+                <li>
+                  <a href="#insights" className="hover:text-paper-text transition-colors">
+                    Insights
+                  </a>
+                </li>
+                <li>
+                  <a href="#podcast" className="hover:text-paper-text transition-colors">
+                    Podcast
+                  </a>
+                </li>
+                <li>
+                  <a href="#team" className="hover:text-paper-text transition-colors">
+                    Our Team
+                  </a>
+                </li>
+                <li>
+                  <Link to="/careers" className="hover:text-paper-text transition-colors">
+                    Careers
+                  </Link>
+                </li>
               </ul>
             </div>
             <div>
@@ -922,30 +1029,59 @@ function Index() {
                 Quick Links
               </h4>
               <ul className="list-none grid gap-2.5">
-                {["Privacy Policy", "Disclaimer", "FAQ"].map((l) => (
-                  <li key={l}>
-                    <a href="#" className="hover:text-paper-text transition-colors">
-                      {l}
-                    </a>
-                  </li>
-                ))}
+                <li>
+                  <Link to="/privacy" className="hover:text-paper-text transition-colors">
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/disclaimer" className="hover:text-paper-text transition-colors">
+                    Disclaimer
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/faq" className="hover:text-paper-text transition-colors">
+                    FAQ
+                  </Link>
+                </li>
               </ul>
             </div>
             <div>
               <h4 className="font-mono text-[11px] tracking-[0.1em] uppercase text-brass-soft mb-3.5">
                 Subscribe to Insights
               </h4>
-              <input
-                type="email"
-                placeholder="Email address"
-                className="w-full bg-transparent border border-line-dark text-paper-text px-3 py-2.5 font-sans text-[13px] placeholder:text-paper-text/50 rounded mb-2 focus:outline-none focus:border-brass"
-              />
-              <a
-                href="#"
-                className="font-mono text-[13px] tracking-wide bg-clay text-paper-text px-[22px] py-[14px] border border-clay transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_6px_18px_rgba(138,60,41,0.28)] block text-center mt-1"
-              >
-                Subscribe
-              </a>
+              <form onSubmit={subscribe}>
+                <input
+                  type="email"
+                  value={subEmail}
+                  onChange={(e) => {
+                    setSubEmail(e.target.value);
+                    if (subState !== "idle") setSubState("idle");
+                  }}
+                  placeholder="Email address"
+                  aria-label="Email address"
+                  className="w-full bg-transparent border border-line-dark text-paper-text px-3 py-2.5 font-sans text-[13px] placeholder:text-paper-text/50 rounded mb-2 focus:outline-none focus:border-brass"
+                />
+                <button
+                  type="submit"
+                  disabled={subState === "busy" || subState === "done"}
+                  className="font-mono text-[13px] tracking-wide bg-clay text-paper-text px-[22px] py-[14px] border border-clay transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_6px_18px_rgba(138,60,41,0.28)] block text-center mt-1 w-full disabled:opacity-70"
+                >
+                  {subState === "busy"
+                    ? "Subscribing…"
+                    : subState === "done"
+                      ? "Subscribed ✓"
+                      : "Subscribe"}
+                </button>
+              </form>
+              {subState === "done" && (
+                <p className="mt-2 font-mono text-[11px] text-brass-soft">You're on the list.</p>
+              )}
+              {subState === "error" && (
+                <p className="mt-2 font-mono text-[11px] text-[#E8A0A0]">
+                  Couldn't subscribe — please check your email or contact us directly.
+                </p>
+              )}
             </div>
           </div>
           <div className="border-t border-line-dark py-[22px] flex flex-wrap justify-between gap-2.5 text-[11px] font-mono tracking-wide text-paper-text/70">

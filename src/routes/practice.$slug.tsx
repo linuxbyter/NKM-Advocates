@@ -2,16 +2,15 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowRight, ArrowLeft } from "lucide-react";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 import { AssistantWidget } from "@/components/AssistantWidget";
-import { getPracticeArea, practiceAreas, type PracticeArea } from "@/lib/practice-areas";
+import { getPracticeArea, practiceAreas } from "@/lib/practice-areas";
 
 export const Route = createFileRoute("/practice/$slug")({
-  loader: ({ params }): { area: PracticeArea } => {
-    const area = getPracticeArea(params.slug);
-    if (!area) throw notFound();
-    return { area };
+  loader: ({ params }): { slug: string } => {
+    if (!getPracticeArea(params.slug)) throw notFound();
+    return { slug: params.slug };
   },
   head: ({ loaderData }) => {
-    const a = loaderData?.area;
+    const a = loaderData ? getPracticeArea(loaderData.slug) : undefined;
     return {
       meta: a
         ? [
@@ -35,7 +34,9 @@ export const Route = createFileRoute("/practice/$slug")({
 });
 
 function PracticePage() {
-  const { area } = Route.useLoaderData() as { area: PracticeArea };
+  const { slug } = Route.useLoaderData();
+  const area = getPracticeArea(slug);
+  if (!area) return null;
   const Icon = area.icon;
 
   return (
@@ -138,7 +139,7 @@ function PracticePage() {
                 </div>
                 <Link
                   to="/"
-                  hash="contact"
+                  hash="book"
                   className="inline-flex items-center gap-2 bg-gold text-navy-deep w-full justify-center py-3 text-sm font-semibold tracking-wide hover:bg-gold-soft transition-colors"
                 >
                   Request Consultation <ArrowRight className="w-4 h-4" />
