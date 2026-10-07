@@ -3,25 +3,36 @@ import { useState, useEffect, useRef } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 import { submitLead } from "@/lib/leads.functions";
-import { getSiteEpisodes, type PublicEpisode } from "@/lib/admin.functions";
+import { getSiteEpisodes, getSiteInsights, type PublicEpisode } from "@/lib/admin.functions";
+import { insights, type InsightArticle } from "@/lib/insights";
 import { AssistantWidget } from "@/components/AssistantWidget";
 import { practiceAreas } from "@/lib/practice-areas";
 import { Loader2, Menu, X } from "lucide-react";
 import leaderPhoto from "@/assets/leader-photo.jpg";
 
 export const Route = createFileRoute("/")({
-  loader: async (): Promise<{ episodes: PublicEpisode[] }> => {
+  loader: async (): Promise<{ episodes: PublicEpisode[]; articles: InsightArticle[] }> => {
+    let episodes: PublicEpisode[] = [];
     try {
-      return { episodes: await getSiteEpisodes() };
+      episodes = await getSiteEpisodes();
     } catch {
-      return { episodes: [] };
+      episodes = [];
     }
+    let fromDb: InsightArticle[] = [];
+    try {
+      fromDb = await getSiteInsights();
+    } catch {
+      fromDb = [];
+    }
+    const dbSlugs = new Set(fromDb.map((a) => a.slug));
+    const fallback = insights.filter((a) => !dbSlugs.has(a.slug));
+    return { episodes, articles: [...fromDb.slice().reverse(), ...fallback] };
   },
   component: Index,
 });
 
 function Index() {
-  const { episodes } = Route.useLoaderData();
+  const { episodes, articles } = Route.useLoaderData();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   useEffect(() => {
@@ -590,50 +601,27 @@ function Index() {
             </a>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[18px]">
-            {[
-              {
-                slug: "buying-land-in-kenya-from-overseas",
-                tag: "Real Estate \u00b7 Diaspora",
-                title: "Buying Land in Kenya From Overseas: A Pre-Purchase Checklist",
-                date: "May 2026",
-              },
-              {
-                slug: "five-contract-clauses-every-kenyan-sme-forgets",
-                tag: "SME Advisory",
-                title: "Five Contract Clauses Every Kenyan SME Forgets",
-                date: "Apr 2026",
-              },
-              {
-                slug: "power-of-attorney-from-abroad-kenya",
-                tag: "Family Law \u00b7 Diaspora",
-                title: "Power of Attorney From Abroad: What Actually Works in Kenya",
-                date: "Mar 2026",
-              },
-              {
-                slug: "chasing-an-unpaid-invoice-kenya",
-                tag: "Debt Recovery",
-                title:
-                  "Chasing an Unpaid Invoice in Kenya: Demand Letter to Small Claims, Explained",
-                date: "Feb 2026",
-              },
-            ].map((article) => (
-              <a
-                key={article.slug}
-                href={`/insights/${article.slug}`}
-                className="bg-card border border-line p-[22px] flex flex-col min-h-[210px] no-underline hover:-translate-y-1 hover:shadow-lg transition-all group"
-              >
-                <span className="font-mono text-[10.5px] tracking-wide uppercase text-clay">
-                  {article.tag}
-                </span>
-                <h4 className="font-serif text-base font-semibold leading-tight mt-2.5 mb-2.5 flex-1 text-navy group-hover:text-clay transition-colors">
-                  {article.title}
-                </h4>
-                <span className="font-mono text-[11px] text-ink-text">{article.date}</span>
-                <span className="font-mono text-[12px] text-clay mt-2.5 inline-flex items-center gap-1.5">
-                  Read article <span>{"\u2192"}</span>
-                </span>
-              </a>
-            ))}
+            {articles.slice(0, 4).map((article) => {
+              const date = article.metaLine.split("·")[0].trim();
+              return (
+                <a
+                  key={article.slug}
+                  href={`/insights/${article.slug}`}
+                  className="bg-card border border-line p-[22px] flex flex-col min-h-[210px] no-underline hover:-translate-y-1 hover:shadow-lg transition-all group"
+                >
+                  <span className="font-mono text-[10.5px] tracking-wide uppercase text-clay">
+                    {article.kicker}
+                  </span>
+                  <h4 className="font-serif text-base font-semibold leading-tight mt-2.5 mb-2.5 flex-1 text-navy group-hover:text-clay transition-colors">
+                    {article.title}
+                  </h4>
+                  <span className="font-mono text-[11px] text-ink-text">{date}</span>
+                  <span className="font-mono text-[12px] text-clay mt-2.5 inline-flex items-center gap-1.5">
+                    Read article <span>{"\u2192"}</span>
+                  </span>
+                </a>
+              );
+            })}
           </div>
         </div>
       </section>
