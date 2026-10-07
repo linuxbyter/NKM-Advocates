@@ -9,7 +9,7 @@ export const Route = createFileRoute("/careers")({
       {
         name: "description",
         content:
-          "Careers at NKM Advocates — how advocates, para-legals, certified secretaries, and interns can apply to join our Matasia, Ngong office.",
+          "Careers at NKM Advocates: how advocates, para-legals, certified secretaries, and interns can apply to join our Matasia, Ngong office.",
       },
     ],
   }),
@@ -29,7 +29,7 @@ function CareersPage() {
             Careers at NKM
           </h1>
           <p className="mt-5 text-lg text-paper-text/75">
-            A small, serious firm where your work is your own — and your name goes on it.
+            A small, serious firm where your work is your own, and your name goes on it.
           </p>
         </div>
       </section>
@@ -42,8 +42,8 @@ function CareersPage() {
               <p>
                 NKM Advocates is a multi-disciplinary firm in Matasia, Ngong, serving Kenyan
                 businesses, families, and the diaspora. We handle serious matters with a small team,
-                which means juniors here see real files early — drafting, searches, client meetings,
-                and court attendances — under direct supervision.
+                which means juniors here see real files early (drafting, searches, client meetings,
+                and court attendances) under direct supervision.
               </p>
               <p>
                 We value clear writing, honest client communication, and work you would be
@@ -97,11 +97,11 @@ function CareersPage() {
                   contact@nkm-advocates.co.ke
                 </a>{" "}
                 with the subject line{" "}
-                <strong className="text-navy">Application — [the role you want]</strong>. Tell us
+                <strong className="text-navy">Application: [the role you want]</strong>. Tell us
                 which department interests you and why, in your own words.
               </p>
               <p>
-                We read every application. If your profile matches a role — open or upcoming — we
+                We read every application. If your profile matches a role, open or upcoming, we
                 will invite you for a conversation. Internship enquiries are welcome year-round;
                 specify your university and attachment period.
               </p>
@@ -110,7 +110,7 @@ function CareersPage() {
 
           <div className="bg-card border border-line border-l-[4px] border-l-brass p-6">
             <p className="font-serif text-xl font-semibold text-navy mb-2">
-              Not looking for a job — looking for a lawyer?
+              Not looking for a job? Looking for a lawyer?
             </p>
             <p className="text-ink-text leading-relaxed mb-4">
               Clients are welcome on the same page: the first consultation is free.

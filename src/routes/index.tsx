@@ -303,8 +303,8 @@ function Index() {
           </h1>
           <p className="text-[16.5px] leading-relaxed text-paper-text max-w-[560px] mx-auto mb-8">
             A Kenyan commercial and family law firm built for entrepreneurs, SMEs, foreign
-            investors, and Kenyans living abroad — with a bench of advocates and consultants, not a
-            single point of contact.
+            investors, and Kenyans living abroad, backed by a bench of advocates and consultants
+            rather than a single point of contact.
           </p>
           <div className="flex gap-3.5 flex-wrap justify-center">
             <a
@@ -321,7 +321,7 @@ function Index() {
             </a>
           </div>
           <p className="font-mono text-[11.5px] tracking-wide text-paper-text mt-5">
-            Available entirely online — visit our office only if you'd prefer to.
+            Available entirely online. Visit our office only if you'd prefer to.
           </p>
         </div>
       </section>
@@ -355,12 +355,12 @@ function Index() {
               <div className="mt-8 flex items-start gap-5">
                 <img
                   src={leaderPhoto}
-                  alt="Agnes Nyawira — Managing Partner"
+                  alt="Agnes Nyawira, Managing Partner"
                   className="w-24 h-24 rounded-full object-cover border-2 border-brass shrink-0"
                 />
                 <div>
                   <p className="text-base leading-relaxed text-ink-text">
-                    <strong className="text-ink-text">Agnes Nyawira</strong>, Managing Partner —
+                    <strong className="text-ink-text">Agnes Nyawira</strong>, Managing Partner,
                     Advocate of the High Court of Kenya, Certified Public Secretary, and accredited
                     mediator.
                   </p>
@@ -409,12 +409,12 @@ function Index() {
               [
                 "01",
                 "Book a Consultation",
-                "By phone, WhatsApp, or scheduled video call — no office visit required.",
+                "By phone, WhatsApp, or scheduled video call. No office visit required.",
               ],
               [
                 "02",
                 "Share Documents Directly",
-                "Send identification, contracts, or title documents via WhatsApp or your dedicated case email — no portal login required.",
+                "Send identification, contracts, or title documents via WhatsApp or your dedicated case email. No portal login required.",
               ],
               [
                 "03",
@@ -424,7 +424,7 @@ function Index() {
               [
                 "04",
                 "Sign & Pay",
-                'Print, sign, and scan documents back over WhatsApp, then settle fees by bank transfer or M-Pesa — wherever you are. <span class="inline-flex items-center gap-1 mt-1"><svg viewBox="0 0 40 14" width="40" height="14" aria-label="M-Pesa"><rect width="40" height="14" rx="2" fill="#4CAF50"/><text x="20" y="10" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" font-weight="bold" fill="white">M-PESA</text></svg></span>',
+                'Print, sign, and scan documents back over WhatsApp, then settle fees by bank transfer or M-Pesa, wherever you are. <span class="inline-flex items-center gap-1 mt-1"><svg viewBox="0 0 40 14" width="40" height="14" aria-label="M-Pesa"><rect width="40" height="14" rx="2" fill="#4CAF50"/><text x="20" y="10" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" font-weight="bold" fill="white">M-PESA</text></svg></span>',
               ],
             ].map(([num, title, desc]) => (
               <div key={num} className="pt-[18px] border-t-2 border-brass">
@@ -538,7 +538,7 @@ function Index() {
               [
                 "Kenya",
                 "SMEs &amp; Individuals",
-                "Company formation, contracts, compliance, and dispute resolution for Kenyan businesses and families — in person or entirely online.",
+                "Company formation, contracts, compliance, and dispute resolution for Kenyan businesses and families, in person or entirely online.",
               ],
               [
                 "The Diaspora",
@@ -708,7 +708,7 @@ function Index() {
             <div className="flex justify-center">
               <img
                 src="/agnes-nyawira.jpg"
-                alt="Agnes Nyawira — Principal Advocate"
+                alt="Agnes Nyawira, Principal Advocate"
                 className="w-full max-w-[340px] h-[400px] object-cover rounded-lg border border-line-dark"
               />
             </div>
@@ -769,7 +769,7 @@ function Index() {
           </h2>
           <p className="text-[15.5px] leading-relaxed text-paper-text max-w-[520px] mx-auto mb-8">
             Book a free, no-obligation consultation. We'll tell you honestly whether litigation,
-            mediation, or simple advisory is the right path — and which department should handle it.
+            mediation, or simple advisory is the right path, and which department should handle it.
           </p>
 
           {success ? (
@@ -1067,7 +1067,7 @@ function Index() {
               )}
               {subState === "error" && (
                 <p className="mt-2 font-mono text-[11px] text-[#E8A0A0]">
-                  Couldn't subscribe — please check your email or contact us directly.
+                  Couldn't subscribe. Please check your email or contact us directly.
                 </p>
               )}
             </div>

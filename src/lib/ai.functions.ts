@@ -86,7 +86,7 @@ Departments: Business & SME Advisory; Real Estate & Conveyancing; Debt Recovery 
 
 Audiences: Kenyan SMEs and startups, diaspora/overseas Kenyans, and investors.
 
-Voice: plain-English, warm, confident, practical. Kenya-specific (laws, institutions, shillings, real processes). Never invent fees, statute amendments, court outcomes, statistics, or case citations. Do not give individualized legal advice — invite readers to book a consultation.`;
+Voice: plain-English, warm, confident, practical. Kenya-specific (laws, institutions, shillings, real processes). Never use em dashes (—) or AI-style flourish; write with periods, commas, and colons. Never invent fees, statute amendments, court outcomes, statistics, or case citations. Do not give individualized legal advice; invite readers to book a consultation.`;
 
 // ── Article draft ──
 
@@ -184,7 +184,7 @@ export const aiDraftArticle = createServerFn({ method: "POST" })
     try {
       parsed = JSON.parse(raw);
     } catch {
-      throw new Error("The assistant returned an unreadable draft — please try again.");
+      throw new Error("The assistant returned an unreadable draft. Please try again.");
     }
     if (parsed && typeof parsed === "object") {
       clampFields(parsed as Record<string, unknown>, ARTICLE_FIELD_LIMITS);
@@ -216,7 +216,7 @@ export type EpisodeDraft = z.infer<typeof EpisodeDraftSchema>;
 
 const EPISODE_SYSTEM = `${FIRM_CONTEXT}
 
-You draft metadata for episodes of The NKM Podcast — short, plain-English conversations on Kenyan business law, diaspora property risk, and SME mistakes.
+You draft metadata for episodes of The NKM Podcast: short, plain-English conversations on Kenyan business law, diaspora property risk, and SME mistakes.
 
 Return ONLY a JSON object:
 {
@@ -251,7 +251,7 @@ export const aiDraftEpisode = createServerFn({ method: "POST" })
     try {
       parsed = JSON.parse(raw);
     } catch {
-      throw new Error("The assistant returned an unreadable draft — please try again.");
+      throw new Error("The assistant returned an unreadable draft. Please try again.");
     }
     if (parsed && typeof parsed === "object") {
       clampFields(parsed as Record<string, unknown>, EPISODE_FIELD_LIMITS);

@@ -60,7 +60,7 @@ export async function sendLeadNotification(data: {
 
   try {
     await deliver({
-      subject: `New Enquiry from ${data.name} — ${data.service || "General"}`,
+      subject: `New Enquiry from ${data.name} (${data.service || "General"})`,
       html: `
         <div style="font-family: Georgia, serif; max-width: 600px; margin: 0 auto; padding: 20px;">
           <div style="background: #1a1a3e; padding: 20px; text-align: center;">
@@ -132,7 +132,7 @@ export async function sendFeedbackNotification(data: {
 }) {
   try {
     await deliver({
-      subject: `New Feedback — ${data.rating}/5 Stars`,
+      subject: `New Feedback: ${data.rating}/5 Stars`,
       html: `
         <div style="font-family: Georgia, serif; max-width: 600px; margin: 0 auto; padding: 20px;">
           <div style="background: #1a1a3e; padding: 20px; text-align: center;">

@@ -5,7 +5,7 @@ import { AssistantWidget } from "@/components/AssistantWidget";
 export const Route = createFileRoute("/team/agnes-nyawira")({
   head: () => ({
     meta: [
-      { title: "Agnes Nyawira — Principal Advocate | NKM Advocates" },
+      { title: "Agnes Nyawira | Principal Advocate at NKM Advocates" },
       { name: "description", content: "Managing Partner at NKM Advocates. Over 10 years of experience in property, commercial, corporate, banking, and intellectual property law." },
     ],
   }),
@@ -88,8 +88,8 @@ function TeamProfilePage() {
             <h2 className="font-serif text-[22px] font-semibold text-navy mb-4">Experience</h2>
             <div className="border-l-2 border-brass pl-5 space-y-6">
               <div>
-                <span className="font-mono text-[11px] tracking-widest uppercase text-clay">Jan 2016 — Present</span>
-                <h3 className="font-serif font-semibold text-[16px] text-navy mt-1">Managing Partner — NKM Advocates</h3>
+                <span className="font-mono text-[11px] tracking-widest uppercase text-clay">Jan 2016 – Present</span>
+                <h3 className="font-serif font-semibold text-[16px] text-navy mt-1">Managing Partner, NKM Advocates</h3>
                 <p className="text-[14px] leading-relaxed text-ink-text/70 mt-1">Leading a multi-disciplinary law firm serving corporates, SMEs, and individuals. Successfully managed property conveyancing projects, corporate law matters, and commercial transactions including banking and securities law. Built a client-focused practice founded on trust, transparency, and timely service delivery.</p>
               </div>
             </div>
@@ -122,7 +122,7 @@ function TeamProfilePage() {
 
           <div className="bg-ink text-paper-text p-8 text-center rounded-lg">
             <h3 className="font-serif text-[20px] font-semibold mb-2">Book a consultation with Agnes</h3>
-            <p className="text-[14px] text-paper-text/60 mb-5">Free initial consultation — by phone, WhatsApp, or in person at our Nairobi office.</p>
+            <p className="text-[14px] text-paper-text/60 mb-5">Free initial consultation: by phone, WhatsApp, or in person at our Nairobi office.</p>
             <Link
               to="/"
               hash="book"

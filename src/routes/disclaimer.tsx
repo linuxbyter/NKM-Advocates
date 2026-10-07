@@ -9,7 +9,7 @@ export const Route = createFileRoute("/disclaimer")({
       {
         name: "description",
         content:
-          "Important information about the content published by NKM Advocates — general information only, not legal advice.",
+          "Important information about the content published by NKM Advocates: general information only, not legal advice.",
       },
     ],
   }),
@@ -31,7 +31,7 @@ function DisclaimerPage() {
             Disclaimer
           </h1>
           <p className="mt-5 text-lg text-paper-text/75">
-            What this website is — and what it is not.
+            What this website is, and what it is not.
           </p>
           <p className="mt-4 font-mono text-[11px] tracking-[0.14em] uppercase text-brass-soft">
             Effective 6 October 2026
@@ -128,7 +128,7 @@ function DisclaimerPage() {
               hash="book"
               className="font-mono text-[13px] tracking-wide bg-clay text-paper-text px-6 py-3 border border-clay hover:-translate-y-0.5 transition-all duration-150"
             >
-              Get Proper Advice — Book a Consultation
+              Get Proper Advice: Book a Consultation
             </Link>
             <Link
               to="/privacy"

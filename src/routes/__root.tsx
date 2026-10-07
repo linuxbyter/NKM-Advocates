@@ -75,14 +75,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "NKM Advocates — Multi-Disciplinary Law Firm" },
+      { title: "NKM Advocates | Multi-Disciplinary Law Firm" },
       {
         name: "description",
         content:
-          "A Kenyan multi-disciplinary law firm. Law, HR, and tax under one roof — for businesses and diaspora families.",
+          "A Kenyan multi-disciplinary law firm. Law, HR, and tax under one roof for businesses and diaspora families.",
       },
       { name: "author", content: "NKM Advocates" },
-      { property: "og:title", content: "NKM Advocates — Multi-Disciplinary Law Firm" },
+      { property: "og:title", content: "NKM Advocates | Multi-Disciplinary Law Firm" },
       { property: "og:description", content: "Law, HR, and tax under one roof." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

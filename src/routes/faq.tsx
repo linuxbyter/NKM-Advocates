@@ -9,7 +9,7 @@ export const Route = createFileRoute("/faq")({
       {
         name: "description",
         content:
-          "Answers to the questions clients ask most — consultations, fees, diaspora clients, land checks, NGO registration, and working with NKM Advocates online.",
+          "Answers to the questions clients ask most: consultations, fees, diaspora clients, land checks, NGO registration, and working with NKM Advocates online.",
       },
     ],
   }),
@@ -29,7 +29,7 @@ const groups: { title: string; items: { q: string; a: React.ReactNode }[] }[] = 
               homepage
             </Link>
             , call 0707 329 013, or send us a WhatsApp message. Tell us briefly what the matter is
-            about and we will confirm a time — usually within one business day.
+            about and we will confirm a time, usually within one business day.
           </>
         ),
       },
@@ -39,7 +39,7 @@ const groups: { title: string; items: { q: string; a: React.ReactNode }[] }[] = 
       },
       {
         q: "Do I have to visit your office?",
-        a: "No. Most matters — company registration, contracts, land searches, succession, debt recovery — can be handled entirely online, with documents exchanged over WhatsApp or email and signing done digitally or by post. Visit the office in Matasia only if you prefer to.",
+        a: "No. Most matters (company registration, contracts, land searches, succession, debt recovery) can be handled entirely online, with documents exchanged over WhatsApp or email and signing done digitally or by post. Visit the office in Matasia only if you prefer to.",
       },
     ],
   },
@@ -62,15 +62,15 @@ const groups: { title: string; items: { q: string; a: React.ReactNode }[] }[] = 
       },
       {
         q: "How do your fees work?",
-        a: "After the first consultation you receive a written fee estimate before any work begins — fixed fees where the scope is clear, and staged or hourly billing for ongoing matters. No work is started and no invoice raised without your sign-off.",
+        a: "After the first consultation you receive a written fee estimate before any work begins: fixed fees where the scope is clear, and staged or hourly billing for ongoing matters. No work is started and no invoice raised without your sign-off.",
       },
       {
         q: "Can you act for me if I live abroad?",
-        a: "Yes — diaspora work is a core part of our practice. We verify land, handle succession and probate, and arrange powers of attorney while you are in the UK, US, Gulf, or elsewhere. We work across time zones and keep you updated in writing.",
+        a: "Yes. Diaspora work is a core part of our practice. We verify land, handle succession and probate, and arrange powers of attorney while you are in the UK, US, Gulf, or elsewhere. We work across time zones and keep you updated in writing.",
       },
       {
         q: "My matter is urgent. Can you help today?",
-        a: "Call 0707 329 013 or WhatsApp us directly. Urgent matters — freezes, deadlines, arrests, disputed land — are triaged the same day wherever possible.",
+        a: "Call 0707 329 013 or WhatsApp us directly. Urgent matters (freezes, deadlines, arrests, disputed land) are triaged the same day wherever possible.",
       },
     ],
   },
@@ -100,11 +100,11 @@ const groups: { title: string; items: { q: string; a: React.ReactNode }[] }[] = 
       },
       {
         q: "Someone owes me money. Do I have to go to court?",
-        a: "Usually not to start. We send a formal demand letter first — that resolves a large share of debts. If it still isn't paid, Small Claims Court handles claims within its threshold quickly and cheaply, and we take it there.",
+        a: "Usually not to start. We send a formal demand letter first, as that resolves a large share of debts. If it still isn't paid, Small Claims Court handles claims within its threshold quickly and cheaply, and we take it there.",
       },
       {
         q: "Is mediation cheaper than litigation?",
-        a: "Almost always. Mediation is faster, confidential, and preserves relationships — useful for business partners, family, and neighbours. If mediation fails, you have lost nothing: you can still litigate.",
+        a: "Almost always. Mediation is faster, confidential, and preserves relationships: useful for business partners, family, and neighbours. If mediation fails, you have lost nothing: you can still litigate.",
       },
     ],
   },
@@ -123,7 +123,7 @@ function FaqPage() {
             Frequently Asked Questions
           </h1>
           <p className="mt-5 text-lg text-paper-text/75">
-            The questions clients ask us most — answered plainly.
+            The questions clients ask us most, answered plainly.
           </p>
         </div>
       </section>
@@ -156,7 +156,7 @@ function FaqPage() {
               Still have a question?
             </p>
             <p className="text-ink-text leading-relaxed mb-4">
-              Ask us directly — the first consultation is free and there is no obligation to
+              Ask us directly. The first consultation is free and there is no obligation to
               instruct us afterwards.
             </p>
             <div className="flex flex-wrap gap-4">

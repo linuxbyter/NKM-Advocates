@@ -31,7 +31,7 @@ function PrivacyPage() {
             Privacy Policy
           </h1>
           <p className="mt-5 text-lg text-paper-text/75">
-            What we collect, why we collect it, and the choices you have — in plain English.
+            What we collect, why we collect it, and the choices you have. In plain English.
           </p>
           <p className="mt-4 font-mono text-[11px] tracking-[0.14em] uppercase text-brass-soft">
             Effective 6 October 2026
@@ -56,17 +56,17 @@ function PrivacyPage() {
           <Section title="2. What we collect">
             <ul className="list-none p-0 space-y-3">
               <li>
-                <strong className="text-navy">Information you give us</strong> — your name, email
+                <strong className="text-navy">Information you give us</strong>: your name, email
                 address, phone number, and any details you include in the consultation form, the
                 chat assistant, or in correspondence with us.
               </li>
               <li>
-                <strong className="text-navy">Matter information</strong> — documents and facts you
+                <strong className="text-navy">Matter information</strong>: documents and facts you
                 share when you instruct us. This is protected by advocate–client confidentiality in
                 addition to data protection law.
               </li>
               <li>
-                <strong className="text-navy">Technical information</strong> — standard server logs
+                <strong className="text-navy">Technical information</strong>: standard server logs
                 (such as IP address and browser type) kept by our hosting provider for security and
                 reliability.
               </li>
@@ -78,7 +78,7 @@ function PrivacyPage() {
               <li>To respond to your enquiry and book your consultation.</li>
               <li>To provide legal services you have asked us to provide.</li>
               <li>
-                To send insights or updates you have specifically asked to receive — you can
+                To send insights or updates you have specifically asked to receive. You can
                 unsubscribe at any time.
               </li>
               <li>To keep our website secure and working properly.</li>
@@ -95,8 +95,8 @@ function PrivacyPage() {
               Our grounds are your consent (for example, when you submit the consultation form),
               steps taken at your request before entering a retainer, and our legitimate interest in
               running a law firm securely and responsibly. Advocate–client confidentiality
-              obligations apply to client matter information and are independent of — and in
-              addition to — data protection law.
+              obligations apply to client matter information and are independent of, and in
+              addition to, data protection law.
             </p>
           </Section>
 
@@ -146,7 +146,7 @@ function PrivacyPage() {
 
           <Section title="9. Cookies">
             <p>
-              This website uses only the storage strictly needed for core functions — for example,
+              This website uses only the storage strictly needed for core functions, such as
               keeping you signed in to the assistant session. We do not use advertising or
               cross-site tracking cookies.
             </p>

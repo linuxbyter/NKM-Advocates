@@ -27,7 +27,7 @@ export const Route = createFileRoute("/insights/$slug")({
             { property: "og:title", content: a.seoTitle },
             { property: "og:description", content: a.seoDescription },
           ]
-        : [{ title: "Insight \u2014 NKM Advocates" }],
+        : [{ title: "Insight | NKM Advocates" }],
     };
   },
   component: InsightPage,

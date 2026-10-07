@@ -313,7 +313,7 @@ function AdminPage() {
     if (aiBusy) return;
     const brief = aiBrief.trim();
     if (brief.length < 10) {
-      flash("Describe what you want first — topic, audience, angle");
+      flash("Describe what you want first: topic, audience, angle");
       return;
     }
     setAiBusy(true);
@@ -344,7 +344,7 @@ function AdminPage() {
         setFormEpoch((e) => e + 1);
         setAiBrief("");
         window.scrollTo({ top: 0, behavior: "smooth" });
-        flash("Draft ready — review it below, then Create to publish");
+        flash("Draft ready. Review it below, then Create to publish");
       } else {
         let nextNumber = editingEpisode?.number;
         if (!editingEpisode?.id) {
@@ -368,11 +368,11 @@ function AdminPage() {
         setFormEpoch((e) => e + 1);
         setAiBrief("");
         window.scrollTo({ top: 0, behavior: "smooth" });
-        flash("Episode draft ready — add the Spotify link when it's live");
+        flash("Episode draft ready. Add the Spotify link when it's live");
       }
     } catch (err) {
       console.error("AI draft failed:", err);
-      flash(errMsg(err, "AI draft failed — please try again"));
+      flash(errMsg(err, "AI draft failed. Please try again"));
       if (isAuthErr(err)) setAuthenticated(false);
     } finally {
       setAiBusy(false);
@@ -479,11 +479,11 @@ function AdminPage() {
       return;
     }
     if (!slug) {
-      flash("Add a web address (slug) — e.g. buying-land-in-kenya");
+      flash("Add a web address (slug), e.g. buying-land-in-kenya");
       return;
     }
     if (!lead) {
-      flash("Add a lead paragraph — the bold opening lines");
+      flash("Add a lead paragraph: the bold opening lines");
       return;
     }
     if (blocks.length === 0) {
@@ -626,8 +626,8 @@ function AdminPage() {
               setBrief={setAiBrief}
               busy={aiBusy}
               onGenerate={handleAiDraft}
-              hint="Describe the article — topic, audience, angle. The assistant writes a full draft you can edit before publishing."
-              placeholder="e.g. A practical checklist for diaspora buyers doing due diligence on Nairobi apartments — common frauds, what to verify, when to involve a lawyer"
+              hint="Describe the article: topic, audience, angle. The assistant writes a full draft you can edit before publishing."
+              placeholder="e.g. A practical checklist for diaspora buyers doing due diligence on Nairobi apartments: common frauds, what to verify, when to involve a lawyer"
             />
 
             {/* Form */}
@@ -743,14 +743,14 @@ function AdminPage() {
                     </div>
                   </div>
                   <Hint>
-                    Build your article block by block — they appear on the page in this order.
+                    Build your article block by block. They appear on the page in this order.
                   </Hint>
 
                   {preview ? (
                     <div className="mt-3 border border-border bg-background p-4 sm:p-6">
                       {blocks.length === 0 ? (
                         <p className="text-sm text-ink-text/60 font-mono">
-                          Nothing to preview yet — add a block below.
+                          Nothing to preview yet. Add a block below.
                         </p>
                       ) : (
                         <BlockPreview blocks={blocks} />
@@ -915,8 +915,8 @@ function AdminPage() {
               setBrief={setAiBrief}
               busy={aiBusy}
               onGenerate={handleAiDraft}
-              hint="Describe the episode idea. The assistant drafts the title and description — add the Spotify link once it's published."
-              placeholder="e.g. Why SMEs lose small claims cases — missing paperwork, wrong venue, and how to prepare before the hearing"
+              hint="Describe the episode idea. The assistant drafts the title and description. Add the Spotify link once it's published."
+              placeholder="e.g. Why SMEs lose small claims cases: missing paperwork, wrong venue, and how to prepare before the hearing"
             />
 
             {/* Form */}
@@ -1015,7 +1015,7 @@ function AdminPage() {
                       <td className="px-4 py-3 font-mono text-brass">{ep.number}</td>
                       <td className="px-4 py-3 text-navy font-semibold">{ep.title}</td>
                       <td className="px-4 py-3 font-mono text-xs text-ink-text hidden sm:table-cell">
-                        {ep.spotifyUrl ? "✓ Linked" : "—"}
+                        {ep.spotifyUrl ? "✓ Linked" : "–"}
                       </td>
                       <td className="px-4 py-3">
                         <span
@@ -1111,7 +1111,7 @@ function AiPanel({
         </button>
         {busy && (
           <span className="font-mono text-[11px] text-brass-soft">
-            Thinking — this can take up to half a minute…
+                Thinking… this can take up to half a minute…
           </span>
         )}
       </div>
@@ -1226,7 +1226,7 @@ function BlockCard({
                 onChange({ items: parseListLines(e.target.value) } as Partial<Block>)
               }
               placeholder={
-                "One point per line, e.g.\n**Title search** — verify the deed at the Lands Registry\n**Visit the plot** — never buy sight unseen"
+                "One point per line, e.g.\n**Title search**: verify the deed at the Lands Registry\n**Visit the plot**: never buy sight unseen"
               }
               className={inputCls + " resize-y"}
             />
@@ -1279,7 +1279,7 @@ function BlockCard({
                 } as Partial<Block>)
               }
               placeholder={
-                "One line per bullet, e.g.\nForged title deeds — printed on specialist paper\nImpersonation — forged Power of Attorney"
+                "One line per bullet, e.g.\nForged title deeds: printed on specialist paper\nImpersonation: forged Power of Attorney"
               }
               className={inputCls + " resize-y"}
             />

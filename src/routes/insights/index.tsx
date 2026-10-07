@@ -7,11 +7,11 @@ import { getSiteInsights } from "@/lib/admin.functions";
 export const Route = createFileRoute("/insights/")({
   head: () => ({
     meta: [
-      { title: "Insights \u2014 NKM Advocates" },
+      { title: "Insights | NKM Advocates" },
       {
         name: "description",
         content:
-          "Legal insights and analysis from NKM Advocates \u2014 covering real estate, SME advisory, family law, and debt recovery for Kenyans at home and abroad.",
+          "Legal insights and analysis from NKM Advocates, covering real estate, SME advisory, family law, and debt recovery for Kenyans at home and abroad.",
       },
     ],
   }),
@@ -46,7 +46,7 @@ function InsightsPage() {
           </h1>
           <p className="mt-5 text-lg text-white/75 max-w-2xl mx-auto">
             Plain-English legal analysis on the issues that matter most to Kenyan businesses,
-            diaspora investors, and families — written by the advocates who handle these cases every
+            diaspora investors, and families, written by the advocates who handle these cases every
             day.
           </p>
         </div>

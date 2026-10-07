@@ -9,7 +9,7 @@ export const Route = createFileRoute("/customer-service-week")({
       {
         name: "description",
         content:
-          "5–9 October 2026 — Customer Service Week at NKM Advocates. What you can expect from us this week, and every way to reach us.",
+          "5–9 October 2026: Customer Service Week at NKM Advocates. What you can expect from us this week, and every way to reach us.",
       },
     ],
   }),
@@ -19,7 +19,7 @@ export const Route = createFileRoute("/customer-service-week")({
 const commitments: { title: string; body: string }[] = [
   {
     title: "We listen first",
-    body: "Reach us on WhatsApp, phone, email, or right here on the site. Every message this week is read by a person — tell us what we get right and what we miss.",
+    body: "Reach us on WhatsApp, phone, email, or right here on the site. Every message this week is read by a person. Tell us what we get right and what we miss.",
   },
   {
     title: "Plain answers, no runaround",
@@ -27,11 +27,11 @@ const commitments: { title: string; body: string }[] = [
   },
   {
     title: "Urgent means urgent",
-    body: "Freezes, deadlines, arrests, disputed land — urgent matters are triaged the same day wherever possible, the same as every week of the year.",
+    body: "Freezes, deadlines, arrests, disputed land: urgent matters are triaged the same day wherever possible, just like every other week of the year.",
   },
   {
     title: "You hear back within a day",
-    body: "Every enquiry gets a reply within one business day — even when the answer is that we're not the right firm for it.",
+    body: "Every enquiry gets a reply within one business day, even when the answer is that we're not the right firm for it.",
   },
 ];
 
@@ -50,7 +50,7 @@ function ServiceWeekPage() {
             Customer Service Week
           </h1>
           <p className="mt-5 text-lg text-paper-text/75">
-            One week set aside to say thank you — and to listen. You&rsquo;re the reason we show up,
+            One week set aside to say thank you and to listen. You&rsquo;re the reason we show up,
             so this week we&rsquo;re making it easier to tell us what we get right, what we miss,
             and how doing legal work with us actually feels.
           </p>
@@ -124,7 +124,7 @@ function ServiceWeekPage() {
 
           <div className="mt-14 border border-line border-l-[4px] border-l-brass bg-card p-6 sm:p-8">
             <p className="font-serif text-xl font-semibold text-navy">
-              Tell us how we&rsquo;re doing — or just say hello
+              Tell us how we&rsquo;re doing, or just say hello
             </p>
             <p className="mt-2 leading-relaxed text-ink-text">
               Book a consultation, send a WhatsApp message, or ask our assistant anything on this

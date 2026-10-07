@@ -27,7 +27,7 @@ export const submitLead = createServerFn({ method: "POST" })
       });
     } catch (error) {
       console.error("submitLead error", error);
-      throw new Error("Could not save your enquiry — please try again.");
+      throw new Error("Could not save your enquiry. Please try again.");
     }
 
     // Send email notification (best-effort, don't block the response)
@@ -55,7 +55,7 @@ export const submitFeedback = createServerFn({ method: "POST" })
       });
     } catch (error) {
       console.error("submitFeedback error", error);
-      throw new Error("Could not save your feedback — please try again.");
+      throw new Error("Could not save your feedback. Please try again.");
     }
 
     // Send email notification (best-effort, don't block the response)

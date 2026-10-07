@@ -14,12 +14,12 @@ export const Route = createFileRoute("/practice/$slug")({
     return {
       meta: a
         ? [
-            { title: `${a.title} \u2014 NKM Advocates` },
+            { title: `${a.title} | NKM Advocates` },
             { name: "description", content: a.short },
-            { property: "og:title", content: `${a.title} \u2014 NKM Advocates` },
+            { property: "og:title", content: `${a.title} | NKM Advocates` },
             { property: "og:description", content: a.short },
           ]
-        : [{ title: "Practice Area \u2014 NKM Advocates" }],
+        : [{ title: "Practice Area | NKM Advocates" }],
     };
   },
   component: PracticePage,
@@ -99,7 +99,7 @@ function PracticePage() {
                 >
                   <span className="absolute left-0 top-4 text-brass font-bold text-xl">{'\u203A'}</span>
                   <strong className="text-navy font-semibold">{service.name}</strong>
-                  <span className="text-ink-text"> — {service.description}</span>
+                  <span className="text-ink-text">: {service.description}</span>
                 </li>
               ))}
             </ul>
@@ -157,7 +157,7 @@ function PracticePage() {
             Book a Consultation
           </h3>
           <p className="text-paper-text/90 text-sm leading-relaxed mb-2 max-w-[600px] mx-auto">
-            Our {area.title} team is ready to advise. Book a free initial consultation — by phone, WhatsApp, or in person at our Ngong office.
+            Our {area.title} team is ready to advise. Book a free initial consultation by phone, WhatsApp, or in person at our Ngong office.
           </p>
           <p className="font-mono text-xs font-bold text-brass mt-4">
             WhatsApp 0707 329 013 · contact@nkm-advocates.co.ke

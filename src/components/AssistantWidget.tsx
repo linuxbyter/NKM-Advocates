@@ -236,7 +236,7 @@ function ConsultPanel({ onDone }: { onDone: () => void }) {
     try {
       await call({ data: { ...form, source: "widget" } });
       setDone(true);
-      toast.success("Enquiry sent — we'll reply within one business day.");
+      toast.success("Enquiry sent. We'll reply within one business day.");
     } catch (err) {
       console.error(err);
       toast.error("Could not send your enquiry. Please try again.");

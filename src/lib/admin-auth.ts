@@ -48,5 +48,5 @@ export function verifyToken(token: string): boolean {
 }
 
 export function requireAuth(token: string): void {
-  if (!verifyToken(token)) throw new Error("Not authorized — please log in again.");
+  if (!verifyToken(token)) throw new Error("Not authorized. Please log in again.");
 }

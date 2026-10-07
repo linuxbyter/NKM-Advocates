@@ -14,7 +14,7 @@ function ServiceWeekCard({ onNavigate }: { onNavigate: () => void }) {
           Customer Service Week &middot; Oct 5&ndash;9
         </span>
         <p className="mt-2 text-[13.5px] leading-relaxed text-paper-text/85">
-          You&rsquo;re the reason we show up. See how we&rsquo;re marking the week &mdash; and how
+          You&rsquo;re the reason we show up. See how we&rsquo;re marking the week, and how
           to reach us any day of it.
         </p>
         <Link

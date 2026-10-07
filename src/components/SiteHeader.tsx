@@ -330,7 +330,7 @@ export function SiteFooter() {
             )}
             {state === "error" && (
               <p className="mt-2 font-mono text-[11px] text-[#E8A0A0]">
-                Couldn't subscribe — please check your email or contact us directly.
+                Couldn't subscribe. Please check your email or contact us directly.
               </p>
             )}
           </div>
